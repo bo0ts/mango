@@ -1,4 +1,4 @@
-GPP = g++ 
+GPP = g++ -DAPPLE
 PROFILE_FLAGS = -pg -g3
 
 CXXINCS = -L"C:/Dev-Cpp/Lib" -L"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2" -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32" -I"C:/Dev-Cpp/include/c++/3.4.2" -I"C:/Dev-Cpp/include"
@@ -8,6 +8,7 @@ INCLUDE_DIRS = -IC:\files\projects\mango\install\include\mango -Iinstall\include
 LIB_DIRS = -LC:\files\projects\mango\install\lib
 CXXTEST_INCLUDES = -Isrc\cxxtest
 PROJECTDIR_INC = -IC:\files\projects\mango
+
 
 
 
@@ -52,6 +53,9 @@ objects/input.o: objects src/core/input.cpp src/core/input.h
 objects/triangle.o: objects src/core/triangle.cpp src/core/triangle.h
 	$(GPP) -fpic -c src/core/triangle.cpp -o objects/triangle.o $(PROFILE_FLAGS)
 
+objects/utils.o: objects src/core/utils.cpp src/core/utils.h
+	$(GPP) -fpic -c src/core/utils.cpp -o objects/utils.o $(PROFILE_FLAGS)
+
 objects/frame.o: objects src/core/frame.cpp src/core/frame.h
 	$(GPP) -fpic -c src/core/frame.cpp -o objects/frame.o $(PROFILE_FLAGS)
 
@@ -61,8 +65,8 @@ objects/draw.o: objects src/draw/draw.cpp src/draw/draw.h
 objects/raw_character_data.o: objects src/draw/raw_character_data.cpp src/draw/raw_character_data.h
 	$(GPP) -fpic -c src/draw/raw_character_data.cpp -o objects/raw_character_data.o $(PROFILE_FLAGS)
 
-build/libmango.a: build objects/mango.o objects/core.o objects/vector.o objects/matrix.o objects/constants.o objects/error.o objects/input.o objects/triangle.o objects/frame.o objects/draw.o objects/raw_character_data.o
-	ar -rcsu build/libmango.a objects/mango.o objects/core.o objects/vector.o objects/matrix.o objects/constants.o objects/error.o objects/input.o objects/triangle.o objects/frame.o objects/draw.o objects/raw_character_data.o
+build/libmango.a: build objects/mango.o objects/core.o objects/vector.o objects/matrix.o objects/constants.o objects/error.o objects/input.o objects/triangle.o objects/utils.o objects/frame.o objects/draw.o objects/raw_character_data.o
+	ar -rcsu build/libmango.a objects/mango.o objects/core.o objects/vector.o objects/matrix.o objects/constants.o objects/error.o objects/input.o objects/triangle.o objects/utils.o objects/frame.o objects/draw.o objects/raw_character_data.o
 
 
 build:

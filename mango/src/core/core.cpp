@@ -1,5 +1,4 @@
 #include "core.h"
-#include "GL/glut.h" 
 
 namespace Mango{
   namespace Core{
@@ -45,7 +44,7 @@ namespace Mango{
     }
 		
     /**
-     * Object destructor.
+g     * Object destructor.
      * Removes the Object from the engine's list of world-objects
      */
     Object::~Object(){
@@ -872,14 +871,13 @@ namespace Mango{
       int now, time_taken;
       float dt;
 
-      now = glutGet(GLUT_ELAPSED_TIME);
+      now = elapsed_time_in_milliseconds();
       time_taken = now - last_render_time;
       if (time_taken < milliseconds_per_frame - 1){
 	dt = (milliseconds_per_frame - time_taken - 1) * 1000;
-	// Sleep((int) (dt));
-	usleep((int)dt);
+	seconds_sleep(dt);
       }
-      last_render_time = glutGet(GLUT_ELAPSED_TIME);
+      last_render_time = elapsed_time_in_milliseconds();
     }
 
     void CoreEngine::countFrame(){      
@@ -890,7 +888,7 @@ namespace Mango{
       int now, dt;
 
       if (frame_count > 60){
-	now = glutGet(GLUT_ELAPSED_TIME);
+	now = elapsed_time_in_milliseconds();
 	dt = now - last_fps_calc;
 	actual_fps = 1000 * (float)frame_count / (float)dt;
 	last_fps_calc = now;

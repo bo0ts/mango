@@ -1,4 +1,4 @@
-#include <GL/gl.h>
+#include "../core/mango_opengl.h"
 
 #ifndef MANGO_RAW_CHARACTER_DATA
 #define MANGO_RAW_CHARACTER_DATA

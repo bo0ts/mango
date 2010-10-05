@@ -1,5 +1,5 @@
 #include <math.h>
-#include <GL/gl.h>
+#include "mango_opengl.h"
 
 #ifndef MANGO_CORE_VECTOR
 #define MANGO_CORE_VECTOR

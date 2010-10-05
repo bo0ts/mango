@@ -1,4 +1,4 @@
-#include "GL/gl.h"
+#include "mango_opengl.h"
 
 #ifndef MANGO_CONSTANTS
 #define MANGO_CONSTANTS

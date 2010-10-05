@@ -6,6 +6,7 @@
 #include "error.h"
 #include "input.h"
 #include "frame.h" 
+#include "utils.h"
 
 #ifndef MANGO_CORE
 #define MANGO_CORE
