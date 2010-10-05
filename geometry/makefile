@@ -1,4 +1,4 @@
-GPP = g++ 
+GPP = g++ -DAPPLE
 PROFILE_FLAGS = -pg -g3
 
 

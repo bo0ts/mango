@@ -1,5 +1,5 @@
 #include "mango.h"
-#include <GL/glut.h>
+#include "mango_glut.h"
 
 
 namespace Mango{

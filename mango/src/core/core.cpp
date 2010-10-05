@@ -298,7 +298,7 @@ g     * Object destructor.
       view = NULL;
 
       // Initialize Fps members
-      last_render_time = 0;
+      last_render_time = elapsed_time_in_milliseconds();
       frame_count = 0;
     }
 		
@@ -874,7 +874,7 @@ g     * Object destructor.
       now = elapsed_time_in_milliseconds();
       time_taken = now - last_render_time;
       if (time_taken < milliseconds_per_frame - 1){
-	dt = (milliseconds_per_frame - time_taken - 1) * 1000;
+	dt = (milliseconds_per_frame - time_taken - 1) / 1000.0;
 	seconds_sleep(dt);
       }
       last_render_time = elapsed_time_in_milliseconds();

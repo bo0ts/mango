@@ -86,7 +86,7 @@ include/draw:
 
 
 # INCLUDE
-copy_to_include: include/mango.h include/core/core.h include/core/vector.h include/core/matrix.h include/core/constants.h include/core/error.h include/core/input.h include/core/group.h include/core/triangle.h include/core/frame.h include/draw/draw.h include/draw/raw_character_data.h
+copy_to_include: include/mango.h include/core/core.h include/core/vector.h include/core/matrix.h include/core/constants.h include/core/error.h include/core/input.h include/core/group.h include/core/triangle.h include/core/frame.h include/draw/draw.h include/draw/raw_character_data.h include/core/mango_opengl.h include/core/utils.h
 
 
 include/mango.h: include src/mango.h 
@@ -118,6 +118,12 @@ include/core/triangle.h: include/core src/core/triangle.h
 
 include/core/frame.h: include/core src/core/frame.h 
 	cp src/core/frame.h include/core/frame.h
+
+include/core/mango_opengl.h: include/core src/core/mango_opengl.h 
+	cp src/core/mango_opengl.h include/core/mango_opengl.h
+
+include/core/utils.h: include/core src/core/utils.h 
+	cp src/core/utils.h include/core/utils.h
 
 include/draw/draw.h: include/draw src/draw/draw.h 
 	cp src/draw/draw.h include/draw/draw.h

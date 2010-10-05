@@ -17,7 +17,7 @@ namespace Mango{
       Sleep(seconds);
 #error millisecond_sleep implementation needs to be verified
 #else
-      usleep((int)(seconds * 1000));
+      usleep((int)(seconds * 1000000.0));
 #endif
     }
   }
