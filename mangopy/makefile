@@ -1,4 +1,4 @@
-GPP = g++ -DAPPLE
+GPP = g++
 PROFILE_FLAGS = -pg -g3
 
 LINUX_PYTHON_INCLUDES = -Iimports/python
