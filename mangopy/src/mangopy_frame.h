@@ -1,5 +1,4 @@
-#include "Python.h"
-#include "structmember.h"
+#include "mangopy_python.h"
 #include "mangopy_core.h"
 
 #ifndef MPY_MANGOPY_FRAME

@@ -1,4 +1,4 @@
-#include "Python.h"
+#include "mangopy_python.h"
 #include <vector>
 #include "mango.h"
 #include "mangopy_vector.h"

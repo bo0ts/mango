@@ -1,4 +1,4 @@
-#include "Python.h"
+#include "mangopy_python.h"
 #include "mango.h"
 #include "mangopy_core.h"
 #include "mangopy_pyengine.h"

@@ -1,5 +1,4 @@
-#include "Python.h"
-#include "structmember.h"
+#include "mangopy_python.h"
 
 #include "core/input.h" 
 #include "core/constants.h" 

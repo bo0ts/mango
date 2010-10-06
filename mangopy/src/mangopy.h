@@ -1,5 +1,4 @@
-#include <Python.h>
-#include "structmember.h"
+#include "mangopy_python.h"
 #include "mango.h"
 #include "mangopy_vector.h"
 #include "mangopy_core.h"
