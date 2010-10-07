@@ -1,48 +1,58 @@
 GPP = g++ 
 PROFILE_FLAGS = -pg -g3
 
+APPLE_LDFLAGS = -arch i386
+LDFLAGS = $(APPLE_LDFLAGS)
+
+LINUX_PYTHON_LINK = -lpython3.1
+APPLE_PYTHON_LINK = -framework Python
+PYTHON_LINK = $(APPLE_PYTHON_LINK)
+
+LINUX_OPENGL_LINK = -lglut
+APPLE_OPENGL_LINK = -framework OpenGL -framework GLUT
+OPENGL_LINK = $(APPLE_OPENGL_LINK)
 
 # PYGEOMETRY
 pygeometry: copy_to_include build/Geometry.so 
 
 objects/pygeometry.o: objects src/pygeometry.cpp src/pygeometry.h
-	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build -fpic -c src/pygeometry.cpp -o objects/pygeometry.o
+	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build $(LDFLAGS) -fpic -c src/pygeometry.cpp -o objects/pygeometry.o
 
 objects/pygeometry_colorful_object.o: objects src/pygeometry_colorful_object.cpp src/pygeometry_colorful_object.h
-	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build -fpic -c src/pygeometry_colorful_object.cpp -o objects/pygeometry_colorful_object.o
+	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build $(LDFLAGS) -fpic -c src/pygeometry_colorful_object.cpp -o objects/pygeometry_colorful_object.o
 
 objects/pygeometry_box.o: objects src/pygeometry_box.cpp src/pygeometry_box.h
-	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build -fpic -c src/pygeometry_box.cpp -o objects/pygeometry_box.o
+	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build $(LDFLAGS) -fpic -c src/pygeometry_box.cpp -o objects/pygeometry_box.o
 
 objects/pygeometry_sphere.o: objects src/pygeometry_sphere.cpp src/pygeometry_sphere.h
-	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build -fpic -c src/pygeometry_sphere.cpp -o objects/pygeometry_sphere.o
+	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build $(LDFLAGS) -fpic -c src/pygeometry_sphere.cpp -o objects/pygeometry_sphere.o
 
 objects/pygeometry_cylinder.o: objects src/pygeometry_cylinder.cpp src/pygeometry_cylinder.h
-	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build -fpic -c src/pygeometry_cylinder.cpp -o objects/pygeometry_cylinder.o
+	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build $(LDFLAGS) -fpic -c src/pygeometry_cylinder.cpp -o objects/pygeometry_cylinder.o
 
 objects/pygeometry_shell.o: objects src/pygeometry_shell.cpp src/pygeometry_shell.h
-	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build -fpic -c src/pygeometry_shell.cpp -o objects/pygeometry_shell.o
+	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build $(LDFLAGS) -fpic -c src/pygeometry_shell.cpp -o objects/pygeometry_shell.o
 
 objects/pygeometry_arrow.o: objects src/pygeometry_arrow.cpp src/pygeometry_arrow.h
-	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build -fpic -c src/pygeometry_arrow.cpp -o objects/pygeometry_arrow.o
+	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build $(LDFLAGS) -fpic -c src/pygeometry_arrow.cpp -o objects/pygeometry_arrow.o
 
 objects/pygeometry_coordinate_system.o: objects src/pygeometry_coordinate_system.cpp src/pygeometry_coordinate_system.h
-	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build -fpic -c src/pygeometry_coordinate_system.cpp -o objects/pygeometry_coordinate_system.o
+	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build $(LDFLAGS) -fpic -c src/pygeometry_coordinate_system.cpp -o objects/pygeometry_coordinate_system.o
 
 objects/pygeometry_vertex_array.o: objects src/pygeometry_vertex_array.cpp src/pygeometry_vertex_array.h
-	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build -fpic -c src/pygeometry_vertex_array.cpp -o objects/pygeometry_vertex_array.o
+	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build $(LDFLAGS) -fpic -c src/pygeometry_vertex_array.cpp -o objects/pygeometry_vertex_array.o
 
 objects/pygeometry_circle.o: objects src/pygeometry_circle.cpp src/pygeometry_circle.h
-	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build -fpic -c src/pygeometry_circle.cpp -o objects/pygeometry_circle.o
+	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build $(LDFLAGS) -fpic -c src/pygeometry_circle.cpp -o objects/pygeometry_circle.o
 
 objects/pygeometry_ngon.o: objects src/pygeometry_ngon.cpp src/pygeometry_ngon.h
-	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build -fpic -c src/pygeometry_ngon.cpp -o objects/pygeometry_ngon.o
+	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build $(LDFLAGS) -fpic -c src/pygeometry_ngon.cpp -o objects/pygeometry_ngon.o
 
 objects/pygeometry_rectangle.o: objects src/pygeometry_rectangle.cpp src/pygeometry_rectangle.h
-	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build -fpic -c src/pygeometry_rectangle.cpp -o objects/pygeometry_rectangle.o
+	$(GPP) -Iimports/geometry/include -Iimports/mango/include -Iimports/mangopy/include -Iimports/python -Limports/mangopy/build $(LDFLAGS) -fpic -c src/pygeometry_rectangle.cpp -o objects/pygeometry_rectangle.o
 
 build/Geometry.so: build objects/pygeometry.o objects/pygeometry_colorful_object.o objects/pygeometry_sphere.o objects/pygeometry_box.o objects/pygeometry_cylinder.o objects/pygeometry_shell.o objects/pygeometry_arrow.o objects/pygeometry_coordinate_system.o objects/pygeometry_vertex_array.o objects/pygeometry_circle.o objects/pygeometry_ngon.o objects/pygeometry_rectangle.o 
-	$(GPP) -Limports/mangopy/build -Limports/geometry/build -Limports/mango/build objects/pygeometry.o objects/pygeometry_colorful_object.o objects/pygeometry_box.o objects/pygeometry_sphere.o objects/pygeometry_cylinder.o objects/pygeometry_shell.o objects/pygeometry_arrow.o objects/pygeometry_coordinate_system.o objects/pygeometry_vertex_array.o objects/pygeometry_circle.o objects/pygeometry_ngon.o objects/pygeometry_rectangle.o -lmangopy -lmgeo -lmango -lpython3.1 -fpic -shared -o build/Geometry.so
+	$(GPP) -Limports/mangopy/build -Limports/geometry/build -Limports/mango/build objects/pygeometry.o objects/pygeometry_colorful_object.o objects/pygeometry_box.o objects/pygeometry_sphere.o objects/pygeometry_cylinder.o objects/pygeometry_shell.o objects/pygeometry_arrow.o objects/pygeometry_coordinate_system.o objects/pygeometry_vertex_array.o objects/pygeometry_circle.o objects/pygeometry_ngon.o objects/pygeometry_rectangle.o -lmangopy -lmgeo -lmango $(PYTHON_LINK) $(OPENGL_LINK) $(LDFLAGS) -fpic -shared -o build/Geometry.so
 
 
 # DIRS

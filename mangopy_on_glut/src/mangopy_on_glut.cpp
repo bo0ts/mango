@@ -1,4 +1,4 @@
-#include "Python.h"
+#include "mangopy_python.h"
 #include "mango_on_glut.h"
 #include "mangopy.h"
 

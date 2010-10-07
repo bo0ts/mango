@@ -31,6 +31,8 @@ namespace Mango{
       
       Engine->setCameraObject(Camera);
       Engine->setViewObject(View);
+
+      std::cout << "Engine at init is at ||" << (int)&Engine << "||" << std::endl;
     }
   }
   

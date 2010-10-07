@@ -9,6 +9,8 @@ LIB_DIRS = -LC:\files\projects\mango\install\lib
 CXXTEST_INCLUDES = -Isrc\cxxtest
 PROJECTDIR_INC = -IC:\files\projects\mango
 
+APPLE_LDFLAGS = -arch i386
+LDFLAGS = $(APPLE_LDFLAGS)
 
 
 
@@ -20,7 +22,7 @@ src/test/core_vector_test_runner.cpp: src/test/core_vector.h
 	imports/cxxtest/cxxtestgen.py --error-printer -o src/test/core_vector_test_runner.cpp src/test/core_vector.h
 
 build/test_vector: src/test/core_vector_test_runner.cpp mango
-	$(GPP) -Iimports/cxxtest -I. -lglut -lmango -Lbuild -Iinclude -o build/test_vector src/test/core_vector.h src/test/core_vector_test_runner.cpp -lmango $(PROFILE_FLAGS)
+	$(GPP) -Iimports/cxxtest -I. -lglut -lmango -Lbuild -Iinclude -o build/test_vector src/test/core_vector.h src/test/core_vector_test_runner.cpp -lmango $(LDFLAGS) $(PROFILE_FLAGS)
 
 
 
@@ -30,40 +32,40 @@ build/test_vector: src/test/core_vector_test_runner.cpp mango
 mango: build/libmango.a copy_to_include
 
 objects/mango.o: objects src/mango.h src/mango.cpp src/core/core.h src/core/core.cpp
-	$(GPP) -fpic -c src/mango.cpp -o objects/mango.o $(PROFILE_FLAGS)
+	$(GPP) -fpic -c src/mango.cpp -o objects/mango.o $(LDFLAGS) $(PROFILE_FLAGS)
 
 objects/core.o: objects src/core/core.h src/core/core.cpp 
-	$(GPP) -fpic -c src/core/core.cpp -o objects/core.o $(PROFILE_FLAGS)
+	$(GPP) -fpic -c src/core/core.cpp -o objects/core.o $(LDFLAGS) $(PROFILE_FLAGS)
 
 objects/vector.o: objects src/core/vector.h
-	$(GPP) -fpic -c src/core/vector.h -o objects/vector.o $(PROFILE_FLAGS)
+	$(GPP) -fpic -c src/core/vector.h -o objects/vector.o $(LDFLAGS) $(PROFILE_FLAGS)
 
 objects/matrix.o: objects src/core/matrix.h
-	$(GPP) -fpic -c src/core/matrix.h -o objects/matrix.o $(PROFILE_FLAGS)
+	$(GPP) -fpic -c src/core/matrix.h -o objects/matrix.o $(LDFLAGS) $(PROFILE_FLAGS)
 
 objects/constants.o: objects src/core/constants.h
-	$(GPP) -fpic -c src/core/constants.h -o objects/constants.o $(PROFILE_FLAGS)
+	$(GPP) -fpic -c src/core/constants.h -o objects/constants.o $(LDFLAGS) $(PROFILE_FLAGS)
 
 objects/error.o: objects src/core/error.cpp src/core/error.h
-	$(GPP) -fpic -c src/core/error.cpp -o objects/error.o $(PROFILE_FLAGS)
+	$(GPP) -fpic -c src/core/error.cpp -o objects/error.o $(LDFLAGS) $(PROFILE_FLAGS)
 
 objects/input.o: objects src/core/input.cpp src/core/input.h
-	$(GPP) -fpic -c src/core/input.cpp -o objects/input.o $(PROFILE_FLAGS)
+	$(GPP) -fpic -c src/core/input.cpp -o objects/input.o $(LDFLAGS) $(PROFILE_FLAGS)
 
 objects/triangle.o: objects src/core/triangle.cpp src/core/triangle.h
-	$(GPP) -fpic -c src/core/triangle.cpp -o objects/triangle.o $(PROFILE_FLAGS)
+	$(GPP) -fpic -c src/core/triangle.cpp -o objects/triangle.o $(LDFLAGS) $(PROFILE_FLAGS)
 
 objects/utils.o: objects src/core/utils.cpp src/core/utils.h
-	$(GPP) -fpic -c src/core/utils.cpp -o objects/utils.o $(PROFILE_FLAGS)
+	$(GPP) -fpic -c src/core/utils.cpp -o objects/utils.o $(LDFLAGS) $(PROFILE_FLAGS)
 
 objects/frame.o: objects src/core/frame.cpp src/core/frame.h
-	$(GPP) -fpic -c src/core/frame.cpp -o objects/frame.o $(PROFILE_FLAGS)
+	$(GPP) -fpic -c src/core/frame.cpp -o objects/frame.o $(LDFLAGS) $(PROFILE_FLAGS)
 
 objects/draw.o: objects src/draw/draw.cpp src/draw/draw.h
-	$(GPP) -fpic -c src/draw/draw.cpp -o objects/draw.o $(PROFILE_FLAGS)
+	$(GPP) -fpic -c src/draw/draw.cpp -o objects/draw.o $(LDFLAGS) $(PROFILE_FLAGS)
 
 objects/raw_character_data.o: objects src/draw/raw_character_data.cpp src/draw/raw_character_data.h
-	$(GPP) -fpic -c src/draw/raw_character_data.cpp -o objects/raw_character_data.o $(PROFILE_FLAGS)
+	$(GPP) -fpic -c src/draw/raw_character_data.cpp -o objects/raw_character_data.o $(LDFLAGS) $(PROFILE_FLAGS)
 
 build/libmango.a: build objects/mango.o objects/core.o objects/vector.o objects/matrix.o objects/constants.o objects/error.o objects/input.o objects/triangle.o objects/utils.o objects/frame.o objects/draw.o objects/raw_character_data.o
 	ar -rcsu build/libmango.a objects/mango.o objects/core.o objects/vector.o objects/matrix.o objects/constants.o objects/error.o objects/input.o objects/triangle.o objects/utils.o objects/frame.o objects/draw.o objects/raw_character_data.o

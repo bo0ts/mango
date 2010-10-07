@@ -1,4 +1,4 @@
-#include "Python.h"
+#include "mangopy_python.h"
 #include "geometry.h"
 #include "mangopy.h"
 

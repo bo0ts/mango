@@ -1,4 +1,4 @@
-#include "Python.h"
+#include "mangopy_python.h"
 #include "mangopy.h"
 #include "pygeometry_colorful_object.h"
 #include "pygeometry_box.h"

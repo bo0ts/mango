@@ -6,6 +6,11 @@ namespace MangoPy{
     
   std::stringstream pythonScriptStderr(std::stringstream::in | std::stringstream::out);
 
+  static void mpy_trivialDelMethod(void *ptr)
+  {
+    return;
+  }
+
   PyObject *mpy_writeToPythonScriptStderr(PyObject *, PyObject* args){
     // Function Call Parameters
     char *err_msg;
@@ -31,15 +36,12 @@ namespace MangoPy{
   PyObject *mpy_getVersion(PyObject *, PyObject* args){
     return Py_BuildValue("s", "Mango: 0.1\nMangoPy: 0.1");
   }
-  
-
 
   static PyMethodDef MangoPyGeneralMethods[] = {
     {"getVersion",  mpy_getVersion, METH_VARARGS,
      "Return the version of Mango and MangoPy"},
     {"writeToPythonScriptStderr", mpy_writeToPythonScriptStderr, METH_VARARGS,
-     "write a string to the python error buffer"},
-    
+     "write a string to the python error buffer"},   
     {NULL, NULL, 0, NULL}        /* Sentinel */
   };
   
@@ -64,6 +66,43 @@ namespace MangoPy{
     return m;
   }
   
+
+  int register_py_type_object(const char *identifier, PyTypeObject *object_type){
+    PyObject *mpygen_module = PyImport_AddModule("_mpygen");
+    if (mpygen_module == NULL){
+      PyErr_SetString(PyExc_RuntimeError, "module '_mpygen' does not exist");
+      return NULL;
+    }
+
+    PyObject *types = PyObject_GetAttrString(mpygen_module, "TYPES");
+    if (types == NULL){
+      return NULL;
+    }
+
+    PyDict_SetItemString(types, identifier, PyCObject_FromVoidPtr((void *)object_type, mpy_trivialDelMethod));
+    return 0;
+  }
+
+  PyTypeObject *py_type_object(const char *identifier){
+    PyObject *mpygen_module = PyImport_AddModule("_mpygen");
+    if (mpygen_module == NULL){
+      PyErr_SetString(PyExc_RuntimeError, "module '_mpygen' does not exist");
+      return NULL;
+    }
+
+    PyObject *types = PyObject_GetAttrString(mpygen_module, "TYPES");
+    if (types == NULL){
+      return NULL;
+    }
+
+    PyObject *py_object_type = PyDict_GetItemString(types, "mangopy.core.object");
+    if (py_object_type == NULL){
+      return NULL;
+    }
+
+    PyTypeObject *dynamic_mpy_type = (PyTypeObject *)PyCObject_AsVoidPtr(py_object_type);
+    return dynamic_mpy_type;
+  }
 
   
   void initialize(int argc, char *argv[], bool setup_default_environment){
@@ -106,12 +145,11 @@ namespace MangoPy{
     PySys_SetArgv(argc - 1, argv_copy);
     
     // Add modules - phase two
-    PyObject* main_module = PyImport_AddModule("__main__");
-    
+    PyObject* main_module = PyImport_AddModule("__main__");    
     PyObject *module_mpygen = PyImport_ImportModule("_mpygen");	
     Py_INCREF(module_mpygen);
     PyModule_AddObject(main_module, "_mpygen", module_mpygen);
-    
+
     if (module_mpygen == NULL){
       std::cout << "MangoPy: Error creating module _mpygen" << std::endl;	
       exit(1);
@@ -150,6 +188,7 @@ namespace MangoPy{
     PyRun_SimpleString("import sys; sys.path.append(Core.MANGO_ABSOLUTE_PATH)");        
 
     // Make the Core module globally available
+    PyRun_SimpleString("__builtins__._mpygen = _mpygen");
     PyRun_SimpleString("__builtins__.Core = Core");
     PyRun_SimpleString("__builtins__.Draw = Draw");
     PyRun_SimpleString("__builtins__.OpenGL = OpenGL");
@@ -290,27 +329,25 @@ namespace MangoPy{
 
     
     // Make opengl methods available in the global namespace
-  PyRun_SimpleString("__builtins__.GL_POINTS = OpenGL.GL_POINTS");
-  PyRun_SimpleString("__builtins__.GL_LINES = OpenGL.GL_LINES"); 
-  PyRun_SimpleString("__builtins__.GL_LINE_LOOP = OpenGL.GL_LINE_LOOP");
-  PyRun_SimpleString("__builtins__.GL_LINE_STRIP = OpenGL.GL_LINE_STRIP");                           
-  PyRun_SimpleString("__builtins__.GL_TRIANGLES = OpenGL.GL_TRIANGLES");                            
-  PyRun_SimpleString("__builtins__.GL_TRIANGLE_STRIP = OpenGL.GL_TRIANGLE_STRIP");                       
-  PyRun_SimpleString("__builtins__.GL_TRIANGLE_FAN = OpenGL.GL_TRIANGLE_FAN");                         
-  PyRun_SimpleString("__builtins__.GL_QUADS = OpenGL.GL_QUADS");                                
-  PyRun_SimpleString("__builtins__.GL_QUAD_STRIP = OpenGL.GL_QUAD_STRIP");
-  PyRun_SimpleString("__builtins__.GL_POLYGON = OpenGL.GL_POLYGON");
-  
-  PyRun_SimpleString("__builtins__.glBegin = OpenGL.glBegin");
-  PyRun_SimpleString("__builtins__.glEnd = OpenGL.glEnd");
-  PyRun_SimpleString("__builtins__.glVertex = OpenGL.glVertex");
-  PyRun_SimpleString("__builtins__.glNormal = OpenGL.glNormal");
-  PyRun_SimpleString("__builtins__.glColor = OpenGL.glColor");
-  PyRun_SimpleString("__builtins__.glTranslate = OpenGL.glTranslate");
-  PyRun_SimpleString("__builtins__.glRotate = OpenGL.glRotate");
-  PyRun_SimpleString("__builtins__.glScale = OpenGL.glScale");
-
-  
+    PyRun_SimpleString("__builtins__.GL_POINTS = OpenGL.GL_POINTS");
+    PyRun_SimpleString("__builtins__.GL_LINES = OpenGL.GL_LINES"); 
+    PyRun_SimpleString("__builtins__.GL_LINE_LOOP = OpenGL.GL_LINE_LOOP");
+    PyRun_SimpleString("__builtins__.GL_LINE_STRIP = OpenGL.GL_LINE_STRIP");                           
+    PyRun_SimpleString("__builtins__.GL_TRIANGLES = OpenGL.GL_TRIANGLES");                            
+    PyRun_SimpleString("__builtins__.GL_TRIANGLE_STRIP = OpenGL.GL_TRIANGLE_STRIP");                       
+    PyRun_SimpleString("__builtins__.GL_TRIANGLE_FAN = OpenGL.GL_TRIANGLE_FAN");                         
+    PyRun_SimpleString("__builtins__.GL_QUADS = OpenGL.GL_QUADS");                                
+    PyRun_SimpleString("__builtins__.GL_QUAD_STRIP = OpenGL.GL_QUAD_STRIP");
+    PyRun_SimpleString("__builtins__.GL_POLYGON = OpenGL.GL_POLYGON");
+    
+    PyRun_SimpleString("__builtins__.glBegin = OpenGL.glBegin");
+    PyRun_SimpleString("__builtins__.glEnd = OpenGL.glEnd");
+    PyRun_SimpleString("__builtins__.glVertex = OpenGL.glVertex");
+    PyRun_SimpleString("__builtins__.glNormal = OpenGL.glNormal");
+    PyRun_SimpleString("__builtins__.glColor = OpenGL.glColor");
+    PyRun_SimpleString("__builtins__.glTranslate = OpenGL.glTranslate");
+    PyRun_SimpleString("__builtins__.glRotate = OpenGL.glRotate");
+    PyRun_SimpleString("__builtins__.glScale = OpenGL.glScale");
 
 
     // Create global engine instance
@@ -364,7 +401,32 @@ namespace MangoPy{
       PyRun_SimpleString("__builtins__.View = Core.View");
     }
 
-    
+    // Make environment available to extensions
+    PyModule_AddObject(module_mpygen, "GLOBAL_FRAME", PyCObject_FromVoidPtr((void *)Mango::GlobalFrame, mpy_trivialDelMethod));
+    PyModule_AddObject(module_mpygen, "PY_GLOBAL_FRAME", PyCObject_FromVoidPtr((void *)PyGlobalFrame, mpy_trivialDelMethod));
+    PyModule_AddObject(module_mpygen, "ENGINE", PyCObject_FromVoidPtr((void *)Mango::Engine, mpy_trivialDelMethod));
+    PyModule_AddObject(module_mpygen, "CAMERA", PyCObject_FromVoidPtr((void *)Mango::Camera, mpy_trivialDelMethod));
+    PyModule_AddObject(module_mpygen, "VIEW", PyCObject_FromVoidPtr((void *)Mango::View, mpy_trivialDelMethod));
+    PyModule_AddObject(module_mpygen, "KEYBOARD", PyCObject_FromVoidPtr((void *)Mango::Keyboard, mpy_trivialDelMethod));
+    PyModule_AddObject(module_mpygen, "MOUSE", PyCObject_FromVoidPtr((void *)Mango::Mouse, mpy_trivialDelMethod));    
+
+    //PyModule_AddObject(module_mpygen, "TYPE_OBJECT", PyCObject_FromVoidPtr((void *)&mpy_ObjectType, mpy_trivialDelMethod));
+
+    PyObject *global_types = PyDict_New();
+    PyModule_AddObject(module_mpygen, "TYPES", global_types);
+
+    //PyDict_SetItemString(global_types, "mangopy.core.object", PyCObject_FromVoidPtr((void *)&mpy_ObjectType, mpy_trivialDelMethod));
+    MangoPy::register_py_type_object("mangopy.core.input_event", &mpy_InputEventType);
+    MangoPy::register_py_type_object("mangopy.core.vector", &mpy_VectorType);
+    MangoPy::register_py_type_object("mangopy.core.matrix", &mpy_MatrixType);
+    MangoPy::register_py_type_object("mangopy.core.object", &mpy_ObjectType);
+    MangoPy::register_py_type_object("mangopy.core.frame", &mpy_FrameType);
+    MangoPy::register_py_type_object("mangopy.core.py_enging", &mpy_PyEngineType);
+    MangoPy::register_py_type_object("mangopy.core.core_camera", &mpy_CoreCameraType);
+    MangoPy::register_py_type_object("mangopy.core.core_keyboard", &mpy_CoreKeyboardType);
+    MangoPy::register_py_type_object("mangopy.core.core_mouse", &mpy_CoreMouseType);
+    MangoPy::register_py_type_object("mangopy.core.triangle", &mpy_TriangleType);
+
     // Setup Python error buffer
     PyRun_SimpleString("\n\
 #import sys \n\
@@ -532,6 +594,31 @@ sys.stderr = MangoPy_StdErr() \n\
 
 
 #endif // conditional on def(WINDOWS)
+
+
+int initialize_module_environment(){
+  PyObject *mpygen_module = PyImport_AddModule("_mpygen");
+  if (mpygen_module == NULL){
+    return -1;
+  }
+ 
+  PyObject *py_global_frame = PyObject_GetAttrString(mpygen_module, "GLOBAL_FRAME");
+  Mango::GlobalFrame = (Mango::Core::Frame *)PyCObject_AsVoidPtr(py_global_frame);
+  PyObject *py_engine = PyObject_GetAttrString(mpygen_module, "ENGINE");
+  Mango::Engine = (Mango::Core::CoreEngine *)PyCObject_AsVoidPtr(py_engine);  
+  PyObject *py_camera = PyObject_GetAttrString(mpygen_module, "CAMERA");
+  Mango::Camera = (Mango::Core::CoreCamera *)PyCObject_AsVoidPtr(py_camera);  
+  PyObject *py_view = PyObject_GetAttrString(mpygen_module, "VIEW");
+  Mango::View = (Mango::Core::CoreCamera *)PyCObject_AsVoidPtr(py_view);  
+  PyObject *py_keyboard = PyObject_GetAttrString(mpygen_module, "KEYBOARD");
+  Mango::Keyboard = (Mango::Core::CoreKeyboard *)PyCObject_AsVoidPtr(py_keyboard);
+  PyObject *py_mouse = PyObject_GetAttrString(mpygen_module, "MOUSE");
+  Mango::Mouse = (Mango::Core::CoreMouse *)PyCObject_AsVoidPtr(py_mouse);    
+  PyObject *py_pyglobalframe = PyObject_GetAttrString(mpygen_module, "PY_GLOBAL_FRAME");  
+  PyGlobalFrame = (mpy_Frame *)PyCObject_AsVoidPtr(py_pyglobalframe);    
+ 
+  return 0;
+}
 
   
 } // MangoPy

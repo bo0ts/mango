@@ -26,6 +26,10 @@ namespace MangoPy{
   void finalize();
   void runScript(const char* fname, bool prepend_engine_path);
   wchar_t *char2wchar(char *arg);
+
+  int initialize_module_environment();
+  PyTypeObject *py_type_object(const char *identifier);
+  int register_py_type_object(const char *identifier, PyTypeObject *object_type);
 } // MangoPy
 
 #endif //MANGOPY
