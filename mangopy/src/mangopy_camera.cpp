@@ -89,6 +89,53 @@ PyObject *mpy_CoreCamera_setScaleFactors(mpy_CoreCamera *self, PyObject* args){
     return Py_None;
 }
 
+PyObject *mpy_CoreCamera_setRotationButton(mpy_CoreCamera *self, PyObject* args){
+    // Call Parameters
+  int code;
+
+    // Parse arguments
+    if (!PyArg_ParseTuple(args, "i", &code)){
+        return NULL;
+    }
+
+    // Return Value
+
+    // Call Function
+    try{
+        self->internalObject->setRotationButton(code);
+    }
+    catch (Mango::Core::Error &e){
+        return pythonExceptionFromCException(e);
+    }
+
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+PyObject *mpy_CoreCamera_setZoomButton(mpy_CoreCamera *self, PyObject* args){
+    // Call Parameters
+  int code;
+
+    // Parse arguments
+    if (!PyArg_ParseTuple(args, "i", &code)){
+        return NULL;
+    }
+
+    // Return Value
+
+    // Call Function
+    try{
+        self->internalObject->setZoomButton(code);
+    }
+    catch (Mango::Core::Error &e){
+        return pythonExceptionFromCException(e);
+    }
+
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+
 PyObject *mpy_CoreCamera_follow(mpy_CoreCamera *self, PyObject* args){
   // Call Parameters
   mpy_Frame *frame_to_follow;
@@ -186,6 +233,40 @@ PyObject *mpy_CoreCamera_scaleFactors(mpy_CoreCamera *self, PyObject* args){
     return Py_BuildValue("ddd", sx, sy, sz);
 }
 
+PyObject *mpy_CoreCamera_rotationButton(mpy_CoreCamera *self, PyObject* args){
+  // Call Parameters    
+  // Parse arguments
+  // Return Value
+  int code;
+    
+  // Call Function
+  try{
+    code = self->internalObject->rotationButton();
+  }
+  catch (Mango::Core::Error &e){
+    return pythonExceptionFromCException(e);
+  }
+  
+  return Py_BuildValue("i", code);
+}
+
+PyObject *mpy_CoreCamera_zoomButton(mpy_CoreCamera *self, PyObject* args){
+  // Call Parameters    
+  // Parse arguments
+  // Return Value
+  int code;
+    
+  // Call Function
+  try{
+    code = self->internalObject->zoomButton();
+  }
+  catch (Mango::Core::Error &e){
+    return pythonExceptionFromCException(e);
+  }
+  
+  return Py_BuildValue("i", code);
+}
+
 PyObject *mpy_CoreCamera_scale(mpy_CoreCamera *self, PyObject* args){
     // Call Parameters
     double rx, ry, rz;
@@ -273,6 +354,12 @@ PyMethodDef mpy_CoreCamera_methods[] = {
     {"setScaleFactors", (PyCFunction)mpy_CoreCamera_setScaleFactors, METH_VARARGS,
      "Set the camera scale factors"
     },
+    {"setRotationButton", (PyCFunction)mpy_CoreCamera_setRotationButton, METH_VARARGS,
+     "Set the button code used to rotate the view"
+    },
+    {"setZoomButton", (PyCFunction)mpy_CoreCamera_setZoomButton, METH_VARARGS,
+     "Set the button code used to zoom the view"
+    },
     {"follow", (PyCFunction)mpy_CoreCamera_follow, METH_VARARGS,
      "Set an object to follow"
     },
@@ -288,6 +375,12 @@ PyMethodDef mpy_CoreCamera_methods[] = {
     {"scaleFactors", (PyCFunction)mpy_CoreCamera_scaleFactors, METH_VARARGS,
      "Returns the camera scale factors"
     },
+    {"rotationButton", (PyCFunction)mpy_CoreCamera_rotationButton, METH_NOARGS,
+     "button used to rotate the view"
+    },
+    {"zoomButton", (PyCFunction)mpy_CoreCamera_zoomButton, METH_NOARGS,
+     "button used to zoom the view"
+    },    
     {"scale", (PyCFunction)mpy_CoreCamera_scale, METH_VARARGS,
      "Scale the camera scale factors"
     },

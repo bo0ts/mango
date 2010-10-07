@@ -979,6 +979,8 @@ g     * Object destructor.
       scale_x = 1.0;
       scale_y = 1.0;
       scale_z = 1.0;
+      rotate_camera_button_code = 114; // 'r'
+      zoom_camera_button_code = 122; // 'z'
     }
 		
     /**
@@ -1018,6 +1020,14 @@ g     * Object destructor.
       scale_z = sz;
     }	       
 		
+    void CoreCamera::setRotationButton(int code){
+      rotate_camera_button_code = code;
+    }
+
+    void CoreCamera::setZoomButton(int code){
+      zoom_camera_button_code = code;
+    }
+
     Frame *CoreCamera::focus(){
       return focus_frame;
     }
@@ -1048,6 +1058,15 @@ g     * Object destructor.
       sx = scale_x;
       sy = scale_y;
       sz = scale_z;
+    }
+
+
+    int CoreCamera::rotationButton(){
+      return rotate_camera_button_code;
+    }
+
+    int CoreCamera::zoomButton(){
+      return zoom_camera_button_code;
     }
 		
     /**
@@ -1131,10 +1150,10 @@ g     * Object destructor.
 	window_mid_y = (int)round(window_height / 2);
 		
 		
-	if (Mouse->down(BUTTON_RIGHT) && Mouse->down(BUTTON_LEFT)){
+	if ((Mouse->down(BUTTON_RIGHT) || (Mouse->down(BUTTON_LEFT) && Keyboard->down(zoom_camera_button_code))) && Mouse->down(BUTTON_LEFT)){
 	  dz += (mdx + mdy) / 20.0f;
 	}
-	else if (Mouse->down(BUTTON_RIGHT)){
+	else if (Mouse->down(BUTTON_RIGHT) || (Mouse->down(BUTTON_LEFT) && Keyboard->down(rotate_camera_button_code))){
 	  if (modeEnabled(RMB_CYLINDRICAL_ROTATE)){
 	    // If the mouse is to the left of the center of the screen, we have a problem b/c atan2 
 	    // is discontinuous there whenever y crosses the real line. The solution: if we're on the left, 

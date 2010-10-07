@@ -290,8 +290,10 @@ namespace Mango{
 	return "CoreCamera";
       }
       
-      void setMode(int new_mode);
+      void setMode(int new_mode);      
       void setScaleFactors(GLfloat sx, GLfloat sy, GLfloat sz);
+      void setRotationButton(int code);
+      void setZoomButton(int code);
 
       void follow(Frame *frame_to_follow);
       Frame *focus();
@@ -300,8 +302,10 @@ namespace Mango{
       bool modeEnabled(int mode_mask);
       
       void scaleFactors(GLfloat &sx, GLfloat &sy, GLfloat &sz);      
-      void scale(GLfloat rx, GLfloat ry, GLfloat rz = 1);
-           
+      int rotationButton();
+      int zoomButton();
+      void scale(GLfloat rx, GLfloat ry, GLfloat rz = 1);      
+
       void lookAt(Vector at_point, GLfloat dist = -1);
       void lookFrom(Vector at_point, Vector from_point);
 
@@ -310,6 +314,8 @@ namespace Mango{
       
     protected:
       int mode;
+      int rotate_camera_button_code;
+      int zoom_camera_button_code;
 
       Frame *focus_frame;
       int prev_mouse_x, prev_mouse_y;
