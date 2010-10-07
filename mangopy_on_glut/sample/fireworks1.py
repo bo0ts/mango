@@ -5,6 +5,9 @@ class Dot(Core.Object):
 
     def __init__(self):
         Core.Object.__init__(self)
+        self.reset()
+
+    def reset(self):
         rand_angle = 100*random.random()
         num = round(10*random.random())        
         self.rand_dir = pow(-1, num)        
@@ -15,6 +18,7 @@ class Dot(Core.Object):
         self.num_pts = 50
         self.pts = []
         self.color = 1.0
+
 
     def step(self):
         self.t += 0.001
@@ -29,7 +33,8 @@ class Dot(Core.Object):
         if self.t >= 0.12:
             self.color = (0.15 - self.t)/0.05
         if self.t >= 0.15:
-            self.unset(DRAW | STEP)
+            #self.unset(DRAW | STEP)
+            self.reset()
 
     def draw(self):
         glBegin(GL_POINTS)
@@ -53,14 +58,15 @@ class Dot(Core.Object):
 class DotSource(Core.Object):
     def __init__(self):
         self.dots = []
+        self.created = 0
+        self.max = 150
 
     def step(self):
-        d = Dot()
-        d.set(DRAW | STEP)
-        self.dots.append(d)
+        if self.created < self.max:
+            d = Dot()
+            d.set(DRAW | STEP)
+            self.dots.append(d)
+            self.created += 1
 
 d = DotSource()
 d.set(STEP)
-#for i in range(100):
-#    d = Dot()
-#    d.set(DRAW | STEP)
