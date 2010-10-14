@@ -20,6 +20,12 @@ int main(int argc, char *argv[]){
     }
     Mango::OnGlut::startWithoutCatchingErrors();
   }
+  catch(Mango::Core::Error e){
+    e.trace();
+    MangoPy::printPythonScriptStderr();
+    std::cerr << std::endl << std::endl;
+    return_val = 1;
+  }
   catch(Mango::Core::Error &e){
     e.trace();
     MangoPy::printPythonScriptStderr();
@@ -29,6 +35,13 @@ int main(int argc, char *argv[]){
   catch(std::exception &e){
     e.what();
     return_val = 2;
+  }
+  catch(std::exception e){
+    e.what();
+    return_val = 2;
+  } 
+  catch(...){
+    std::cerr << "Error occurred ... " << std::endl;
   }
   
   MangoPy::finalize();  

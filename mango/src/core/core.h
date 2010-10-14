@@ -304,7 +304,7 @@ namespace Mango{
       void scaleFactors(GLfloat &sx, GLfloat &sy, GLfloat &sz);      
       int rotationButton();
       int zoomButton();
-      void scale(GLfloat rx, GLfloat ry, GLfloat rz = 1);      
+      void scale(GLfloat rx, GLfloat ry, GLfloat rz = 1);
 
       void lookAt(Vector at_point, GLfloat dist = -1);
       void lookFrom(Vector at_point, Vector from_point);

@@ -1087,8 +1087,7 @@ g     * Object destructor.
       scale_y = scale_y*ry;
       scale_z = scale_z*rz;
     }
-		
-		
+				
     // LookAt Functions
 		
     /**

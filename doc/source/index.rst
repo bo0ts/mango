@@ -3,29 +3,31 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Mango Documentation
-=================================
+Mango 
+=====
 
-Mango is a cross-platform, scriptable, event-driven simulation framework. It comes 
-in two flavors: Mango in Python, and Mango in C++. If you are looking to rapidly
-put together a simulation, try :doc:`mangoinpython`. On the other hand, if you 
-require greater performance, wish to extend Mango or embed it in your own C++ 
-application, try :doc:`mangoincpp`.
+Mango is a cross-platform, scriptable, event-driven simulation framework. 
 
-* :ref:`gettingstarted`
-* :doc:`api`
-* :ref:`extending`
-* :ref:`embedding`
+.. hlist::
+   :columns: 5
 
-Contents:
+   * :doc:`download`
+   * :doc:`docs`
+   * :doc:`faq`
+   * :doc:`about`
+
+Mango makes it easy to write simulations - get started in minutes.
+
+    .. image:: python/hand.png
+       :width: 480
+       :height: 360
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
+   :hidden: 	  
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+   download
+   docs   
+   faq  
+   about
+   

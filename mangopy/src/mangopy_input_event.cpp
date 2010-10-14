@@ -141,24 +141,6 @@ static PyObject *mpy_InputEvent_repr(PyObject *selff){
     Method Table
                         */
 PyMethodDef mpy_InputEvent_methods[] = {
-  /*    {"norm", (PyCFunction)mpy_InputEvent_norm, METH_NOARGS,
-     "Return the norm of the inputevent"
-    },
-    {"normSq", (PyCFunction)mpy_InputEvent_normSq, METH_NOARGS,
-     "Return the square of the norm of the inputevent"
-    },
-    {"normalize", (PyCFunction)mpy_InputEvent_normalize, METH_NOARGS,
-     "Normalizes the inputevent"
-    },
-    {"scale", (PyCFunction)mpy_InputEvent_scale, METH_VARARGS,
-     "Scales the inputevent"
-    },
-    {"dot", (PyCFunction)mpy_InputEvent_dot, METH_VARARGS,
-     "Dot the inputevent with another"
-    },
-    {"cross", (PyCFunction)mpy_InputEvent_cross, METH_VARARGS,
-     "Cross the inputevent with another"
-     },*/
     {NULL}  /* Sentinel */
 };
 
