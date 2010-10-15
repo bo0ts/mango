@@ -1,0 +1,5 @@
+Box
+===
+
+.. class:: Geometry.Box
+

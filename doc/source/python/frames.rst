@@ -18,7 +18,7 @@ run the following script:
 
 The result should look like:
 
-  .. image:: python/global_coordinate_system.png
+  .. image:: /images/global_coordinate_system.png
      :width: 480
      :height: 360
  
@@ -127,7 +127,7 @@ and gamma. A screenshot from this script shows the resulting orientation
 (the thick frame) after modifying alpha (represented by the green arc) and
 beta (represented by the dark yellow arc):
 
-  .. image:: python/demo_angles.png
+  .. image:: /images/demo_angles.png
      :width: 480
      :height: 360
 

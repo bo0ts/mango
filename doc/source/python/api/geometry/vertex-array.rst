@@ -1,0 +1,4 @@
+VertexArray
+===========
+
+.. class:: Geometry.VertexArray

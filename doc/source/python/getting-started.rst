@@ -27,7 +27,7 @@ down both and drag to zoom (alternatively, press the 'r' button and drag the lef
 mouse button to rotate or press the 'z' button and drag the left mouse button to zoom). 
 You should be looking at something like:
 
-  .. image:: python/hello_box1.png
+  .. image:: /images/hello_box1.png
      :width: 360
      :height: 240
 
@@ -73,7 +73,7 @@ script as hello_tree.py, and run it like you did before:
 
 This time we see something like:
 
-  .. image:: python/hello_tree1.png
+  .. image:: /images/hello_tree1.png
      :width: 360
      :height: 240
 

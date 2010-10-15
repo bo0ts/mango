@@ -1,0 +1,4 @@
+Rectangle
+=========
+
+.. class:: Geometry.Rectangle

@@ -65,7 +65,7 @@ Let's try out hand at making a tree:
   
 Viola, a tree:
 
-  .. image:: python/group-tree-example.png
+  .. image:: /images/group-tree-example.png
      :width: 480
      :height: 360
 
@@ -147,7 +147,7 @@ another script:
     
 And here is a nice forest:
 
-  .. image:: python/forest.png
+  .. image:: /images/forest.png
      :width: 480
      :height: 360
 

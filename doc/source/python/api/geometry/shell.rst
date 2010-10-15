@@ -1,0 +1,4 @@
+Shell
+=====
+
+.. class:: Geometry.Shell

@@ -1,0 +1,4 @@
+Sphere
+======
+
+.. class:: Geometry.Sphere

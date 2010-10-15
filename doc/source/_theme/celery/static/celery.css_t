@@ -231,7 +231,9 @@ div.highlight{
 }
 
 dt:target, .highlight {
-    background: #FAF3E8;
+    #background: #FAF3E8;
+    background: #555555;
+    border: 1px solid #996600;
 }
 
 div.note {
@@ -365,14 +367,14 @@ pre {
 }
  
 tt {
-    background: #F0FFEB;
+    #background: #F0FFEB;
     #color: #222;
     color: #DDDDDD;
     /* padding: 1px 2px; */
 }
 
 tt.xref, a tt {
-    background: #F0FFEB;
+    #background: #F0FFEB;
     border-bottom: 1px solid white;
 }
 
@@ -397,5 +399,5 @@ a.footnote-reference:hover {
 }
 
 a:hover tt {
-    background: #EEE;
+    #background: #EEE;    
 }

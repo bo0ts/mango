@@ -1,0 +1,4 @@
+Cylinder
+========
+
+.. class:: Geometry.Cylinder

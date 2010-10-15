@@ -320,10 +320,17 @@ PyObject *mpy_CoreCamera_lookAt(mpy_CoreCamera *self, PyObject* args){
 
 PyObject *mpy_CoreCamera_lookFrom(mpy_CoreCamera *self, PyObject* args){
   // Call Parameters
-  Mango::Core::Vector at_point, from_point;
+  PyObject *py_at_point;
+  Mango::Core::Vector from_point, at_point;
   
   // Parse arguments  
-  if (!PyArg_ParseTuple(args, "O&O&", mpy_VectorConverter, static_cast<void *>(&at_point), mpy_VectorConverter, static_cast<void *>(&from_point) )){
+  py_at_point = NULL;
+  if (!PyArg_ParseTuple(args, "O&|O", mpy_VectorConverter, static_cast<void *>(&from_point), &py_at_point)){
+    return NULL;
+  }
+
+  if ((py_at_point != NULL) && !mpy_VectorFromArgs(py_at_point, at_point)){
+    PyErr_SetString(PyExc_TypeError, "Second argument must be a vector or a tuple containing two or three doubles");
     return NULL;
   }
   
@@ -331,7 +338,12 @@ PyObject *mpy_CoreCamera_lookFrom(mpy_CoreCamera *self, PyObject* args){
   
   // Call Function
   try{
-    self->internalObject->lookFrom(at_point, from_point);
+    if (py_at_point == NULL){
+      self->internalObject->lookFrom(from_point);
+    }
+    else{
+      self->internalObject->lookFrom(from_point, at_point);
+    }
   }
   catch (Mango::Core::Error &e){
     return pythonExceptionFromCException(e);

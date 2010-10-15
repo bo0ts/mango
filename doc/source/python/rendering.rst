@@ -30,7 +30,7 @@ text-rendering objects, this is the best way to show text to the user:
 The first parameter to Draw.text is the position of the text, in this case
 chosen to center the text on the screen:
 
-  .. image:: python/simpletext.png
+  .. image:: /images/simpletext.png
      :width: 480
      :height: 360
 
@@ -106,7 +106,7 @@ is another example that uses Draw.line to draw 30 random lines:
      
 The result is:
 
-  .. image:: python/colorful_lines.png
+  .. image:: /images/colorful_lines.png
      :width: 480
      :height: 360
 
@@ -152,7 +152,7 @@ would use the GL_POINTS rendering mode:
 
 This results in:
 
-  .. image:: python/four-corners.png
+  .. image:: /images/four-corners.png
      :width: 480
      :height: 360
 
@@ -175,7 +175,7 @@ If instead one wished to render the outline of the square:
 
 Which looks like:
 
-  .. image:: python/four-edges.png
+  .. image:: /images/four-edges.png
      :width: 480
      :height: 360
 
@@ -184,7 +184,7 @@ of a square [without more extensive modifications], for that mode causes
 each consecutive disjoint pair of vertices to be rendered as a line, meaning
 that only two sides of the square would have been rendered:
 
-  .. image:: python/two-edges.png
+  .. image:: /images/two-edges.png
      :width: 480
      :height: 360
 
@@ -220,7 +220,7 @@ By coloring the corner vertices red, green, blue and yellow and using the
 GL_QUADS rendering mode (interprets every 4 consecutive disjoint vertices
 as the corners of a quadrilateral) one obtains the following square:
 
-  .. image:: python/colorful-square.png
+  .. image:: /images/colorful-square.png
      :width: 480
      :height: 360
 
@@ -290,7 +290,7 @@ of the function f(r) = exp(-r**2):
 
 The result:
 
-  .. image:: python/exp-surface.png
+  .. image:: /images/exp-surface.png
      :width: 480
      :height: 360
 
@@ -335,7 +335,7 @@ event. Here's one example that draws a chess board:
   
 Ok, so its a simplified chess board:
 
-  .. image:: python/simplified-chess.png
+  .. image:: /images/simplified-chess.png
      :width: 480
      :height: 360
 

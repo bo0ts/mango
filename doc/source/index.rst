@@ -18,7 +18,7 @@ Mango is a cross-platform, scriptable, event-driven simulation framework.
 
 Mango makes it easy to write simulations - get started in minutes.
 
-    .. image:: python/hand.png
+    .. image:: /images/hand.png
        :width: 480
        :height: 360
 

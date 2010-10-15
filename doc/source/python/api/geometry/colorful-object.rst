@@ -1,0 +1,5 @@
+ColorfulObject
+==============
+
+.. class:: Geometry.ColorfulObject
+

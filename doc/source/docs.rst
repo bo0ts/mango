@@ -15,7 +15,7 @@ Contents:
    :maxdepth: 2
    :numbered: 
 
-   api	
+   python/api	
    mangoinpython
    mangoincpp
 

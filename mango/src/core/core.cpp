@@ -1113,12 +1113,16 @@ g     * Object destructor.
       focus_frame->position = at_point;
     }
 
-    void CoreCamera::lookFrom(Vector at_point, Vector from_point){
+    void CoreCamera::lookFrom(Vector from_point, Vector at_point){
+      focus_frame->position = at_point;
+      lookFrom(from_point);
+    }
+
+    void CoreCamera::lookFrom(Vector from_point){
       GLfloat alef, bet;
       Vector v(0, 0, from_point.norm());
       position = v;
       focus_frame->orientationFor(from_point, alef, bet);
-      focus_frame->position = at_point;
       focus_frame->setOrientation(alef, bet - 90, 0);
     }
 				

@@ -1,0 +1,4 @@
+Circle
+======
+
+.. class:: Geometry.Circle

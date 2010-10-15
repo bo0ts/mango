@@ -307,7 +307,8 @@ namespace Mango{
       void scale(GLfloat rx, GLfloat ry, GLfloat rz = 1);
 
       void lookAt(Vector at_point, GLfloat dist = -1);
-      void lookFrom(Vector at_point, Vector from_point);
+      void lookFrom(Vector from_point, Vector at_point);
+      void lookFrom(Vector from_point);
 
       virtual void manipulateCamera();      
       virtual void step();

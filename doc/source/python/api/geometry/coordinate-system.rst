@@ -1,0 +1,4 @@
+CoordinateSystem
+================
+
+.. class:: Geometry.CoordinateSystem

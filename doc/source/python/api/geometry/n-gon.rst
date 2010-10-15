@@ -1,0 +1,4 @@
+NGon
+====
+
+.. class:: Geometry.NGon

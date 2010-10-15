@@ -4,7 +4,7 @@ Camera and View
 When a simulation begins the scene appears as it would to a viewer staring
 down the z-axis at a certain distance from the origin:
 
-  .. image:: python/global-frame-zoomed.png
+  .. image:: /images/global-frame-zoomed.png
      :width: 480
      :height: 360
 
@@ -43,7 +43,7 @@ boxes:
 
 The initial view onto this scene is:
 
-  .. image:: python/four-fancy-boxes-default-view.png
+  .. image:: /images/four-fancy-boxes-default-view.png
      :width: 480
      :height: 360
 
@@ -71,14 +71,14 @@ that of a viewer located at position (3, 3, 3) by calling Camera.lookFrom:
       box.set(RENDER)
 
 
-  Camera.lookFrom((0, 0, 0), (3, 3, 3))
+  Camera.lookFrom((3, 3, 3))
 
 The added call to Camera.lookFrom positions the camera at (3, 3, 3) and
-orients it so that it is looking at the point (0, 0, 0). Notice that we are
+orients it so that it is looking at the current focus ((0, 0, 0)). Notice that we are
 accessing the global CoreCamera instance Camera, which is responsible for
 the 3D scene. The result is:
 
-  .. image:: python/four-fancy-boxes-45-view.png
+  .. image:: /images/four-fancy-boxes-45-view.png
      :width: 480
      :height: 360
 
@@ -112,7 +112,7 @@ Camera.lookAt changes the focus of the camera while maintaing the (relative)
 viewing angle. In this case, we changed the focus to the center of the blue
 box:
 
-  .. image:: python/four-fancy-boxes-blue-view.png
+  .. image:: /images/four-fancy-boxes-blue-view.png
      :width: 480
      :height: 360
 
@@ -127,7 +127,7 @@ as the focus of the camera. This frame of reference is set as the camera's
 parent, with the camera positioned at some distance d on the z-axis 
 (pointing towards the relative origin of the focus). 
 
-  .. image:: python/camera-focus-diagram.png
+  .. image:: /images/camera-focus-diagram.png
      :width: 480
      :height: 360
 

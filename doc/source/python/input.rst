@@ -145,6 +145,6 @@ querying. The code looks like this:
 
 Notice how we determine which event occurred by comparing it to an instance
 of InputEvent that we create with the parameters we want. It is also 
-possible to create wildcard events by passing -1 as one of the parameters. 
-For instance, Core.InputEvent(KEYBOARD, PRESS, -1) would match against any
+possible to create wildcard events by passing ANY as one of the parameters. 
+For instance, Core.InputEvent(KEYBOARD, PRESS, ANY) would match against any
 (keyboard) key-press event, regardless of which key was pressed.
