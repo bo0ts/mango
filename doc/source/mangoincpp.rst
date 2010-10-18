@@ -1,3 +1,59 @@
 
 Mango in C++
 ===============
+
+
+A Template C++ Mango simulation takes the following form:
+
+.. code-block:: c++
+
+   #include "mango_on_glut.h"
+   
+   using namespace std;
+   using namespace Mango;
+   
+   int main(int argc, char *argv[]){   
+   
+     // Setup
+     Mango::initialize();
+     Mango::OnGlut::initialize(argc, argv);
+   		
+     // Design scene
+     // ...   	
+
+     // Start the main loop
+     Mango::OnGlut::start();
+   	
+     // Teardown
+     Mango::finalize();
+   }
+   
+
+
+For instance, to make a hello-world "box" simulation:
+
+.. code-block:: c++
+
+   #include "mango_on_glut.h"
+   #include "geometry.h"
+   
+   using namespace std;
+   using namespace Mango;
+   
+   int main(int argc, char *argv[]){
+     Geometry::Box *b;
+   
+     // Setup
+     Mango::initialize();
+     Mango::OnGlut::initialize(argc, argv);
+   		
+     // Create a box and set its render event
+     b = new Geometry::Box();		
+     b->set(RENDER);	
+   	
+     // Start the main loop
+     Mango::OnGlut::start();
+   	
+     // Teardown
+     Mango::finalize();
+   }

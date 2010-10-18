@@ -1409,6 +1409,7 @@ namespace Mango{
       render_style = WIRE_LOOP;
       setNumberOfSides(num_sides);		    
       setColor(1.0, 0.5, 0.0);
+      setRenderReverseOrientation(true);
     }
 		
     Circle::~Circle(){

@@ -205,6 +205,13 @@ PyObject *pythonExceptionFromCException(Mango::Core::Error &e){
   return NULL;
 }
 
+void throwCExceptionFromPythonException(const char *orig_object, const char *orig_method){
+  PyErr_Print(); // Print the error to stderr
+  MangoPy::pythonScriptStderr.clear();
+  std::string err = MangoPy::pythonScriptStderr.str(); // Retrieve the error from stderr
+  const char *err_c = err.c_str();
+  throw PythonScriptError(orig_object, orig_method, err_c);
+}
 
 /*
   Dealloc and New
@@ -233,9 +240,8 @@ PyObject *mpy_Object_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
       return NULL;
     }	
     self->parentFrame = NULL;
-  }    
+  }
 
-  //std::cout << "Created new mpy_Object at" << self << ", with internal Core::Object at " << self->internalObject << std::endl;
   return (PyObject *)self;
 }
 

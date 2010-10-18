@@ -1,6 +1,7 @@
 #include "mangopy_pyengine.h"
 
-
+#include "mangopy.h"
+#include <string>
 
 /* Static Members */
 int PyEngine::BOC_TYPE_IDS[ENGINE_MAX_EVENT_TYPES] = {-1};
@@ -83,15 +84,15 @@ bool PyEngine::setScriptedEvent(mpy_Object* object, int event_type){
             if (callback == NULL){
                 throw Mango::Core::Error(objectType(), "setScriptedEvent", "Error: event method does not exist");
             }
-            // If the object already a callback registered for this event, XDECREF its ass
+            // If the object already has a callback registered for this event, XDECREF it
             if (object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first != -1){
                 Py_XDECREF(python_events[i][object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first].second);
             }
-            Py_INCREF(callback); // Save reference to new callback
+            Py_INCREF(callback); // Save reference to new callback	    
             // Set eventRecord appropriately
             eventRecord.first = object->internalObject;
             eventRecord.second = callback;
-            python_events[i].push_back(eventRecord); // Push new callback onto the python_events vector
+            python_events[i].push_back(eventRecord); // Push new callback onto the python_events vector	   
             object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first = python_events[i].size()-1; // save a reference to where this callback is stored in the object itself
 //            cout << "Saving reference to where object (" << object->internalObject->getObjectID() << ") is stored, at :" << object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first << " for event " << basicObjectEventMethods[i] << endl;
             object->internalObject->objectContainers[BOC_TYPE_IDS[i]].second = this;                     // save a reference to this PyEngine object as a basicObjectRecordContainer                        
@@ -210,18 +211,17 @@ void PyEngine::evt_step(){
     }
 
     // Execute Python events
-    std::vector<ObjectPythonEventRecord>::iterator eventRecord;
-    for (eventRecord = python_events[EVT_TYPE_STEP].begin(); eventRecord < python_events[EVT_TYPE_STEP].end(); eventRecord++){
-        arglist = Py_BuildValue("()");
-        result = PyEval_CallObject((*eventRecord).second, arglist);
-        Py_DECREF(arglist); // dismiss the argument list we created
-        if (result == NULL){
-            // If the result is NULL, the interpreter threw an exception. raise this as a PythonScript exception
-            PyErr_Print(); // Print the error to stderr
-            throw PythonScriptError((*eventRecord).first->objectType(), "step", "");
-        }
-        // We don't care about the result, DECREF it
-        Py_DECREF(result);
+    ObjectPythonEventRecord eventRecord;
+    for (int i = 0; i < python_events[EVT_TYPE_STEP].size(); ++i){      
+      eventRecord = python_events[EVT_TYPE_STEP][i];
+      arglist = Py_BuildValue("()");
+      result = PyEval_CallObject(eventRecord.second, arglist);
+      Py_DECREF(arglist); // dismiss the argument list we created
+      if (result == NULL){
+	throwCExceptionFromPythonException(eventRecord.first->objectType(), "step");          
+      }
+      // We don't care about the result, DECREF it
+      Py_DECREF(result);
     }
 }
 
@@ -245,17 +245,17 @@ void PyEngine::evt_render(){
     }
 
     // Execute Python events
-    std::vector<ObjectPythonEventRecord>::iterator eventRecord;
-    for (eventRecord = python_events[EVT_TYPE_RENDER].begin(); eventRecord < python_events[EVT_TYPE_RENDER].end(); eventRecord++){
+    ObjectPythonEventRecord eventRecord;
+    for (int i = 0; i < python_events[EVT_TYPE_RENDER].size(); ++i){      
+      eventRecord = python_events[EVT_TYPE_RENDER][i];
         arglist = Py_BuildValue("()");
 	glPushMatrix();
-        result = PyEval_CallObject((*eventRecord).second, arglist);
+        result = PyEval_CallObject(eventRecord.second, arglist);
 	glPopMatrix();
         Py_DECREF(arglist); // Dismiss the argument list we created
         if (result == NULL){
             // If the result is NULL, the interpreter threw an exception. raise this as a PythonScript exception
-            PyErr_Print(); // Print the error to stderr
-            throw PythonScriptError((*eventRecord).first->objectType(), "render", "");
+	  throwCExceptionFromPythonException(eventRecord.first->objectType(), "render");
         }
         // We don't care about the result, DECREF it
         Py_DECREF(result);
@@ -269,7 +269,7 @@ void PyEngine::evt_draw(){
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
-    glOrtho(0.0f, window_width, 0.0f, window_height, -1.0f, 1.0f);
+    glOrtho(-window_width/2.0f, window_width/2.0f, -window_height/2.0f, window_height/2.0f, -1.0f, 1.0f);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
@@ -287,22 +287,22 @@ void PyEngine::evt_draw(){
     }
 
     // Execute Python events
-    std::vector<ObjectPythonEventRecord>::iterator eventRecord;
-    for (eventRecord = python_events[EVT_TYPE_DRAW].begin(); eventRecord < python_events[EVT_TYPE_DRAW].end(); eventRecord++){
-        arglist = Py_BuildValue("()");
-	glPushMatrix();
-        result = PyEval_CallObject((*eventRecord).second, arglist);
-	glPopMatrix();
-        Py_DECREF(arglist); // Dismiss the argument list we created
-        if (result == NULL){
-            // If the result is NULL, the interpreter threw an exception. raise this as a PythonScript exception
-            PyErr_Print(); // Print the error to stderr
-            throw PythonScriptError((*eventRecord).first->objectType(), "draw", "");
-        }
-        // We don't care about the result, DECREF it
-        Py_DECREF(result);
+    ObjectPythonEventRecord eventRecord;
+    for (int i = 0; i < python_events[EVT_TYPE_DRAW].size(); ++i){      
+      eventRecord = python_events[EVT_TYPE_DRAW][i];
+      arglist = Py_BuildValue("()");
+      glPushMatrix();
+      result = PyEval_CallObject(eventRecord.second, arglist);
+      glPopMatrix();
+      Py_DECREF(arglist); // Dismiss the argument list we created
+      if (result == NULL){
+	// If the result is NULL, the interpreter threw an exception. raise this as a PythonScript exception
+	throwCExceptionFromPythonException(eventRecord.first->objectType(), "draw");
+      }
+      // We don't care about the result, DECREF it
+      Py_DECREF(result);
     }
-
+    
 
     // Restore the perspective projection
     glMatrixMode(GL_PROJECTION);
@@ -330,18 +330,18 @@ void PyEngine::evt_input(){
     py_current_event->source = current_event->source;
     py_current_event->type = current_event->type;
     py_current_event->code = current_event->code;
-    std::vector<ObjectPythonEventRecord>::iterator eventRecord;
-    for (eventRecord = python_events[EVT_TYPE_INPUT].begin(); eventRecord < python_events[EVT_TYPE_INPUT].end(); eventRecord++){
-        arglist = Py_BuildValue("(O)", (PyObject *)py_current_event);	
-        result = PyEval_CallObject((*eventRecord).second, arglist);
-        Py_DECREF(arglist); // dismiss the argument list we created
-        if (result == NULL){
-            // If the result is NULL, the interpreter threw an exception. raise this as a PythonScript exception
-            PyErr_Print(); // Print the error to stderr
-            throw PythonScriptError((*eventRecord).first->objectType(), "input", "");
-        }
-        // We don't care about the result, DECREF it
-        Py_DECREF(result);
+    ObjectPythonEventRecord eventRecord;
+    for (int i = 0; i < python_events[EVT_TYPE_INPUT].size(); ++i){      
+      eventRecord = python_events[EVT_TYPE_INPUT][i];
+      arglist = Py_BuildValue("(O)", (PyObject *)py_current_event);	
+      result = PyEval_CallObject(eventRecord.second, arglist);
+      Py_DECREF(arglist); // dismiss the argument list we created
+      if (result == NULL){
+	// If the result is NULL, the interpreter threw an exception. raise this as a PythonScript exception
+	throwCExceptionFromPythonException(eventRecord.first->objectType(), "input");
+      }
+      // We don't care about the result, DECREF it
+      Py_DECREF(result);
     }
   }	  
   Mango::Keyboard->eventBuffer.clear();  
@@ -365,8 +365,7 @@ void PyEngine::evt_input(){
         Py_DECREF(arglist); // dismiss the argument list we created
         if (result == NULL){
             // If the result is NULL, the interpreter threw an exception. raise this as a PythonScript exception
-            PyErr_Print(); // Print the error to stderr
-            throw PythonScriptError((*eventRecord).first->objectType(), "input", "");
+	  throwCExceptionFromPythonException((*eventRecord).first->objectType(), "input");
         }
         // We don't care about the result, DECREF it
         Py_DECREF(result);

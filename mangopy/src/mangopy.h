@@ -14,12 +14,14 @@
 #include "mangopy_draw.h"
 #include "mangopy_error.h"
 #include "mangopy_core_module.h"
+#include <sstream>
 
 #ifndef MANGOPY
 #define MANGOPY
 
 namespace MangoPy{
   PyObject *mpy_getVersion(PyObject *, PyObject* args);
+  extern std::stringstream pythonScriptStderr;
   void printPythonScriptStderr();
   
   void initialize(int argc, char *argv[], bool setup_default_environment = true);

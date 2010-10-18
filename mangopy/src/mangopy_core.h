@@ -24,6 +24,7 @@ typedef struct {
 
 
 PyObject *pythonExceptionFromCException(Mango::Core::Error &e);
+void throwCExceptionFromPythonException(const char *orig_object, const char *orig_method);
 PyObject *mpy_addObjectToModule(PyObject *module, PyTypeObject *object, PyTypeObject *base_class, const char *name, bool force_generic_new = false);
 
 

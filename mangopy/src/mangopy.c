@@ -1,6 +1,6 @@
 #include "mangopy.h"
-#include <sstream>
 #include <locale.h>
+
 
 namespace MangoPy{ 
     
@@ -128,7 +128,8 @@ namespace MangoPy{
       Mango::Camera->lookAt(Mango::Vector(0, 0, 0), 5);
       
       Mango::View->set(STEP);
-      
+      Mango::View->setMode(RMB_CYLINDRICAL_ROTATE | LMB_DRAG_FOCUS | ZOOM_SCALES);
+
       Mango::Engine->setCameraObject(Mango::Camera);
       Mango::Engine->setViewObject(Mango::View);
     }

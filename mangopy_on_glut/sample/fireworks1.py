@@ -12,7 +12,7 @@ class Dot(Core.Object):
         num = round(10*random.random())        
         self.rand_dir = pow(-1, num)        
         self.v = Vector(cos(rand_angle), sin(rand_angle))
-        self.position = Vector(320, 240)
+        self.position = Vector(0, 0)
         self.t = 0
         self.k = 0.05 + 0.3*random.random()
         self.num_pts = 50
@@ -33,11 +33,10 @@ class Dot(Core.Object):
         if self.t >= 0.12:
             self.color = (0.15 - self.t)/0.05
         if self.t >= 0.15:
-            #self.unset(DRAW | STEP)
             self.reset()
 
     def draw(self):
-        glBegin(GL_POINTS)
+        glBegin(GL_LINE_STRIP)
         for (i, j) in enumerate(self.pts):
             fade = (i/float(self.num_pts))**2
             color = self.color
@@ -63,10 +62,15 @@ class DotSource(Core.Object):
 
     def step(self):
         if self.created < self.max:
-            d = Dot()
+            d = Dot()            
             d.set(DRAW | STEP)
             self.dots.append(d)
             self.created += 1
 
 d = DotSource()
 d.set(STEP)
+
+
+#View.setMode(RMB_CYLINDRICAL_ROTATE)
+print(View.modeEnabled(RMB_CYLINDRICAL_ROTATE))
+

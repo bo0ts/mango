@@ -19,7 +19,7 @@ build/libmong.a: build objects/mango_on_glut.o
 
 
 # SAMPLE
-sample: build/hello_mango_on_glut build/hello_input_events build/hello_geometry build/hello_transform_to_from_parent build/hello_transform_to_from_ancestor
+sample: build/hello_mango_on_glut build/hello_input_events build/hello_geometry build/hello_box build/hello_transform_to_from_parent build/hello_transform_to_from_ancestor
 
 build/hello_mango_on_glut: mango_on_glut sample/hello_mango_on_glut.cpp
 	$(GPP) sample/hello_mango_on_glut.cpp -Lbuild -Limports/mango/build $(GLUT_LINK) -Iimports/mango/include -Iinclude -o build/hello_mango_on_glut -lmong -lmango $(LDFLAGS) $(PROFILE_FLAGS)
@@ -29,6 +29,9 @@ build/hello_input_events: mango_on_glut sample/hello_input_events.cpp
 
 build/hello_geometry: mango_on_glut sample/hello_geometry.cpp
 	$(GPP) sample/hello_geometry.cpp -Lbuild -Limports/mango/build -Limports/geometry/build $(GLUT_LINK) -lmgeo -Iimports/mango/include -Iimports/geometry/include -Iinclude -o build/hello_geometry -lmong -lmango $(LDFLAGS) $(PROFILE_FLAGS)
+
+build/hello_box: mango_on_glut sample/hello_box.cpp
+	$(GPP) sample/hello_box.cpp -Lbuild -Limports/mango/build -Limports/geometry/build $(GLUT_LINK) -lmgeo -Iimports/mango/include -Iimports/geometry/include -Iinclude -o build/hello_box -lmong -lmango $(LDFLAGS) $(PROFILE_FLAGS)
 
 build/hello_earth_sun: mango_on_glut sample/hello_earth_sun.cpp
 	$(GPP) sample/hello_earth_sun.cpp -Lbuild -Limports/mango/build -Limports/geometry/build $(GLUT_LINK) -lmgeo -Iimports/mango/include -Iimports/geometry/include -Iinclude -o build/hello_earth_sun -lmong -lmango $(LDFLAGS) $(PROFILE_FLAGS)

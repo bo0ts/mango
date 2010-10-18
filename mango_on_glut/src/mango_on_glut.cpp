@@ -22,6 +22,10 @@ namespace Mango{
 	
     static void display(void)
     {		
+#ifdef __APPLE__
+      try{
+#endif
+
       Engine->limitFps();
       Engine->countFrame();
 
@@ -39,6 +43,22 @@ namespace Mango{
       glPopMatrix();
 	
       glutSwapBuffers();	     
+
+#ifdef __APPLE__
+      }
+      catch(Mango::Core::Error &e){
+	e.trace();
+	//MangoPy::printPythonScriptStderr();
+	std::cerr << std::endl << std::endl;
+	exit(1);
+	//return_val = 1;	
+      }
+      catch(std::exception &e){
+	e.what();
+	exit(2);
+	//return_val = 2;
+      }      
+#endif
     }
 	
 	
