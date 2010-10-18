@@ -307,9 +307,9 @@ and other reasons the draw event is often a better choice for working with
 
 The draw event is essentially another render event with a few changes that
 make it more appropriate for 2D. For one, the coordinate system is 
-different: the origin is at the bottom left of the screen instead of at the
-center. The y-axis still points up and the x-axis still points to the right,
-but one unit of scale does correspond to one pixel (at least initially). 
+uses a different scale: the origin is still in the center of the screen
+and the y- and x- axes still point in the same directions (up and left,
+respectively), but one unit of scale now does correspond to one pixel.
 Another difference is of perspective: things rendered in a draw event will
 not get smaller as they get farther away and larger as they get closer -
 instead, they will stay the same size. This is less than ideal for 3D
@@ -320,18 +320,18 @@ Code snippets for the draw event are much the same as those for the render
 event. Here's one example that draws a chess board:
 
 .. code-block:: python
-     
+  
   class SimpleChessBoard(Core.Object):
       def draw(self):        
           self.transform()
-          Draw.rectangle((0, 0), (100, 100), True) # First square
-          Draw.rectangle((100, 100), (200, 200), True) # Second square
-          Draw.rectangle((0, 0), (200, 200), False) # Border
+          Draw.rectangle((-100, -100), (0, 0), True) # First square
+          Draw.rectangle((0, 0), (100, 100), True) # Second square
+          Draw.rectangle((-100, -100), (100, 100), False) # Border
   
   
   scb = SimpleChessBoard()
-  scb.position = (220, 140)
-  scb.set(DRAW)
+  scb.set(DRAW)   
+
   
 Ok, so its a simplified chess board:
 
