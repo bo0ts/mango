@@ -2,6 +2,9 @@ Getting Started
 ===============
 This tutorial will show you the basics of writing Mango simulations.
 
+
+.. _getting-started-python-box:
+
 A Box
 ------
 

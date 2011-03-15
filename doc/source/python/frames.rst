@@ -132,6 +132,8 @@ beta (represented by the dark yellow arc):
      :height: 360
 
 
+.. _frames-bouncing-ball-sample:
+
 Relative Frames
 ----------------
 
