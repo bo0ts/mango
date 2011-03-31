@@ -323,6 +323,37 @@ PyObject *mpy_Object_visible(mpy_Object *self){
   }
 }
 
+// Returns:
+// -1 on python error
+// 0 if the object does not have a scripted event
+// 1 if the object has a scripted event
+int mpy_object_has_scripted_event(mpy_Object *self, int event_type){
+  const char *event_method_name = static_cast<PyEngine *>(Mango::Engine)->getObjectEventMethodName(event_type);
+
+  if (event_method_name == NULL){
+    char err_msg[50];
+    sprintf(err_msg, "Bad event type: %d", event_type); 
+    PyErr_SetString(PyExc_ValueError, err_msg);
+    return -1;
+  }
+
+  PyObject *instance_method = PyObject_GetAttrString(reinterpret_cast<PyObject *>(self), event_method_name);
+  if (instance_method == NULL){
+    return -1;
+  }
+  
+  PyObject *instance_method_func = PyObject_GetAttrString(instance_method, "__func__");
+  if (!PyErr_Occurred() && (instance_method_func != NULL)){
+    return 1;
+  }
+  else if (PyErr_Occurred() && PyErr_ExceptionMatches(PyExc_AttributeError) && (instance_method_func == NULL)){    
+    PyErr_Clear();
+    return 0;
+  }
+  else{
+    return -1;
+  }		
+}
 
 static PyObject *mpy_Object_set(mpy_Object *self, PyObject *args){
   // Function Call Parameters
@@ -341,6 +372,7 @@ static PyObject *mpy_Object_set(mpy_Object *self, PyObject *args){
   try{ 
     for (int i = 0; i < ENGINE_MAX_EVENT_TYPES; i += 1){                
       if ((event_mask & j) == j){
+	/*
 	const char *event_method_name = static_cast<PyEngine *>(Mango::Engine)->getObjectEventMethodName(i);
 	
 	PyObject *instance_method = PyObject_GetAttrString(reinterpret_cast<PyObject *>(self), event_method_name);
@@ -358,7 +390,17 @@ static PyObject *mpy_Object_set(mpy_Object *self, PyObject *args){
 	}
 	else{
 	  return NULL;
-	}		
+	}		*/
+	int object_has_scripted_event = mpy_object_has_scripted_event(self, i);
+	if (object_has_scripted_event == -1){
+	  return NULL;
+	}
+	else if (object_has_scripted_event == 0){
+	  Mango::Engine->setEvent(self->internalObject, j);
+	}
+	else if (object_has_scripted_event == 1){
+	  reinterpret_cast<PyEngine *>(Mango::Engine)->setScriptedEvent(self, j);
+	}
       }
       j = j << 1;
     }      
@@ -374,15 +416,15 @@ static PyObject *mpy_Object_set(mpy_Object *self, PyObject *args){
 static PyObject *mpy_Object_unset(mpy_Object *self, PyObject *args){
   // Function Call Parameters
   int event_mask;
-  int event_type_mask = EVT_BOTH;
 
   // Function Return Values
 
   // Convert arguments
-  if(!PyArg_ParseTuple(args, "i|i", &event_mask, &event_type_mask)){
+  if(!PyArg_ParseTuple(args, "i", &event_mask)){
     return NULL;
   }
 
+  /*
   try{
     // Unset core event if the flag was set
     if ((event_type_mask & EVT_CORE) != 0){
@@ -390,6 +432,25 @@ static PyObject *mpy_Object_unset(mpy_Object *self, PyObject *args){
     }
     if ((event_type_mask & EVT_SCRIPTED) != 0){
       reinterpret_cast<PyEngine *>(Mango::Engine)->removeScriptedEvent(self, event_mask);
+    }
+    }*/
+
+  try{
+    int j = 1; // j is the event_type, corresponds to constants defined in constants.h
+    for (int i = 0; i < ENGINE_MAX_EVENT_TYPES; i += 1){                
+      if ((event_mask & j) == j){
+	int object_has_scripted_event = mpy_object_has_scripted_event(self, i);
+	if (object_has_scripted_event == -1){
+	  return NULL;
+	}
+	else if (object_has_scripted_event == 0){
+	  Mango::Engine->removeEvent(self->internalObject, j);
+	}
+	else if (object_has_scripted_event == 1){
+	  reinterpret_cast<PyEngine *>(Mango::Engine)->removeScriptedEvent(self, j);
+	}
+      }
+      j = j << 1;
     }
   }
   catch (Mango::Core::Error &e){
@@ -430,18 +491,19 @@ static PyObject *mpy_Object_toggle(mpy_Object *self, PyObject *args){
 static PyObject *mpy_Object_executes(mpy_Object *self, PyObject *args){
   // Function Call Parameters
   int event_mask;
-  int event_type_mask = EVT_BOTH;
     
   // Function Return Values
-  bool executes_core = false;
-  bool executes_scripted = false;
+  bool executes_evt;
 
   // Convert arguments
-  if(!PyArg_ParseTuple(args, "i|i", &event_mask, &event_type_mask)){
+  if(!PyArg_ParseTuple(args, "i", &event_mask)){
     return NULL;
   }
 
+  
+ 
   try{
+    /*
     // Unset core event if the flag was set
     if ((event_type_mask & EVT_CORE) != 0){
       executes_core = Mango::Engine->objectHasEvent(self->internalObject, event_mask);
@@ -449,43 +511,40 @@ static PyObject *mpy_Object_executes(mpy_Object *self, PyObject *args){
     if ((event_type_mask & EVT_SCRIPTED) != 0){
       executes_scripted = reinterpret_cast<PyEngine *>(Mango::Engine)->objectHasScriptedEvent(self, event_mask);
     }
+    */
+    int j = 1;
+    executes_evt = true;
+    for (int i = 0; i < ENGINE_MAX_EVENT_TYPES; i += 1){                
+      if ((event_mask & j) == j){
+	int object_has_scripted_event = mpy_object_has_scripted_event(self, i);
+	if (object_has_scripted_event == -1){
+	  return NULL;
+	}
+	else if (object_has_scripted_event == 0){
+	  executes_evt = executes_evt && Mango::Engine->objectHasEvent(self->internalObject, j);
+	}
+	else if (object_has_scripted_event == 1){
+	  executes_evt = executes_evt && reinterpret_cast<PyEngine *>(Mango::Engine)->objectHasScriptedEvent(self, j);
+	}
+      }
+      j = j << 1;
+    }
   }
   catch (Mango::Core::Error &e){
     return pythonExceptionFromCException(e);
   }
     
-  PyObject *truth_to_return;        
-  if (((event_type_mask & EVT_CORE) != 0) && ((event_type_mask & EVT_SCRIPTED) != 0)){
-    if (executes_core && executes_scripted){
-      truth_to_return = Py_True;
-    }
-    else{
-      truth_to_return = Py_False;
-    }
-  }
-  else if ((event_type_mask & EVT_CORE) != 0){
-    if (executes_core){
-      truth_to_return = Py_True;
-    }
-    else{
-      truth_to_return = Py_False;
-    }                       
-  }
-  else if ((event_type_mask & EVT_SCRIPTED) != 0){
-    if (executes_scripted){
-      truth_to_return = Py_True;
-    }
-    else{
-      truth_to_return = Py_False;
-    }                       
+  PyObject *truth_to_return;          
+  if (executes_evt){
+    truth_to_return = Py_True;
   }
   else{
-    PyErr_SetString(PyExc_RuntimeError, "Object.executes called with bad event type mask");   
-    return NULL;
+    truth_to_return = Py_False;
   }
     
   Py_INCREF(truth_to_return);
   return truth_to_return;
+
 }
 
 

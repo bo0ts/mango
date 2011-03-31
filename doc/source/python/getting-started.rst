@@ -24,11 +24,10 @@ command::
   mango hello_box.py
 
 When run, the simulation window should appear. Congratulations, you have just written
-your first simulation! You might consider showing it to your mom. Use the 
-right mouse button to rotate the view around, the left mouse button to pan, and hold
-down both and drag to zoom (alternatively, press the 'r' button and drag the left
-mouse button to rotate or press the 'z' button and drag the left mouse button to zoom). 
-You should be looking at something like:
+your first simulation.  Use the right mouse button to rotate the view around, the left 
+mouse button to pan, and hold down both and drag to zoom (alternatively, press the 'r'
+button and drag the left mouse button to rotate or press the 'z' button and drag the 
+left mouse button to zoom). You should be looking at something like:
 
   .. image:: /images/hello_box1.png
      :width: 360

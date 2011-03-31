@@ -157,9 +157,31 @@ PyObject *mpy_OpenGL_glScale(PyObject *, PyObject* args){
   return Py_None;
 }
 
+PyObject *mpy_OpenGL_glPushMatrix(PyObject *, PyObject* args){
+  // Call Parameters
+  
+  // Parse arguments
+  
+  // Call function
+  glPushMatrix();
+  
+  // Return result
+  Py_INCREF(Py_None);
+  return Py_None;
+}
 
-
-
+PyObject *mpy_OpenGL_glPopMatrix(PyObject *, PyObject* args){
+  // Call Parameters
+  
+  // Parse arguments
+  
+  // Call function
+  glPopMatrix();
+  
+  // Return result
+  Py_INCREF(Py_None);
+  return Py_None;
+}
 
 static PyMethodDef MangoPyOpenGLMethods[] = {
   // Begin/end
@@ -184,6 +206,12 @@ static PyMethodDef MangoPyOpenGLMethods[] = {
   {"glRotate", mpy_OpenGL_glRotate, METH_VARARGS,
    ""},
   {"glScale", mpy_OpenGL_glScale, METH_VARARGS,
+   ""},
+
+  // Push/pop matrix
+  {"glPushMatrix", mpy_OpenGL_glPushMatrix, METH_NOARGS,
+   ""},
+  {"glPopMatrix", mpy_OpenGL_glPopMatrix, METH_NOARGS,
    ""},
 
   {NULL, NULL, 0, NULL}        /* Sentinel */

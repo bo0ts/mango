@@ -1,5 +1,5 @@
-#include "frame.h"
-#include "core.h"
+#include "core/frame.h"
+#include "core/core.h"
 
 namespace Mango{
   namespace Core{

@@ -1,4 +1,4 @@
-#include "triangle.h"
+#include "core/triangle.h"
 
 namespace Mango{
   namespace Core{

@@ -349,6 +349,9 @@ namespace MangoPy{
     PyRun_SimpleString("__builtins__.glTranslate = OpenGL.glTranslate");
     PyRun_SimpleString("__builtins__.glRotate = OpenGL.glRotate");
     PyRun_SimpleString("__builtins__.glScale = OpenGL.glScale");
+    PyRun_SimpleString("__builtins__.glScale = OpenGL.glScale");
+    PyRun_SimpleString("__builtins__.glPushMatrix = OpenGL.glPushMatrix");
+    PyRun_SimpleString("__builtins__.glPopMatrix = OpenGL.glPopMatrix");
 
 
     // Create global engine instance
@@ -576,7 +579,7 @@ sys.stderr = MangoPy_StdErr() \n\
   /* Cannot use C locale for escaping; manually escape as if charset
      is ASCII (i.e. escape all bytes > 128. This will still roundtrip
      correctly in the locale's charset, which must be an ASCII superset. */
-  res = PyMem_Malloc((strlen(arg)+1)*sizeof(wchar_t));
+  res = (wchar_t *)PyMem_Malloc((strlen(arg)+1)*sizeof(wchar_t));
   if (!res) goto oom;
   in = (unsigned char*)arg;
   out = res;

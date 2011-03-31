@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WarSetup-Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" projectRunAfterInstall="false" mainTargetApp="ID_53338ae8_b2ba_48a8_9d0f_4d3681289d8d" nextUniqueId="26393" projectName="Mango" projectUuid="85eb7610-e3cc-48df-a149-8de2abae484f" projectUpgradeUuid="aea1868d-8042-4920-b2bb-c3060ac1ddba" projectVersion="1.0.0" projectOrganization="Mango" projectMustBeAdministratorToInstall="false" project64BitTarget="false" projectTargetDirectory="Z:\installers\win" projectTargetName="Mango_1.0" projectType="0" projectUserInterface="WixUI_InstallDir">
+  <LicencePaths>
+    <string>C:\Program Files\Jgaa's Internet\War Setup\Licenses</string>
+  </LicencePaths>
+  <Virgin>false</Virgin>
+  <projectFeatures featureId="ID5C125BE8B757EB4631AFDED017F0BC5B" featureName="Mango" featureDescription="Mango binaries" configurableDirectory="APPLICATIONFOLDER" configurableDirectoryDefaultPath="[ProjectName]" enableInDefaultInstall="true" enableInMinimalInstall="true" excludeFromBuild="false">
+    <components componentId="ID1001" componentGuid="ac4f15a8-f5bf-402c-b556-87f2bcf8e228">
+      <componentFiles fileId="ID_a7456767_25ff_4e9c_968d_fef4be0aa62f" srcName="freeglut.dll" srcDirectory="Z:\windlls" dstName="freeglut.dll" dstPath="" isTrueTypeFont="false" isComModule="false" typelibGuid="" menuName="freeglut" shortcutInProgramFilesMenu="false" shortcutOnDesktop="false" shortcutInQuickLaunch="false" shortcutInStartupFolder="false" shortcutWorkingDirectory="" shortcutCommandArguments="" shortcutDescription="">
+        <service StartWhenInstalled="true" Remove="both" id="ID1000" isService="false" userAccount="" userPassword="" cmdLineArguments="" errorControl="normal" interactive="false" loadOrderGroup="" serviceName="" startMode="auto" vital="true" />
+      </componentFiles>
+      <addToCreateFolder>false</addToCreateFolder>
+    </components>
+    <components componentId="ID1003" componentGuid="1cc0dc38-fee7-4280-9c26-b6df637ce195">
+      <componentFiles fileId="ID_af0b7cc4_0dbe_446d_8a39_909e53856176" srcName="libgcc_s_dw2-1.dll" srcDirectory="Z:\windlls" dstName="libgcc_s_dw2-1.dll" dstPath="" isTrueTypeFont="false" isComModule="false" typelibGuid="" menuName="libgcc_s_dw2-1" shortcutInProgramFilesMenu="false" shortcutOnDesktop="false" shortcutInQuickLaunch="false" shortcutInStartupFolder="false" shortcutWorkingDirectory="" shortcutCommandArguments="" shortcutDescription="">
+        <service StartWhenInstalled="true" Remove="both" id="ID1002" isService="false" userAccount="" userPassword="" cmdLineArguments="" errorControl="normal" interactive="false" loadOrderGroup="" serviceName="" startMode="auto" vital="true" />
+      </componentFiles>
+      <addToCreateFolder>false</addToCreateFolder>
+    </components>
+    <components componentId="ID1005" componentGuid="e70b36c5-10b1-497a-bd49-b93b7ece010d">
+      <componentFiles fileId="ID_554575ce_9dc0_46d2_b8b6_d0a20e15024b" srcName="libstdc++-6.dll" srcDirectory="Z:\windlls" dstName="libstdc++-6.dll" dstPath="" isTrueTypeFont="false" isComModule="false" typelibGuid="" menuName="libstdc++-6" shortcutInProgramFilesMenu="false" shortcutOnDesktop="false" shortcutInQuickLaunch="false" shortcutInStartupFolder="false" shortcutWorkingDirectory="" shortcutCommandArguments="" shortcutDescription="">
+        <service StartWhenInstalled="true" Remove="both" id="ID1004" isService="false" userAccount="" userPassword="" cmdLineArguments="" errorControl="normal" interactive="false" loadOrderGroup="" serviceName="" startMode="auto" vital="true" />
+      </componentFiles>
+      <addToCreateFolder>false</addToCreateFolder>
+    </components>
+    <components componentId="ID1007" componentGuid="d4cec1cf-031e-4b8f-87b9-0e4e7372390f">
+      <componentFiles fileId="ID_d3157bcd_da6b_499a_a8d1_10c5fc2c64c9" srcName="python31.dll" srcDirectory="Z:\windlls" dstName="python31.dll" dstPath="" isTrueTypeFont="false" isComModule="false" typelibGuid="" menuName="python31" shortcutInProgramFilesMenu="false" shortcutOnDesktop="false" shortcutInQuickLaunch="false" shortcutInStartupFolder="false" shortcutWorkingDirectory="" shortcutCommandArguments="" shortcutDescription="">
+        <service StartWhenInstalled="true" Remove="both" id="ID1006" isService="false" userAccount="" userPassword="" cmdLineArguments="" errorControl="normal" interactive="false" loadOrderGroup="" serviceName="" startMode="auto" vital="true" />
+      </componentFiles>
+      <addToCreateFolder>false</addToCreateFolder>
+    </components>
+    <components componentId="ID1013" componentGuid="6b6697e2-dead-403e-8c9b-4a48e80b0cd6">
+      <componentFiles fileId="ID_53338ae8_b2ba_48a8_9d0f_4d3681289d8d" srcName="mangod.exe" srcDirectory="Z:\build-win\.libs" dstName="mangod.exe" dstPath="" isTrueTypeFont="false" isComModule="false" typelibGuid="" menuName="mangod" shortcutInProgramFilesMenu="false" shortcutOnDesktop="false" shortcutInQuickLaunch="false" shortcutInStartupFolder="false" shortcutWorkingDirectory="" shortcutCommandArguments="" shortcutDescription="">
+        <service StartWhenInstalled="true" Remove="both" id="ID1012" isService="false" userAccount="" userPassword="" cmdLineArguments="" errorControl="normal" interactive="false" loadOrderGroup="" serviceName="" startMode="auto" vital="true" />
+      </componentFiles>
+      <addToCreateFolder>false</addToCreateFolder>
+    </components>
+    <components componentId="ID1015" componentGuid="ecb382cd-dcf2-468a-a0a3-681c16c81d9e">
+      <componentFiles fileId="ID_ef5c2bb1_4d9d_4dbb_9fbf_f7417281d307" srcName="libpygeometry-0.dll" srcDirectory="Z:\build-win\.libs" dstName="Geometry.pyd" dstPath="" isTrueTypeFont="false" isComModule="false" typelibGuid="" menuName="Geometry" shortcutInProgramFilesMenu="false" shortcutOnDesktop="false" shortcutInQuickLaunch="false" shortcutInStartupFolder="false" shortcutWorkingDirectory="" shortcutCommandArguments="" shortcutDescription="">
+        <service StartWhenInstalled="true" Remove="both" id="ID1014" isService="false" userAccount="" userPassword="" cmdLineArguments="" errorControl="normal" interactive="false" loadOrderGroup="" serviceName="" startMode="auto" vital="true" />
+      </componentFiles>
+      <addToCreateFolder>false</addToCreateFolder>
+    </components>
+    <components componentId="ID1612" componentGuid="f8f91a7b-e3df-4675-ac07-9ca697cc8f3d">
+      <componentFiles fileId="ID_fdb80cfd_8fc7_4443_978e_51b14bcd11c9" srcName="mango-a-493-312.bmp" srcDirectory="Z:\resources" dstName="mango-a-493-312.bmp" dstPath="" isTrueTypeFont="false" isComModule="false" typelibGuid="" menuName="mango-a-493-312" shortcutInProgramFilesMenu="false" shortcutOnDesktop="false" shortcutInQuickLaunch="false" shortcutInStartupFolder="false" shortcutWorkingDirectory="" shortcutCommandArguments="" shortcutDescription="">
+        <service StartWhenInstalled="true" Remove="both" id="ID1611" isService="false" userAccount="" userPassword="" cmdLineArguments="" errorControl="normal" interactive="false" loadOrderGroup="" serviceName="" startMode="auto" vital="true" />
+      </componentFiles>
+      <addToCreateFolder>false</addToCreateFolder>
+    </components>
+    <defaultInstallMode>3</defaultInstallMode>
+    <directories dirId="ID1017" srcPath="Z:\python-redist\Lib" dstPath="Lib" patterns=".*" excludePatterns="" recurse="true" preventEmptyDirectories="false" addToPath="false" ideHeaderFiles="false" ideExecutables="false" ideLibrary="false" ideMicrosoftVisualStudio2003="false" ideMicrosoftVisualStudio2005="false">
+      <pathComponent componentId="ID1016" componentGuid="1f39a1c8-ebfc-41c3-80ed-29e61c649db3">
+        <addToCreateFolder>false</addToCreateFolder>
+      </pathComponent>
+    </directories>
+    <directories dirId="ID1019" srcPath="Z:\python-redist\libs" dstPath="libs" patterns=".*" excludePatterns="" recurse="true" preventEmptyDirectories="false" addToPath="false" ideHeaderFiles="false" ideExecutables="false" ideLibrary="false" ideMicrosoftVisualStudio2003="false" ideMicrosoftVisualStudio2005="false">
+      <pathComponent componentId="ID1018" componentGuid="92fa4ed8-d83d-45f0-91ce-0c38bb6dd2e8">
+        <addToCreateFolder>false</addToCreateFolder>
+      </pathComponent>
+    </directories>
+  </projectFeatures>
+  <projectInstallForCurrentOrAllUsers>0</projectInstallForCurrentOrAllUsers>
+  <License>
+    <System>true</System>
+    <Name>GNU General Public License (GPL) 3.0</Name>
+  </License>
+  <projectProperties LicencePath="" TopBanner="" BigBanner="mango-a-493-312.bmp" ExclamationIcon="" InfoIcon="" NewIcon="" UpIcon="" VS2003Integration="VS2003_INTEGRATION" VS2005Integration="VS2005_INTEGRATION" UseRelativePaths="true" LaunchAppText="" UseWixUI_ErrorProgressText="true" UseWixUI="true" CreateUninstallShortcut="false" Codepage="1252" ProductLanguage="1033" AlwaysMajorUpgrade="true" SupressValidation="false" Compress="true" BuildTarget="true" PublisherUrl="" SupportContact="" SupportUrl="" SupportPhone="" ReadMeFile="" UpdateUrl="" Comments="" Icon="[APPILCATIONFOLDER]\mango.ico" EmbedCab="true" MaxCabSize="0" CabCompressionLevel="mszip" InstallerVersion="300">
+    <UiCultures Name="en-US" Enabled="true" />
+    <UiCultures Name="de-de" Enabled="false" />
+    <UiCultures Name="es-es" Enabled="false" />
+    <UiCultures Name="nl-nl" Enabled="false" />
+  </projectProperties>
+</WarSetup-Project>

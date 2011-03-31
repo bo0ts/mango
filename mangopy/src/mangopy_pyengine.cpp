@@ -77,34 +77,46 @@ bool PyEngine::setScriptedEvent(mpy_Object* object, int event_type){
     if (object->internalObject->objectContainers.size() < ENGINE_MAX_EVENT_TYPES){
         object->internalObject->objectContainers.resize(ENGINE_MAX_EVENT_TYPES);
     }
-    for (int i = 0; i < ENGINE_MAX_EVENT_TYPES; i += 1){                
-        if ((event_type & j) == j){
-            // Get the appropriate callback
-            callback = PyObject_GetAttrString(reinterpret_cast<PyObject *>(object), getObjectEventMethodName(i));
-            if (callback == NULL){
-                throw Mango::Core::Error(objectType(), "setScriptedEvent", "Error: event method does not exist");
-            }
-            // If the object already has a callback registered for this event, XDECREF it
-            if (object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first != -1){
-                Py_XDECREF(python_events[i][object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first].second);
-            }
-            Py_INCREF(callback); // Save reference to new callback	    
-            // Set eventRecord appropriately
-            eventRecord.first = object->internalObject;
-            eventRecord.second = callback;
-            python_events[i].push_back(eventRecord); // Push new callback onto the python_events vector	   
-            object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first = python_events[i].size()-1; // save a reference to where this callback is stored in the object itself
-//            cout << "Saving reference to where object (" << object->internalObject->getObjectID() << ") is stored, at :" << object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first << " for event " << basicObjectEventMethods[i] << endl;
-            object->internalObject->objectContainers[BOC_TYPE_IDS[i]].second = this;                     // save a reference to this PyEngine object as a basicObjectRecordContainer                        
-            
-            /*
-            __printPythonEvents(0);
-            __printPythonEvents(3);
-            object->internalObject->__printObjectContainers();
-            object->internalObject->__printObjectEvents();
-            */
-        }
-        j = j << 1;
+    for (int i = 0; i < ENGINE_MAX_EVENT_TYPES; i += 1){   
+      if ((event_type & j) == j){
+	// Get the appropriate callback
+	const char *object_method_name = getObjectEventMethodName(i);
+	callback = PyObject_GetAttrString(reinterpret_cast<PyObject *>(object), object_method_name);
+	if (callback == NULL){
+	  char err_msg[250];
+	  sprintf(err_msg, "Error: event method '%s' does not exist for this object", object_method_name);
+	  throw Mango::Core::Error(objectType(), "setScriptedEvent", err_msg);
+	}
+	/*
+	  Previous implementation: replace old callback with new callback on repeat event setting
+	    
+	  // If the object already has a callback registered for this event, XDECREF it
+	  if (object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first != -1){
+	  Py_XDECREF(python_events[i][object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first].second);
+	  }
+	*/
+	// New implementation: ignore repeat event setting
+	if (object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first == -1){
+
+	  
+	  Py_INCREF(callback); // Save reference to new callback	    
+	  // Set eventRecord appropriately
+	  eventRecord.first = object->internalObject;
+	  eventRecord.second = callback;
+	  python_events[i].push_back(eventRecord); // Push new callback onto the python_events vector	   
+	  object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first = python_events[i].size()-1; // save a reference to where this callback is stored in the object itself
+	  //            cout << "Saving reference to where object (" << object->internalObject->getObjectID() << ") is stored, at :" << object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first << " for event " << basicObjectEventMethods[i] << endl;
+	  object->internalObject->objectContainers[BOC_TYPE_IDS[i]].second = this;                     // save a reference to this PyEngine object as a basicObjectRecordContainer                        
+	  
+	  /*
+	    __printPythonEvents(0);
+	    __printPythonEvents(3);
+	    object->internalObject->__printObjectContainers();
+	    object->internalObject->__printObjectEvents();
+	  */
+	}
+      }
+      j = j << 1;
     }        
     return true;
 }
