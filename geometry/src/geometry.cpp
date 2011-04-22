@@ -2,7 +2,9 @@
 
 namespace Mango{
   namespace Geometry{
-		
+
+    static void fghCircleTable(double **sint,double **cost,const int n);
+
     /*
       ColorfulObject
     */
@@ -299,7 +301,7 @@ namespace Mango{
 	throw Core::ValueError(objectType(), "Sphere", "radius must be positive");
       }
       if (num_sides <= 0){
-	throw Core::ValueError(objectType(), "Sphere", "number of slices must be positive");
+	throw Core::ValueError(objectType(), "Sphere", "number of sides must be positive");
       }
 		
       r = radius;
@@ -364,58 +366,100 @@ namespace Mango{
     /* Dynamic Functions */
 				
     void Sphere::render(){			
-      transform();				    
-		
-      glBegin(GL_QUADS);
-      glColor3f(color_r, color_g, color_b);		    	
-		
-		
-      Core::Vector last_points[sides + 1];
-      GLfloat x1, x2, y1, y2, z1, z2, R;
-      for (int i = 0; i < sides + 1; i += 1){
-	last_points[i][0] = 0;
-	last_points[i][1] = r;
-	last_points[i][2] = 0;
-      }
-		
-      for (int i = 1; i <= sides; i += 1){
-	for (int j = 0; j < sides; j += 1){
-	  R = r*sin(i*dphi);
-		
-	  x1 = R*cos(j*dtheta);
-	  y1 = r*cos(i*dphi);
-	  z1 = R*sin(j*dtheta);
-		
-	  x2 = R*cos((j+1)*dtheta);
-	  y2 = y1;
-	  z2 = R*sin((j+1)*dtheta);
-		
-	  // Draw the outer surface
-		
-	  glNormal3f(last_points[j][0], last_points[j][1], last_points[j][2]);
-	  glVertex3f(last_points[j][0], last_points[j][1], last_points[j][2]);
-		
-	  glNormal3f(last_points[j+1][0], last_points[j+1][1], last_points[j+1][2]);
-	  glVertex3f(last_points[j+1][0], last_points[j+1][1], last_points[j+1][2]);
-		
-	  glNormal3f(x2, y2, z2);
-	  glVertex3f(x2, y2, z2);
-		
-	  glNormal3f(x1, y1, z1);
-	  glVertex3f(x1, y1, z1);
-		
-				
-		
-		
-	  last_points[j][0] = x1;
-	  last_points[j][1] = y1;
-	  last_points[j][2] = z1;
-	}
-	last_points[sides][0] = last_points[0][0];
-	last_points[sides][1] = last_points[0][1];
-	last_points[sides][2] = last_points[0][2];
-      }
+      transform();
+      
+      glColor3f(color_r, color_g, color_b);
+      
+      /*
+	NOTE: This implementation is copied from the freeGLUT project v2.6.0,
+            specifically from the function glutSolidSphere present in  
+	    freeglut_geometry.c. In that project's source the original author 
+	    of the function is credited as Andreas Umbach, later updated by 
+	    Nigel Stewart.	    
+     */
+    
+      int i,j;
+      int slices, stacks;
+      slices = sides;
+      stacks = sides;
+
+      /* Adjust z and radius as stacks are drawn. */
+
+      double z0,z1;
+      double r0,r1;
+
+      /* Pre-computed circle */
+
+      double *sint1,*cost1;
+      double *sint2,*cost2;
+
+      fghCircleTable(&sint1,&cost1,-slices);
+      fghCircleTable(&sint2,&cost2,stacks*2);
+
+      /* The top stack is covered with a triangle fan */
+
+      z0 = 1.0;
+      z1 = cost2[(stacks>0)?1:0];
+      r0 = 0.0;
+      r1 = sint2[(stacks>0)?1:0];
+
+      glBegin(GL_TRIANGLE_FAN);
+
+      glNormal3d(0,0,1);
+      glVertex3d(0,0, r);
+
+      for (j=slices; j>=0; j--)
+        {
+	  glNormal3d(cost1[j]*r1,        sint1[j]*r1,        z1       );
+	  glVertex3d(cost1[j]*r1*r, sint1[j]*r1*r, z1*r);
+        }
+
       glEnd();
+
+      /* Cover each stack with a quad strip, except the top and bottom stacks */
+
+      for( i=1; i<stacks-1; i++ )
+	{
+	  z0 = z1; z1 = cost2[i+1];
+	  r0 = r1; r1 = sint2[i+1];
+
+	  glBegin(GL_QUAD_STRIP);
+
+	  for(j=0; j<=slices; j++)
+            {
+	      glNormal3d(cost1[j]*r1,        sint1[j]*r1,        z1       );
+	      glVertex3d(cost1[j]*r1*r, sint1[j]*r1*r, z1*r);
+	      glNormal3d(cost1[j]*r0,        sint1[j]*r0,        z0       );
+	      glVertex3d(cost1[j]*r0*r, sint1[j]*r0*r, z0*r);
+            }
+
+	  glEnd();
+	}
+
+      /* The bottom stack is covered with a triangle fan */
+
+      z0 = z1;
+      r0 = r1;
+
+      glBegin(GL_TRIANGLE_FAN);
+
+      glNormal3d(0,0,-1);
+      glVertex3d(0,0,-r);
+
+      for (j=0; j<=slices; j++)
+        {
+	  glNormal3d(cost1[j]*r0,        sint1[j]*r0,        z0       );
+	  glVertex3d(cost1[j]*r0*r, sint1[j]*r0*r, z0*r);
+        }
+
+      glEnd();
+
+      /* Release sin and cos tables */
+
+      free(sint1);
+      free(cost1);
+      free(sint2);
+      free(cost2);   
     }						
 		
 		
@@ -424,9 +468,7 @@ namespace Mango{
 		
 		
 		
-		
-		
-		
+       
 		
 		
 		
@@ -1777,6 +1819,66 @@ namespace Mango{
       render();
     }
 		
-		
+
+    
+    /*
+      NOTE: This function is copied from the freeGLUT project v2.6.0,
+            specifically from the file freeglut_geometry.c. The original
+	    contributor appears to be Nigel Stewart.
+
+      * Compute lookup table of cos and sin values forming a cirle
+      *
+      * Notes:
+      *    It is the responsibility of the caller to free these tables
+      *    The size of the table is (n+1) to form a connected loop
+      *    The last entry is exactly the same as the first
+      *    The sign of n can be flipped to get the reverse loop
+      */
+
+    static void fghCircleTable(double **sint,double **cost,const int n)
+    {
+      int i;
+
+      /* Table size, the sign of n flips the circle direction */
+
+      const int size = abs(n);
+
+      /* Determine the angle between samples */
+
+      const double angle = 2*M_PI/(double)( ( n == 0 ) ? 1 : n );
+
+      /* Allocate memory for n samples, plus duplicate of first entry at the end */
+
+      *sint = (double *) calloc(sizeof(double), size+1);
+      *cost = (double *) calloc(sizeof(double), size+1);
+
+      /* Bail out if memory allocation fails, fgError never returns */
+
+      if (!(*sint) || !(*cost))
+	{
+	  free(*sint);
+	  free(*cost);
+	  throw Core::Error("Sphere", "render", "failed to allocate memory for sin table");
+	}
+
+      /* Compute cos and sin around the circle */
+
+      (*sint)[0] = 0.0;
+      (*cost)[0] = 1.0;
+
+      for (i=1; i<size; i++)
+	{
+	  (*sint)[i] = sin(angle*i);
+	  (*cost)[i] = cos(angle*i);
+	}
+
+      /* Last sample is duplicate of the first */
+
+      (*sint)[size] = (*sint)[0];
+      (*cost)[size] = (*cost)[0];
+    }
+
+
+
   } // Geometry
 } // Mango
