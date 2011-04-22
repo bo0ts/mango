@@ -28,6 +28,7 @@ namespace MangoPy{
   void finalize();
   void runScript(const char* fname, bool prepend_engine_path);
   wchar_t *char2wchar(char *arg);
+  char* check_cmd_op_presence(char **begin, char **end, const std::string &option);
 
   int initialize_module_environment();
   PyTypeObject *py_type_object(const char *identifier);

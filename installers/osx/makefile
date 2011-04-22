@@ -2,10 +2,22 @@
 all: 1.0 Headers
 
 Mango:
-	cp imports/mango/build/libmango.a Mango
-	ar rv Mango imports/mango_on_glut/objects/*.o
-	ar rv Mango imports/geometry/objects/*.o
-	ar rv Mango imports/mangopy/objects/*.o
+	cp imports/build-osx/.libs/libmango.a Mango
+	mkdir -p tmp-objects-mong
+	cp imports/build-osx/.libs/libmong.a tmp-objects-mong/	
+	cd tmp-objects-mong && ar -x libmong.a
+	mkdir -p tmp-objects-geometry	
+	cp imports/build-osx/.libs/libgeometry.a tmp-objects-geometry/
+	cd tmp-objects-geometry	&& ar -x libgeometry.a
+	mkdir -p tmp-objects-mangopy
+	cp imports/build-osx/.libs/libmangopy.a tmp-objects-mangopy
+	cd tmp-objects-mangopy && ar -x libmangopy.a
+	ar rv Mango tmp-objects-mong/*.o
+	ar rv Mango tmp-objects-geometry/*.o
+	ar rv Mango tmp-objects-mangopy/*.o
+	rm -rf tmp-objects-mong 
+	rm -rf tmp-objects-geometry
+	rm -rf tmp-objects-mangopy
 
 Headers: 1.0
 	mkdir 1.0/Headers
@@ -22,19 +34,19 @@ Headers: 1.0
 	mkdir 1.0
 	mkdir 1.0/Resources
 	mkdir 1.0/bin
-	mkdir 1.0/lib	
+	mkdir 1.0/lib
+	mkdir 1.0/cxxlib
 	mkdir 1.0/doc
-	cp imports/mangopy_on_glut/build/mango 1.0/bin/
-	cp -R imports/mango/build/*.a 1.0/lib/
-	cp -R imports/mango_on_glut/build/*.a 1.0/lib/
-	cp -R imports/geometry/build/*.a 1.0/lib/
-	cp -R imports/mangopy/build/*.a 1.0/lib/
-	cp -R imports/pygeometry/build/* 1.0/lib/
+	mkdir 1.0/samples
+	cp imports/build-osx/mango 1.0/bin/
+	cp imports/build-osx/.libs/*.a 1.0/cxxlib/
+	cp imports/build-osx/.libs/libpygeometry.dylib 1.0/lib/Geometry.pyd
+	cp -R imports/doc/build/html/ 1.0/doc/
 	cp Info.plist 1.0/Resources/
 	cp osx-link-mango.sh 1.0/Resources/
-	cp -R imports/doc/build/html/ 1.0/doc/
 	cp Mango 1.0/Mango
 
 clean:
 	rm Mango
 	rm -rf 1.0/
+	rm -rf tmp-objects-*

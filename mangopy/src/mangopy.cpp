@@ -186,7 +186,8 @@ namespace MangoPy{
     // Add absolute path to engine to the module search path
     PyModule_AddStringConstant(module_core, "MANGO_RELATIVE_EXECUTABLE_NAME", argv[0]);
     PyRun_SimpleString("import os; Core.MANGO_ABSOLUTE_PATH = os.path.dirname(os.path.normpath(os.path.join(os.getcwd(), Core.MANGO_RELATIVE_EXECUTABLE_NAME)))");
-    PyRun_SimpleString("import sys; sys.path.append(Core.MANGO_ABSOLUTE_PATH)");        
+    PyRun_SimpleString("import sys; sys.path.append(Core.MANGO_ABSOLUTE_PATH)");
+    PyRun_SimpleString("sys.path.append(os.path.normpath(os.path.join(Core.MANGO_ABSOLUTE_PATH, '../script')))");
 
     // Make the Core module globally available
     PyRun_SimpleString("__builtins__._mpygen = _mpygen");
@@ -598,6 +599,14 @@ sys.stderr = MangoPy_StdErr() \n\
 
 
 #endif // conditional on def(WINDOWS)
+
+char* check_cmd_op_presence(char **begin, char **end, const std::string &option){
+  char ** itr = std::find(begin, end, option);
+  if (itr != end){
+      return *itr;
+  }
+  return 0;
+}
 
 
 int initialize_module_environment(){

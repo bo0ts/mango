@@ -9,6 +9,7 @@ ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS}
 
 lib_LTLIBRARIES = 
 bin_PROGRAMS = 
+noinst_PROGRAMS = 
 
 if BUILD_MANGO
   lib_LTLIBRARIES += libmango.la
@@ -46,7 +47,7 @@ if BUILD_GEOMETRY
 endif
 
 if BUILD_SAMPLES
-  bin_PROGRAMS += bouncing_ball
+  noinst_PROGRAMS += bouncing_ball
   bouncing_ball_SOURCES = @MANGO_ON_GLUTDIR@/sample/hello_bouncing_ball.cpp
   bouncing_ball_LDFLAGS = -L.libs -lmango -lgeometry -lmong $(GL_FRAMEWORK) $(GLUT_FRAMEWORK)
   bouncing_ball_CXXFLAGS = -I@MANGODIR@/include -I@GEOMETRYDIR@/include -I@MANGO_ON_GLUTDIR@/include
@@ -74,8 +75,8 @@ if BUILD_MANGOPY
 endif
 
 if BUILD_PYGEOMETRY
-  lib_LTLIBRARIES += libpygeometry.la
-  libpygeometry_la_SOURCES = pygeometry/src/pygeometry.cpp \
+  lib_LTLIBRARIES += Geometry.la
+  Geometry_la_SOURCES = pygeometry/src/pygeometry.cpp \
 	                     pygeometry/src/pygeometry_colorful_object.cpp \
 	                     pygeometry/src/pygeometry_box.cpp \
 	                     pygeometry/src/pygeometry_sphere.cpp \
@@ -87,16 +88,26 @@ if BUILD_PYGEOMETRY
 	                     pygeometry/src/pygeometry_circle.cpp \
 	                     pygeometry/src/pygeometry_ngon.cpp \
 	                     pygeometry/src/pygeometry_rectangle.cpp
-  libpygeometry_la_CXXFLAGS = -I@MANGODIR@/include -I@GEOMETRYDIR@/include -I@MANGOPYDIR@/include -fpic 
-  libpygeometry_la_LDFLAGS = -L.libs -lmangopy -lgeometry -lmango  $(GL_FRAMEWORK) $(PYTHON_FRAMEWORK) $(OPENGL_LINK) -shared -no-undefined
+  Geometry_la_CXXFLAGS = -I@MANGODIR@/include -I@GEOMETRYDIR@/include -I@MANGOPYDIR@/include -fpic 
+  Geometry_la_LDFLAGS = -module -L.libs -lmangopy -lgeometry -lmango  $(GL_FRAMEWORK) $(PYTHON_FRAMEWORK) $(OPENGL_LINK) -shared -no-undefined
 endif
 
 if BUILD_MANGOPY_ON_GLUT
-  bin_PROGRAMS += mangod
-  mangod_SOURCES = @MANGOPY_ON_GLUTDIR@/src/mangopy_on_glut.cpp
-  mangod_LDFLAGS = -L.libs -lmong -lmangopy -lmango $(GL_FRAMEWORK) $(GLUT_FRAMEWORK) $(PYTHON_FRAMEWORK)
-  mangod_CXXFLAGS = -I@MANGODIR@/include -I@MANGO_ON_GLUTDIR@/include -I@MANGOPYDIR@/include
+  bin_PROGRAMS += mango
+  mango_SOURCES = @MANGOPY_ON_GLUTDIR@/src/mangopy_on_glut.cpp
+  mango_LDFLAGS = -L.libs -lmong -lmangopy -lmango $(GL_FRAMEWORK) $(GLUT_FRAMEWORK) $(PYTHON_FRAMEWORK)
+  mango_CXXFLAGS = -I@MANGODIR@/include -I@MANGO_ON_GLUTDIR@/include -I@MANGOPYDIR@/include
 endif
+
+
+install-data-hook:
+	mkdir -p $(DESTDIR)$(bindir)/
+	mkdir -p $(DESTDIR)$(docdir)/
+	mkdir -p $(DESTDIR)$(scriptdir)/
+	mkdir -p $(DESTDIR)$(sampledir)/
+	cp $(builddir)/mango $(DESTDIR)$(bindir)/mango
+	cp -R $(srcdir)/doc/build/html/ $(DESTDIR)$(docdir)/
+	cp -L $(builddir)/.libs/Geometry.so $(DESTDIR)$(scriptdir)/Geometry.so
 
 ## Define the list of public header files and their install location.  The
 ## nobase_ prefix instructs Automake to not strip the directory part from each

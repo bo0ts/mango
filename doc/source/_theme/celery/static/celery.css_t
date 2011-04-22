@@ -19,8 +19,7 @@
 body {
     font-family: {{ body_font_stack }};
     font-size: 17px;
-    #background-color: white;
-    background-color: #111111;
+    background-color: white;
     color: #000;
     margin: 30px 0 0 0;
     padding: 0;
@@ -34,8 +33,7 @@ div.document {
 div.related {
     width: {{ page_width - 20 }}px;
     padding: 5px 10px;
-    #background: #F2FCEE;
-    background: #442200;
+    background: #F2FCEE;
     margin: 15px auto 15px auto;
 }
 
@@ -57,10 +55,8 @@ hr {
 }
  
 div.body {
-    #background-color: #ffffff;
-    background-color: #111111;
-    #color: #3E4349;
-    color: #eeeeee;
+    background-color: #ffffff;
+    color: #3E4349;
     padding: 0 30px 0 30px;
 }
 
@@ -85,11 +81,11 @@ div.footer a {
 div.sphinxsidebar a {
     color: #444;
     text-decoration: none;
-    #border-bottom: 1px dashed #DCF0D5;
+    border-bottom: 1px dashed #DCF0D5;
 }
 
 div.sphinxsidebar a:hover {
-    #border-bottom: 1px solid #999;
+    border-bottom: 1px solid #999;
 }
  
 div.sphinxsidebar {
@@ -151,14 +147,13 @@ div.sphinxsidebar input {
 /* -- body styles ----------------------------------------------------------- */
  
 a {
-    #color: #348613;
-    color: #ffddcc;
-    #text-decoration: underline;
+    color: #348613;
+    text-decoration: underline;
 }
  
 a:hover {
     color: #59B833;
-    #text-decoration: underline;
+    text-decoration: underline;
 }
  
 div.body h1,
@@ -231,9 +226,7 @@ div.highlight{
 }
 
 dt:target, .highlight {
-    #background: #FAF3E8;
-    background: #555555;
-    border: 1px solid #996600;
+    background: #FAF3E8;
 }
 
 div.note {
@@ -354,12 +347,10 @@ ul {
 }
  
 pre {
-    #background: #F0FFEB;
-    background: #222222;
+    background: #F0FFEB;
     padding: 7px 10px;
     margin: 15px 0;
-    #border: 1px solid #C7ECB8;
-    border: 1px solid #333333;
+    border: 1px solid #C7ECB8;
     border-radius: 2px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
@@ -367,37 +358,36 @@ pre {
 }
  
 tt {
-    #background: #F0FFEB;
-    #color: #222;
-    color: #DDDDDD;
+    background: #F0FFEB;
+    color: #222;
     /* padding: 1px 2px; */
 }
 
 tt.xref, a tt {
-    #background: #F0FFEB;
+    background: #F0FFEB;
     border-bottom: 1px solid white;
 }
 
 a.reference {
     text-decoration: none;
-    #border-bottom: 1px dashed #DCF0D5;
+    border-bottom: 1px dashed #DCF0D5;
 }
 
 a.reference:hover {
-    #border-bottom: 1px solid #6D4100;
+    border-bottom: 1px solid #6D4100;
 }
 
 a.footnote-reference {
     text-decoration: none;
     font-size: 0.7em;
     vertical-align: top;
-    #border-bottom: 1px dashed #DCF0D5;
+    border-bottom: 1px dashed #DCF0D5;
 }
 
 a.footnote-reference:hover {
-    #border-bottom: 1px solid #6D4100;
+    border-bottom: 1px solid #6D4100;
 }
 
 a:hover tt {
-    #background: #EEE;    
+    background: #EEE;
 }

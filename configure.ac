@@ -6,6 +6,10 @@ AC_PROG_CXX
 LT_INIT([disable-shared])
 AC_CONFIG_FILES([Makefile])
 
+# Set default prefix
+AC_PREFIX_DEFAULT("/opt/mango")
+AC_SUBST([scriptdir], "\${exec_prefix}/script")
+
 # Detect host
 AC_CANONICAL_HOST
 AC_MSG_NOTICE([building on host_vendor $host_vendor])
@@ -14,7 +18,6 @@ if test "x$host_vendor" = "xapple"; then
    AC_SUBST([GLUT_FRAMEWORK], "-framework GLUT")
    AC_SUBST([PYTHON_FRAMEWORK], "-framework Python")
 fi
-
 
 # Set version constants
 AC_SUBST([MANGO_LIB_VERSION], [1:0:0])
@@ -131,6 +134,20 @@ AC_ARG_WITH([mangopy_on_glut_prefix],
             [specify path to the subcomponent mangopy_on_glut])],
             [mangopy_on_glutdir=$withval],
             [mangopy_on_glutdir=$srcdir/mangopy_on_glut])
+
+
+# Allow --enable-debug flag
+AC_MSG_CHECKING(whether to enable debugging)
+debug_default="yes"
+AC_ARG_ENABLE(debug, [  --enable-debug=[no/yes] turn on debugging
+                       [default=$debug_default]],, enable_debug=$debug_default)
+if test "x$enable_debug" = "xyes"; then
+         CFLAGS="$CFLAGS -g -DDEBUG"
+else
+  #CFLAGS="$CFLAGS -O3 -ffast-math -mcpu=v8 -mtune=ultrasparc"
+  AC_MSG_RESULT(no)
+fi
+
 
 AC_MSG_NOTICE([build mango (at "$mangodir"): $build_mango])
 AC_MSG_NOTICE([build mango-on-glut (at "$mango_on_glutdir"): $build_mango_on_glut])

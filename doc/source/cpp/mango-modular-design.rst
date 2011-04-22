@@ -42,14 +42,15 @@ delegated to a different component, one that interacts with the OS and
 maintains the event loop.
 
 
-Mango-On-Glut *(OS layer)*
---------------------------
+Mango-On-Glut *(Intermediate OS layer)*
+---------------------------------------
 
 mango_on_glut is the component that accomplishes the above mentioned tasks
 that require interaction with the OS (some of them do, anyway): create a
 window, initialize an OpenGL scene, capture user input and maintain an event
 loop. This is done by leveraging GLUT, hence the name mango_on_glut (the
-naming is borrowed from "Ruby on Rails", of course).
+naming is inspired by a popular web application framework that you are 
+most likely familiar with).
 
 Because the role of this component is a supporting one and GLUT does almost
 all of the hard work, its complexity is quite limited: it provids 
@@ -60,11 +61,11 @@ but simple code), and it triggers events from the appropriate GLUT-callbacks.
 
 By using mango_on_glut and mango, simulations can be built in C++ just as in
 the previous section. It should be a straightforward matter to create 
-equivalent OS-layers (for lack of a better name) that accomplish the same 
+equivalent intermediate OS layers (for lack of a better name) that accomplish the same 
 tasks but use a library other than GLUT, perhaps a cross-platform GUI like 
 WxWidgets. In the event that an enterprising developer ever implements such 
-an OS-layer, it can be hoped that they will name it 'mango_on_wxwidgets' and 
-that it will be easily swappable with mango_on_glut.
+an intermediate OS layer, it can be hoped that they will name it 
+'mango_on_wxwidgets' and that it will be easily swapped with mango_on_glut.
 
 The dependencies of mango_on_glut are mango, OpenGL and GLUT.
 

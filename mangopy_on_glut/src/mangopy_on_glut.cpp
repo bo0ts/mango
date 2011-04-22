@@ -4,6 +4,10 @@
 
 #include <iostream>
 
+void print_usage();
+void print_help();
+void print_version();
+
 int main(int argc, char *argv[]){
   int return_val;
 
@@ -13,12 +17,29 @@ int main(int argc, char *argv[]){
   return_val = 0;
   try{
     if (argc == 1){
-      MangoPy::runScript("main.py", true);
+      print_usage();
+      return_val = 3;
+      //MangoPy::runScript("main.py", true);
     }
     else{
-      MangoPy::runScript(argv[1], false);	
+      char *show_version = MangoPy::check_cmd_op_presence(argv, argv+argc, "-v");
+      char *show_help = MangoPy::check_cmd_op_presence(argv, argv+argc, "-h");
+      if (show_version){
+	print_version();
+	return_val = 3;
+      }
+      else if (show_help){
+	print_help();
+	return_val = 3;
+      }
+      else{
+	MangoPy::runScript(argv[argc - 1], false);		
+      }
     }
-    Mango::OnGlut::startWithoutCatchingErrors();
+
+    if (return_val == 0){
+      Mango::OnGlut::startWithoutCatchingErrors();
+    }
   }
   catch(Mango::Core::Error &e){
     e.trace();
@@ -34,4 +55,23 @@ int main(int argc, char *argv[]){
   MangoPy::finalize();  
 
   return return_val;
+}
+
+void print_usage(){
+  std::cout << "Usage:" << std::endl << "  mango [options] path/to/script.py" << std::endl;  
+}
+
+void print_version(){
+  char version[5];
+  sprintf(version, "%.1f", Mango::version());
+  std::cout << "Mango v" << version << std::endl; 
+}
+
+void print_help(){
+  print_version();
+  print_usage();
+  std::cout << std::endl << "Options: " << std::endl;
+  std::cout << "  -h\tthis help screen" << std::endl;
+  std::cout << "  -v\tprint version" << std::endl;
+  std::cout << std::endl;
 }

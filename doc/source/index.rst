@@ -8,26 +8,19 @@ Mango
 
 Mango is a cross-platform, scriptable, event-driven simulation framework. 
 
-.. hlist::
-   :columns: 5
+Mango comes in two flavors: Mango in Python, and Mango in C++. If you are 
+looking to rapidly put together a simulation, try :doc:`mangoinpython`. On 
+the other hand, if you require greater performance, wish to extend Mango or 
+embed it in your own C++ application, try :doc:`mangoincpp`.
 
-   * :doc:`download`
-   * :doc:`docs`
-   * :doc:`faq`
-   * :doc:`about`
-
-Mango makes it easy to write simulations - get started in minutes.
-
-    .. image:: /images/hand.png
-       :width: 480
-       :height: 360
+Contents:
 
 .. toctree::
    :maxdepth: 1
-   :hidden: 	  
-
-   download
-   docs   
-   faq  
-   about
+   :numbered: 
    
+   setup
+   python/api	
+   mangoinpython
+   mangoincpp
+   building-from-source

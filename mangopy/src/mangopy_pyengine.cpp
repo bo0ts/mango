@@ -175,18 +175,13 @@ bool PyEngine::toggleScriptedEvent(mpy_Object* object, int event_type){
     PyObject *callback;    
     int event_index, event_list_size;
     
-    int j = 1; // j is the event_type, corresponds to constants defined in constants.h
-    for (int i = 0; i < ENGINE_MAX_EVENT_TYPES; i += 1){        
-        if ((event_type & j) == j){            
-            if (objectHasScriptedEvent(object, j)){
-                removeScriptedEvent(object, j);
-            }
-            else{
-                setScriptedEvent(object, j);
-            }                      
-        }
-        j = j << 1;
-    }        
+    if (objectHasScriptedEvent(object, event_type)){
+      removeScriptedEvent(object, event_type);
+    }
+    else{
+      setScriptedEvent(object, event_type);
+    }                      
+
     return true;    
 }
 

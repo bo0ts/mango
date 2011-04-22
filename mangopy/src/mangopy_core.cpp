@@ -463,22 +463,39 @@ static PyObject *mpy_Object_unset(mpy_Object *self, PyObject *args){
 static PyObject *mpy_Object_toggle(mpy_Object *self, PyObject *args){
   // Function Call Parameters
   int event_mask;
-  int event_type_mask = EVT_BOTH;
 
   // Function Return Values
 
   // Convert arguments
-  if(!PyArg_ParseTuple(args, "i|i", &event_mask, &event_type_mask)){
+  if(!PyArg_ParseTuple(args, "i", &event_mask)){
     return NULL;
   }
 
   try{
+    /*
     // Unset core event if the flag was set
     if ((event_type_mask & EVT_CORE) != 0){
       Mango::Engine->toggleEvent(self->internalObject, event_mask);
     }
     if ((event_type_mask & EVT_SCRIPTED) != 0){
       reinterpret_cast<PyEngine *>(Mango::Engine)->toggleScriptedEvent(self, event_mask);
+    }
+    */
+    int j = 1; // j is the event_type, corresponds to constants defined in constants.h
+    for (int i = 0; i < ENGINE_MAX_EVENT_TYPES; i += 1){                
+      if ((event_mask & j) == j){
+	int object_has_scripted_event = mpy_object_has_scripted_event(self, i);
+	if (object_has_scripted_event == -1){
+	  return NULL;
+	}
+	else if (object_has_scripted_event == 0){
+	  Mango::Engine->toggleEvent(self->internalObject, j);
+	}
+	else if (object_has_scripted_event == 1){
+	  reinterpret_cast<PyEngine *>(Mango::Engine)->toggleScriptedEvent(self, j);
+	}
+      }
+      j = j << 1;
     }
   }
   catch (Mango::Core::Error &e){
