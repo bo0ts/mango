@@ -18,7 +18,7 @@ class ColorfulSphere(Geometry.Sphere):
 
     def randomize(self):
         self.setRadius(0.15 + random()/10.0)
-        self.v = Vector(random()/8.0, random()/8.0, random()/8.0)
+        self.v = Vector(random()/10.0, random()/10.0, random()/10.0)
         self.setColor((random(), random(), random()))
         self.position = Vector(self.boundary - 2*self.boundary*random(), self.boundary - 2*self.boundary*random(), self.boundary - 2*self.boundary*random())
 
@@ -27,3 +27,6 @@ for i in range(100):
     sphere = ColorfulSphere()
     sphere.randomize()
     sphere.set(RENDER | STEP)
+
+
+Camera.lookFrom((7, 7, 7))

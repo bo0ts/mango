@@ -98,6 +98,10 @@ namespace Mango{
 	xoffset += 0.87;
 	yoffset = -0.555;
       }
+      else if (letter == '*'){
+	xoffset += 0.43;
+	yoffset = -0.95;      
+      }
       
       glBegin(GL_TRIANGLES);
       for (i = 0; i < letter_length; i += 6){

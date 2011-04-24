@@ -39,12 +39,23 @@ class Arc(Geometry.ColorfulObject):
         glEnd()
 
 
-class RotatableCoordinateSystem(Core.Object):
+class RotatingCoordinateSystem(Core.Object):
     def __init__(self):
         Core.Object.__init__(self)
         self.make_cs()
         self.make_arcs()
     
+    def draw(self):        
+        tsize = 25
+        xs = -310
+        ys = 230
+        glColor(self.arcs[0].color())
+        Draw.text((xs, ys), "alpha: %.2f" % self.cs[1].alpha, tsize)
+        glColor(self.arcs[1].color())
+        Draw.text((xs, ys - tsize), "beta: %.2f" % self.cs[2].beta, tsize)
+        glColor(self.arcs[2].color())
+        Draw.text((xs, ys - 2*tsize), "gamma: %.2f" % self.cs[3].gamma, tsize)
+
     def step(self):
         keys = ['q', 'a', 'w', 's', 'e', 'd']
         isdown = [Keyboard.down(ord(x)) for x in keys]
@@ -80,7 +91,7 @@ class RotatableCoordinateSystem(Core.Object):
         zarc.reflect = -1
         zarc.rotate(0, 180, 180)
         zarc.setParentFrame(self.cs[2])
-        zarc.setColor(0.6, 1.0, 0.0)
+        zarc.setColor(1.0, 0.5, 0.0)
         self.arcs = [xarc, yarc, zarc]
 
     def set(self, mask):
@@ -100,5 +111,11 @@ class RotatableCoordinateSystem(Core.Object):
 
     
 
-lcs = RotatableCoordinateSystem()
-lcs.set(RENDER | STEP)
+lcs = RotatingCoordinateSystem()
+lcs.set(RENDER | STEP | DRAW)
+Camera.lookFrom((3, 3, 3))
+View.setMode(LOCK_ALL)
+print("Rotatable Coordinate System")
+print("  alpha +/-: q/a")
+print("  beta +/-: s/w")
+print("  gamma +/-: e/d")

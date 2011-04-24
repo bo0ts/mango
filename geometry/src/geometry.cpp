@@ -1,4 +1,5 @@
 #include "geometry.h"
+#include <cstdlib>
 
 namespace Mango{
   namespace Geometry{

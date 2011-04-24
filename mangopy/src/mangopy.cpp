@@ -1,6 +1,6 @@
 #include "mangopy.h"
 #include <locale.h>
-
+#include <algorithm>
 
 namespace MangoPy{ 
     

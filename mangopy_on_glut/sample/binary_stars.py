@@ -1,36 +1,12 @@
-#from pye3_geometricObjects import *
-#from pye3_menuInterface import onScreenMessage
+from demo import OnScreenMessage
 from math import sin, cos, sqrt
 import random, time
 
-# Define keys
-ievt_toggle_particles = Core.InputEvent(KEYBOARD, PRESS, KEY_SPACE)
-ievt_toggle_centripetal = Core.InputEvent(KEYBOARD, PRESS, ord('c'))
-
-class onScreenMessage(Core.Object):
-    msg = ""
-    last_show_time = 0
-
-    def draw(self):
-        self.transform()
-        glColor(0.6, 0.2, 0.2)        
-        Draw.text((0, 0), self.msg, 30)
-        self.hide_if_its_time()
-
-    def setMessage(self, msg):
-        self.msg = msg
-
-    def show(self, msg = None):
-        if msg != None:
-            self.setMessage(msg)
-        self.set(DRAW)
-        self.last_show_time = time.time()
-
-    def hide_if_its_time(self):
-        if time.time() - self.last_show_time >= 1.0:
-            self.unset(DRAW)
 
 class binaryStarSystem(Core.Object):
+    e_toggle_particles = Core.InputEvent(KEYBOARD, PRESS, KEY_SPACE)
+    e_toggle_centripetal = Core.InputEvent(KEYBOARD, PRESS, ord('c'))
+
     M2_over_M1 = 0.5
     a = 200
     primaryThreshold = -12.0
@@ -66,7 +42,7 @@ class binaryStarSystem(Core.Object):
         self.secondaryStarParticles = []
 
         # Create the on-screen message
-        self.screenMessage = onScreenMessage()
+        self.screenMessage = OnScreenMessage()
         self.screenMessage.position = (-310, 230, 0)        
         self.screenMessage.set(DRAW) 
 
@@ -99,9 +75,9 @@ class binaryStarSystem(Core.Object):
 
 
     def input(self, evt):
-        if evt == ievt_toggle_centripetal:
+        if evt == self.e_toggle_centripetal:
             self.phiIncludeCentripetalForce = not self.phiIncludeCentripetalForce
-        elif evt == ievt_toggle_particles:
+        elif evt == self.e_toggle_particles:
             if not self.createdPrimaryStarParticles:
                 self.createStarParticles()
             else:

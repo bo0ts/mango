@@ -9,6 +9,9 @@ AC_CONFIG_FILES([Makefile])
 # Set default prefix
 AC_PREFIX_DEFAULT("/opt/mango")
 AC_SUBST([scriptdir], "\${exec_prefix}/script")
+AC_SUBST([sampledir], "\${exec_prefix}/sample")
+AC_SUBST([bindir], "\${exec_prefix}/core")
+AC_SUBST([docdir], "\${exec_prefix}/doc")
 
 # Detect host
 AC_CANONICAL_HOST

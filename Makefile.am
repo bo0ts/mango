@@ -10,6 +10,7 @@ ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS}
 lib_LTLIBRARIES = 
 bin_PROGRAMS = 
 noinst_PROGRAMS = 
+noinst_LTLIBRARIES =
 
 if BUILD_MANGO
   lib_LTLIBRARIES += libmango.la
@@ -26,7 +27,7 @@ if BUILD_MANGO
 	             mango/include/draw/draw.h mango/src/draw/draw.cpp \
 		     mango/include/draw/raw_character_data.h mango/src/draw/raw_character_data.cpp
 
-  libmango_la_LDFLAGS = -static -version-info $(MANGO_LIB_VERSION)
+  libmango_la_LDFLAGS = -static  $(MANGO_LIB_VERSION)
   libmango_la_CXXFLAGS = "-I@MANGODIR@/include"
 endif
 
@@ -34,7 +35,7 @@ if BUILD_MANGO_ON_GLUT
   lib_LTLIBRARIES += libmong.la
   libmong_la_SOURCES = mango_on_glut/include/mango_on_glut.h mango_on_glut/src/mango_on_glut.cpp
 
-  libmong_la_LDFLAGS = -static -version-info $(MANGO_LIB_VERSION)
+  libmong_la_LDFLAGS = -static  $(MANGO_LIB_VERSION)
   libmong_la_CXXFLAGS = -I@MANGODIR@/include -I@MANGO_ON_GLUTDIR@/include
 endif
 
@@ -42,7 +43,7 @@ if BUILD_GEOMETRY
   lib_LTLIBRARIES += libgeometry.la
   libgeometry_la_SOURCES = geometry/include/geometry.h geometry/src/geometry.cpp
 
-  libgeometry_la_LDFLAGS = -static -version-info $(MANGO_LIB_VERSION)
+  libgeometry_la_LDFLAGS = -static  $(MANGO_LIB_VERSION)
   libgeometry_la_CXXFLAGS = -I@MANGODIR@/include -I@GEOMETRYDIR@/include
 endif
 
@@ -70,12 +71,12 @@ if BUILD_MANGOPY
 	                  mangopy/src/mangopy_draw.cpp \
 	                  mangopy/src/mangopy_core_module.cpp \
 	                  mangopy/src/mangopy_pyengine_wrapper.cpp 
-  libmangopy_la_LDFLAGS = -static -version-info $(MANGO_LIB_VERSION)
+  libmangopy_la_LDFLAGS = -static  $(MANGO_LIB_VERSION)
   libmangopy_la_CXXFLAGS = -I@MANGODIR@/include -I@MANGOPYDIR@/include
 endif
 
 if BUILD_PYGEOMETRY
-  lib_LTLIBRARIES += Geometry.la
+  noinst_LTLIBRARIES += Geometry.la
   Geometry_la_SOURCES = pygeometry/src/pygeometry.cpp \
 	                     pygeometry/src/pygeometry_colorful_object.cpp \
 	                     pygeometry/src/pygeometry_box.cpp \
@@ -101,13 +102,18 @@ endif
 
 
 install-data-hook:
-	mkdir -p $(DESTDIR)$(bindir)/
 	mkdir -p $(DESTDIR)$(docdir)/
 	mkdir -p $(DESTDIR)$(scriptdir)/
 	mkdir -p $(DESTDIR)$(sampledir)/
-	cp $(builddir)/mango $(DESTDIR)$(bindir)/mango
-	cp -R $(srcdir)/doc/build/html/ $(DESTDIR)$(docdir)/
+	cp -R $(srcdir)/doc/build/html/* $(DESTDIR)$(docdir)/
 	cp -L $(builddir)/.libs/Geometry.so $(DESTDIR)$(scriptdir)/Geometry.so
+	cp -R $(srcdir)/mangopy_on_glut/sample/*.py $(DESTDIR)$(sampledir)/
+
+install-exec-hook:
+	mkdir -p $(DESTDIR)$(bindir)/
+	cp $(builddir)/mango $(DESTDIR)$(bindir)/mango
+	cp -R $(srcdir)/python-redist/* $(DESTDIR)$(bindir)/
+	ln -s $(DESTDIR)$(bindir)/mango /usr/local/bin/mango
 
 ## Define the list of public header files and their install location.  The
 ## nobase_ prefix instructs Automake to not strip the directory part from each
