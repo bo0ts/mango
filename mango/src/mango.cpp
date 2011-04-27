@@ -2,17 +2,10 @@
 #include "mango.h"
 
 
-namespace Mango{
-#define MANGO_VERSION 1.0
-  char version_str[20];
-	
-  double version(){
-    return MANGO_VERSION;
-  }
-	
-  char* version_string(){	
-    sprintf(version_str, "Mango %.1f", version());
-    return version_str;
+namespace Mango{	       
+
+  char* full_version_string(){
+    return PACKAGE_VERSION;
   }
 	
   void initialize(bool setup_default_environment){

@@ -62,9 +62,7 @@ void print_usage(){
 }
 
 void print_version(){
-  char version[5];
-  sprintf(version, "%.1f", Mango::version());
-  std::cout << "Mango v" << version << std::endl; 
+  std::cout << "Mango v" << Mango::full_version_string() << std::endl; 
 }
 
 void print_help(){

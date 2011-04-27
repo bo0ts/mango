@@ -1,3 +1,4 @@
+#include "config.h"
 #include "core/core.h"
 #include "core/triangle.h"
 #include "draw/draw.h"
@@ -7,8 +8,7 @@
 #define MANGO 
 
 namespace Mango{  
-  double version();
-  char *version_string();
+  char *full_version_string();
 	
   namespace Core{
   }
