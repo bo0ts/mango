@@ -238,6 +238,8 @@ void PyEngine::evt_render(){
     PyObject* result, *arglist;
     std::vector<Mango::Core::Object*>::iterator current_object;
 
+    glEnable(GL_LIGHTING);
+
     // If we have a camera, let it do its thing
     if (Mango::Camera != NULL){
         Mango::Camera->manipulateCamera();
@@ -279,6 +281,8 @@ void PyEngine::evt_draw(){
     glOrtho(-window_width/2.0f, window_width/2.0f, -window_height/2.0f, window_height/2.0f, -1.0f, 1.0f);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    glDisable(GL_LIGHTING);
+    glClear(GL_DEPTH_BUFFER_BIT);
 
     if (Mango::View != NULL){
         Mango::View->manipulateCamera();
