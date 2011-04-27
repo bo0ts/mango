@@ -5,10 +5,10 @@ Mango API (Python)
    :maxdepth: 1
    :hidden: 
    
-   api/draw
-   api/opengl
-   api/core
-   api/geometry
+   api-draw
+   api-opengl
+   api-core
+   api-geometry
 
 :mod:`Core` -- Core Mango objects and methods
 
