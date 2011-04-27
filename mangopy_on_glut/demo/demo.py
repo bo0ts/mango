@@ -54,7 +54,7 @@ class Prompt(Core.Object):
         if evt == self.key_press:
             if evt.code in self.allowed_codes:
                 self.msg += chr(evt.code)
-            elif (evt.code == KEY_DELETE) and (len(self.msg) > self.editable_index):
+            elif (evt.code in [KEY_DELETE, KEY_BACKSPACE]) and (len(self.msg) > self.editable_index):
                 self.msg = self.msg[:-1]
         
         if evt == self.confirm:            
@@ -112,3 +112,20 @@ class Label(Core.Object):
         camera_pos = camera_parent.transformToParent(Camera.position)        
         self.pointTo(camera_pos)
         self.rotate(0, -90, 0)
+
+
+class FpsDisplay(Core.Object):    
+    
+    def __init__(self):
+        Core.Object.__init__(self)
+        w, h = Engine.windowDimensions()
+        self.color = (1.0, 0.5, 0.0)
+        self.text_size = 20
+        self.position = (-w/2.0 + 10, h/2.0 - 10)
+        
+
+    def draw(self):
+        self.transform()
+        fps = Engine.actualFps()
+        glColor(self.color)
+        Draw.text((0, 0), "FPS: %.0f" % fps, self.text_size)
