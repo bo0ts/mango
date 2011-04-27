@@ -1,5 +1,7 @@
 import Geometry
 from random import random
+from demo import FpsDisplay
+
 
 class ColorfulSphere(Geometry.Sphere):
     def __init__(self):
@@ -28,5 +30,8 @@ for i in range(100):
     sphere.randomize()
     sphere.set(RENDER | STEP)
 
+fps = FpsDisplay()
+fps.set(DRAW)
 
 Camera.lookFrom((7, 7, 7))
+View.setMode(LOCK_ALL)
