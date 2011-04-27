@@ -608,7 +608,8 @@ g     * Object destructor.
 		
     void CoreEngine::evt_render(){
       std::vector<Object*>::iterator current_object;
-		
+      glEnable(GL_LIGHTING);
+
       // If we have a camera, let it do its thing
       if (camera != NULL){
 	camera->manipulateCamera();
@@ -630,7 +631,9 @@ g     * Object destructor.
       glOrtho(0.0f, window_width, 0.0f, window_height, -1.0f, 1.0f);
       glMatrixMode(GL_MODELVIEW);
       glLoadIdentity();
-		
+      glDisable(GL_LIGHTING);
+      glClear(GL_DEPTH_BUFFER_BIT);
+
       // If we have a view, let it do its thing
       if (view != NULL){
 	view->manipulateCamera();
