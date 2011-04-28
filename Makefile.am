@@ -112,16 +112,13 @@ if BUILD_MANGOPY_ON_GLUT
   mango_CXXFLAGS = -I@MANGODIR@/include -I@MANGO_ON_GLUTDIR@/include -I@MANGOPYDIR@/include
 endif
 
+include_HEADERS += $(top_builddir)/config.h
 
 dist_script_DATA = $(top_srcdir)/mangopy_on_glut/demo/demo.py
 dist_sample_DATA = $(top_srcdir)/mangopy_on_glut/sample/*.py 
 
 install-exec-hook:
 	ln -fs $(DESTDIR)$(bindir)/mango /usr/local/bin/mango
-#	mkdir -p $(DESTDIR)$(bindir)/
-#	cp $(builddir)/mango $(DESTDIR)$(bindir)/mango
-#	cp -R $(srcdir)/python-redist/* $(DESTDIR)$(bindir)/
-#	ln -s $(DESTDIR)$(bindir)/mango /usr/local/bin/mango
 
 
 
