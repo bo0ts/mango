@@ -117,19 +117,30 @@ hello_box.cpp:
 Then from a terminal window, build it in the manner appropriate for your 
 platform:
 
-  **Linux**
+**Linux**
   
-  Lorem ipsum
-
-
-  **OSX**
-
-  Open a terminal window, navigate to the directory containing your 
-  simulation and execute the following command:
+  Open a terminal window, navigate to the directory containing your
+  simulation source code and execute the following command:
 
     .. code-block:: bash
     
-       g++ hello_box.cpp -o hello_box -arch i386 -framework Mango -framework OpenGL -framework GLUT
+	$ g++ hello_box.cpp -o hello_box -I/opt/mango/1.0/include/ -L/opt/mango/1.0/lib -lmango -lmong -lgeometry -lglut
+
+  You can then run the simulation with the following command:
+
+    .. code-block:: bash
+
+       $ ./hello_box
+
+
+**OSX**
+
+  Open a terminal window, navigate to the directory containing your 
+  simulation source code and execute the following command:
+
+    .. code-block:: bash
+    
+       $ g++ hello_box.cpp -o hello_box -arch i386 -framework Mango -framework OpenGL -framework GLUT
 
   (Remove the flag *-arch i386* to build 64-bit binaries. This requires a 
   64bit build of Mango)
@@ -138,17 +149,17 @@ platform:
 
     .. code-block:: bash
     
-       ./hello_box
+       $ ./hello_box
 
 
-  **Windows**
+**Windows**
 
   Open a MinGW shell and navigate to the directory containing your
-  simulation. You can open a MinGW shell by selecting "MinGW > MinGW Shell"
-  from the Program Files menu. In order to
-  navigate to your source file, note that MinGW will mount the C: drive at 
-  /c, the D: drive at /d and so on. Once you are at the right location, 
-  execute the following command:
+  simulation source code . You can open a MinGW shell by selecting
+  "MinGW > MinGW Shell" from the Program Files menu. In order to
+  navigate to your source file, note that MinGW will mount the C:
+  drive at /c, the D: drive at /d and so on. Once you are at the right
+  location, execute the following command:
 
     .. code-block:: bash
 

@@ -20,6 +20,7 @@ Contents:
    :numbered: 
    
    setup
+   samples
    python/api	
    mangoinpython
    mangoincpp

@@ -95,11 +95,13 @@ namespace MangoPy{
       return NULL;
     }
 
-    PyObject *py_object_type = PyDict_GetItemString(types, "mangopy.core.object");
+    PyObject *py_object_type = PyDict_GetItemString(types, identifier);
     if (py_object_type == NULL){
+      char err_msg[250];
+      sprintf(err_msg, "missing class '%s'", identifier);
+      PyErr_SetString(PyExc_RuntimeError, err_msg);
       return NULL;
     }
-
     PyTypeObject *dynamic_mpy_type = (PyTypeObject *)PyCObject_AsVoidPtr(py_object_type);
     return dynamic_mpy_type;
   }
@@ -426,7 +428,7 @@ namespace MangoPy{
     MangoPy::register_py_type_object("mangopy.core.matrix", &mpy_MatrixType);
     MangoPy::register_py_type_object("mangopy.core.object", &mpy_ObjectType);
     MangoPy::register_py_type_object("mangopy.core.frame", &mpy_FrameType);
-    MangoPy::register_py_type_object("mangopy.core.py_enging", &mpy_PyEngineType);
+    MangoPy::register_py_type_object("mangopy.core.py_engine", &mpy_PyEngineType);
     MangoPy::register_py_type_object("mangopy.core.core_camera", &mpy_CoreCameraType);
     MangoPy::register_py_type_object("mangopy.core.core_keyboard", &mpy_CoreKeyboardType);
     MangoPy::register_py_type_object("mangopy.core.core_mouse", &mpy_CoreMouseType);
