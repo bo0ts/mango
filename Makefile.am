@@ -62,6 +62,14 @@ if BUILD_SAMPLES
   bouncing_ball_SOURCES = @MANGO_ON_GLUTDIR@/sample/hello_bouncing_ball.cpp
   bouncing_ball_LDFLAGS = -L.libs -lmango -lgeometry -lmong $(GL_FRAMEWORK) $(GLUT_FRAMEWORK)
   bouncing_ball_CXXFLAGS = -I@MANGODIR@/include -I@GEOMETRYDIR@/include -I@MANGO_ON_GLUTDIR@/include
+
+  noinst_LTLIBRARIES += Solids.la
+  Solids_la_SOURCES = mangopy/samples/solids/pysolids.cpp \
+		      mangopy/samples/solids/pytetrahedron.cpp \
+	              mangopy/samples/solids/pytetrahedron.h \
+	  	      mangopy/samples/solids/tetrahedron.h
+  Solids_la_CXXFLAGS = -I@MANGODIR@/include -I@GEOMETRYDIR@/include -I@MANGOPYDIR@/include -I@PYGEOMETRYDIR@/include -fpic 
+  Solids_la_LDFLAGS = -module -L.libs -lmangopy -lgeometry -lmango  $(GL_FRAMEWORK) $(PYTHON_FRAMEWORK) $(OPENGL_LINK) -shared -no-undefined -rpath /nowhere
 endif
 
 if BUILD_MANGOPY
