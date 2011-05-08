@@ -19,7 +19,6 @@ int main(int argc, char *argv[]){
     if (argc == 1){
       print_usage();
       return_val = 3;
-      //MangoPy::runScript("main.py", true);
     }
     else{
       char *show_version = MangoPy::check_cmd_op_presence(argv, argv+argc, "-v");

@@ -1,4 +1,8 @@
-#include "Mango/mango.h"
+#ifdef __APPLE__
+  #include "Mango/mango.h"
+#else
+  #include "mango.h"
+#endif
 
 #ifndef MANGO_SOLIDS_TETRAHEDRON
 #define MANGO_SOLIDS_TETRAHEDRON

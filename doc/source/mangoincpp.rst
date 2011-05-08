@@ -1,6 +1,6 @@
 
-Mango in C++
-===============
+Development in C++
+==================
 
 .. toctree::
    

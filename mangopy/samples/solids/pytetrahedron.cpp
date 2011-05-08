@@ -4,25 +4,25 @@
 
 void mpy_Tetrahedron_dealloc(mpy_Tetrahedron* self)
 {
-    delete self->internalObject;
-    Py_TYPE(self)->tp_free((PyObject*)self);
+  delete self->internalObject;
+  Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 PyObject *mpy_Tetrahedron_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 {
-    mpy_Tetrahedron *self;
+  mpy_Tetrahedron *self;
 
-    self = (mpy_Tetrahedron *)type->tp_alloc(type, 0);
-    if (self != NULL) {
-      self->internalObject = new Mango::Solids::Tetrahedron();
-        if (self->internalObject == NULL){
-            Py_DECREF(self);
-            PyErr_SetString(PyExc_RuntimeError, "MangoPy Runtime: Failed to create an object of type Solids::Tetrahedron");
-            return NULL;
-        }
-	self->parentFrame = NULL;
+  self = (mpy_Tetrahedron *)type->tp_alloc(type, 0);
+  if (self != NULL) {
+    self->internalObject = new Mango::Solids::Tetrahedron();
+    if (self->internalObject == NULL){
+      Py_DECREF(self);
+      PyErr_SetString(PyExc_RuntimeError, "MangoPy Runtime: Failed to create an object of type Solids::Tetrahedron");
+      return NULL;
     }
-    return (PyObject *)self;
+    self->parentFrame = NULL;
+  }
+  return (PyObject *)self;
 }
 
 
@@ -30,102 +30,102 @@ PyObject *mpy_Tetrahedron_new(PyTypeObject *type, PyObject *args, PyObject *kwds
 
 PyObject *mpy_Tetrahedron_setHeight(mpy_Tetrahedron* self, PyObject *args)
 {
-    // Call Parameters
-    double h;
+  // Call Parameters
+  double h;
 
-    // Parse arguments
-    if (!PyArg_ParseTuple(args, "d", &h)){
-        return NULL;
-    }
+  // Parse arguments
+  if (!PyArg_ParseTuple(args, "d", &h)){
+    return NULL;
+  }
 
-    try{
-        self->internalObject->setHeight(h);
-    }
-    catch (Mango::Core::Error &e){
-        return pythonExceptionFromCException(e);
-    }
+  try{
+    self->internalObject->setHeight(h);
+  }
+  catch (Mango::Core::Error &e){
+    return pythonExceptionFromCException(e);
+  }
 
-    Py_INCREF(Py_None);
-    return Py_None;
+  Py_INCREF(Py_None);
+  return Py_None;
 }
 
 // Getters
 
 PyObject *mpy_Tetrahedron_height(mpy_Tetrahedron* self, PyObject *args)
 {
-    // Return Value
-    double h;
+  // Return Value
+  double h;
 
-    // Call Function
-    try{
-      h = (float)self->internalObject->height();
-    }
-    catch (Mango::Core::Error &e){
-      return pythonExceptionFromCException(e);
-    }
+  // Call Function
+  try{
+    h = (float)self->internalObject->height();
+  }
+  catch (Mango::Core::Error &e){
+    return pythonExceptionFromCException(e);
+  }
 
-    return Py_BuildValue("d", h);
+  return Py_BuildValue("d", h);
 }
 
 
 
 /*
-    Method Table
-                        */
+  Method Table
+*/
 
 PyMethodDef mpy_Tetrahedron_methods[] = {
   
-    // Set
-    {"setHeight", (PyCFunction)mpy_Tetrahedron_setHeight, METH_VARARGS,
-     "Set the height of a Solids::Tetrahedron"
-    },
-    // Get
-    {"height", (PyCFunction)mpy_Tetrahedron_height, METH_NOARGS,
-     "Get the height of a Solids::Tetrahedron"
-    },
+  // Set
+  {"setHeight", (PyCFunction)mpy_Tetrahedron_setHeight, METH_VARARGS,
+   "Set the height of a Solids::Tetrahedron"
+  },
+  // Get
+  {"height", (PyCFunction)mpy_Tetrahedron_height, METH_NOARGS,
+   "Get the height of a Solids::Tetrahedron"
+  },
 
-    {NULL}  /* Sentinel */
+  {NULL}  /* Sentinel */
 };
 
 PyTypeObject mpy_TetrahedronType = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "Solids.Tetrahedron",             /* tp_name */
-    sizeof(mpy_Tetrahedron),      /* tp_basicsize */
-    0,                         /* tp_itemsize */
-    (destructor)mpy_Tetrahedron_dealloc, /* tp_dealloc */
-    0,                         /* tp_print */
-    0,                         /* tp_getattr */
-    0,                         /* tp_setattr */
-    0,                         /* tp_reserved */
-    0,                         /* tp_repr */
-    0,                         /* tp_as_number */
-    0,                         /* tp_as_sequence */
-    0,                         /* tp_as_mapping */
-    0,                         /* tp_hash  */
-    0,                         /* tp_call */
-    0,                         /* tp_str */
-    0,                         /* tp_getattro */
-    0,                         /* tp_setattro */
-    0,                         /* tp_as_buffer */
-    Py_TPFLAGS_DEFAULT |
-        Py_TPFLAGS_BASETYPE,   /* tp_flags */
-    "Solids.Tetrahedron",           /* tp_doc */
-    0,		               /* tp_traverse */
-    0,		               /* tp_clear */
-    0,              /* tp_richcompare */
-    0,		               /* tp_weaklistoffset */
-    0,		               /* tp_iter */
-    0,		               /* tp_iternext */
-    mpy_Tetrahedron_methods,             /* tp_methods */
-    0,             /* tp_members */
-    0,                         /* tp_getset */
-    0,                         /* tp_base */
-    0,                         /* tp_dict */
-    0,                         /* tp_descr_get */
-    0,                         /* tp_descr_set */
-    0,                         /* tp_dictoffset */
-    0,//(initproc)mpy_Tetrahedron_init,      /* tp_init */
-    0,                         /* tp_alloc */
-    mpy_Tetrahedron_new,                 /* tp_new */
+  PyVarObject_HEAD_INIT(NULL, 0)
+  "Solids.Tetrahedron",             /* tp_name */
+  sizeof(mpy_Tetrahedron),      /* tp_basicsize */
+  0,                         /* tp_itemsize */
+  (destructor)mpy_Tetrahedron_dealloc, /* tp_dealloc */
+  0,                         /* tp_print */
+  0,                         /* tp_getattr */
+  0,                         /* tp_setattr */
+  0,                         /* tp_reserved */
+  0,                         /* tp_repr */
+  0,                         /* tp_as_number */
+  0,                         /* tp_as_sequence */
+  0,                         /* tp_as_mapping */
+  0,                         /* tp_hash  */
+  0,                         /* tp_call */
+  0,                         /* tp_str */
+  0,                         /* tp_getattro */
+  0,                         /* tp_setattro */
+  0,                         /* tp_as_buffer */
+  Py_TPFLAGS_DEFAULT |
+  Py_TPFLAGS_BASETYPE,   /* tp_flags */
+  "Solids.Tetrahedron",           /* tp_doc */
+  0,		               /* tp_traverse */
+  0,		               /* tp_clear */
+  0,              /* tp_richcompare */
+  0,		               /* tp_weaklistoffset */
+  0,		               /* tp_iter */
+  0,		               /* tp_iternext */
+  mpy_Tetrahedron_methods,             /* tp_methods */
+  0,             /* tp_members */
+  0,                         /* tp_getset */
+  0,                         /* tp_base */
+  0,                         /* tp_dict */
+  0,                         /* tp_descr_get */
+  0,                         /* tp_descr_set */
+  0,                         /* tp_dictoffset */
+  0,//(initproc)mpy_Tetrahedron_init,      /* tp_init */
+  0,                         /* tp_alloc */
+  mpy_Tetrahedron_new,                 /* tp_new */
 };
 // ---------------------------

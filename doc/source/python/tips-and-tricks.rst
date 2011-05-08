@@ -115,6 +115,7 @@ parent. Here is the full version:
   t = Tree()
   t.set(RENDER)
 
+.. _python-modularization-tip:
 
 Modularization
 --------------
@@ -145,7 +146,7 @@ another script:
   
   Camera.lookFrom((0, 0, 0), (0, 2, 7))
     
-And here is a nice forest:
+And here is a nice forest, carbon emissions notwithstanding:
 
   .. image:: /images/forest.png
      :width: 480

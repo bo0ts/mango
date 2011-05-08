@@ -1,6 +1,6 @@
 
-Mango in Python
-=================
+Development in Python
+=====================
 
 To get started writing Mango simulations as Python scripts, all you need is 
 Mango and a text editor. You can download and install Mango HERE. If you're 
