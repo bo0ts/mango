@@ -1,3 +1,5 @@
+// THIS FILE IS OBSELETE
+
 #include <iostream>
 #include "group.h"
 
