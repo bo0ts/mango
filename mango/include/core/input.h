@@ -8,14 +8,16 @@
 namespace Mango{
   namespace Core{
     
-    //typedef std::pair<int, int> inputEventRecord;
-    /*
-    typedef struct inputEvent{
-      int source;
-      int type;
-      int code;
-    } inputEvent;
-    */
+    /**
+     * A class whose instances represent single input events such
+     * as keyboard- or mouse- key presses or releases. An input event
+     * is characterized by a source, type, and key code. Instances may
+     * be compared using the comparison operator '==', where two instances
+     * e1 and e2 are equal if all of the following hold: 
+     *  - e1.source == e2.source, or at least one of them is equal to ANY
+     *  - e1.type == e2.type, or at least one of them is equal to ANY
+     *  - e1.code == e2.code, or at least one of them is equal to ANY
+     */
     class inputEvent{
     public:
       inputEvent(int src = -1, int tp = -1, int cd = -1){
@@ -42,11 +44,12 @@ namespace Mango{
     };
 
     /**
-     * An abstracted keyboad class.
-     * An abstracted keyboard class that provides individual key state information. Each framework that wishes to
-     * supply keyboard functionality is responsible for calling registerKeyPress(...) and registerKeyRelease(...)
-     * when key presses occur.
-	   */
+     * An abstracted keyboard class that provides individual key state
+     * information. Each framework that wishes to supply keyboard
+     * functionality is responsible for calling registerKeyPress(...)
+     * and registerKeyRelease(...)  when key presses and releases
+     * occur.
+     */
     class CoreKeyboard{
     public:
       std::deque<int> typedKeyBuffer;
@@ -88,10 +91,11 @@ namespace Mango{
     
     
     /**
-     * An abstracted mouse class.
-     * An abstracted mouse class that provides mouse state information. Each framework that wishes to
-     * supply mouse functionality is responsible for calling registerButtonPress(...), registerButtonRelease(...)
-     * and updateCoordinates(...) when mouse events occur.
+     * An abstracted mouse class that provides mouse state
+     * information. Each framework that wishes to supply mouse
+     * functionality is responsible for calling
+     * registerButtonPress(...), registerButtonRelease(...)  and
+     * updateCoordinates(...) when mouse events occur.
      */
     class CoreMouse{
     public:

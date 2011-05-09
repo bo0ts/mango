@@ -17,6 +17,7 @@ import sys, os
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
+sys.path.append("/Users/amos/Src/breath-0.6.0-897f5e1/")
 
 # -- General configuration -----------------------------------------------------
 
@@ -25,7 +26,7 @@ import sys, os
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage', 'breathe']
 
 # Add any paths that contain templates here, relative to this directory.
 #templates_path = ['_templates']
@@ -218,3 +219,9 @@ man_pages = [
     ('index', 'mango', u'mango Documentation',
      [u'Amos Joshua'], 1)
 ]
+
+
+# -- Breath Configuration ------------------------------------------------------
+
+breathe_projects = { "mango": "/Users/amos/Projects/mango/doc/source/cpp-generated/xml/" }
+breathe_default_project = "mango"

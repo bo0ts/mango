@@ -7,10 +7,10 @@ namespace Mango{
   namespace Core{
 		
     /**
-     * A simple triangle object.
-     * A simple object that derives from basicObject and renders an equilateral triangle
-     * of a given size. It is the only core class that implements a render event and is
-     * intended for testing purposes.
+     * A colorful, equilateral triangle. This is the only object in
+     * the core library that implements a render event, and as such is
+     * useful to test Mango independently of other modules like
+     * Geometry.
      */
     class Triangle : public Object{
     public:

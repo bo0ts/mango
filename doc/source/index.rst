@@ -22,6 +22,7 @@ Contents:
    setup
    samples
    python/api	
+   cpp/api
    mangoinpython
    mangoincpp
    building-from-source

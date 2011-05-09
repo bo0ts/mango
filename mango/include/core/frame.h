@@ -6,8 +6,11 @@
 
 namespace Mango{
   namespace Core{
-    class Frame;
+    
 
+    /**
+     * A frame of reference.
+     */
     class Frame{
     public:
       Frame(bool is_global_frame = false);

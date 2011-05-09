@@ -10,14 +10,10 @@ namespace Mango{
     /* Static Members */
 		
     int Object::nextObjectTypeId = 0;
-		
-		
-    /* Constructors, Destructors */
+			       
 		
     /**
-     * Default Object constructor.
-     * Creates an Object at position (0, 0, 0), with axes of rotation
-     * (0, 1, 0), (1, 0, 0), (0, 1, 0) and angles of rotation all equal to 0.
+     * Creates an Object.
      */
     Object::Object():Frame(){
       // Check that a global Engine object has been created
@@ -44,18 +40,17 @@ namespace Mango{
     }
 		
     /**
-g     * Object destructor.
-     * Removes the Object from the engine's list of world-objects
+     * Removes the Object from the engine's list.
      */
     Object::~Object(){
       removeObjectFromEngineAndBOCs();
     }
-		
+		    
     void Object::removeObjectFromEngineAndBOCs(){
       if (ID > -1 && Engine != NULL){
 	Engine->removeObject(ID);
       }
-		
+
       std::vector<ObjectContainerRecord>::iterator bocRecord;
 		
       int current_BOCT_ID = 0;
@@ -67,57 +62,34 @@ g     * Object destructor.
       }
     }
 		
-		
-    /* Visibility */
-		
-    /** 
-     * Toggles the object's visibility.
-     * Inverts the objects visibility, making it visible if it is hidden and hidden if it is visible. 
-     * @return  is_visible_now 		true if the object was made visible by this method call, false otherwise
-     * @see shouldBeVisible
-     * @see isVisible
-     * @see isHidden
-     */
+	
     bool Object::toggleVisibility(){
       is_visible = !is_visible;
       return is_visible;
     }
-		
-    /**
-     * Set the object's visibility property.
-     * Sets the object's visibility property.
-     * @param bool should_be_visible		true to make the object visible, false to make it hidden
-     * @see toggleVisibility
-     * @see isVisible
-     * @see isHidden
-     */
+	
     void Object::setVisible(bool should_be_visible){
       is_visible = should_be_visible;
     }
 		
-    /**
-     * Check if the object is visible.
-     * Returns true if the visibility property of the object is set to true, false otherwise. 
-     * @see toggleVisibility
-     * @see shuoldBeVisible
-     * @see isHidden
-     */
     bool Object::visible(){
       return is_visible;
     }
 		
     /**
-     * Set an event.
-     * Causes the object to execute the event(s) described by an OR'ed bitmask of event constants. Currently supported events are:
-     * - PRE_STEP
+     * Cause the object to execute the event(s) described by an OR'ed
+     * bitmask of event constants. Currently supported events are:     
      * - STEP
-     * - POST_STEP
      * - RENDER
      * - DRAW
-     * - INPUT				
-     * @param int event_type         an OR'ed bitwise mask of event constants
-     * @return bool success - 		true on success, false on failure
-     * @see shouldNotExecute
+     * - INPU
+     *				
+     * @param  event_type     an OR'ed bitwise mask of event constants
+     *
+     * @return 
+     *   true on success, false on failure
+     *
+     * @see unset
      * @see executes
      */
     bool Object::set(int event_type){
@@ -125,41 +97,55 @@ g     * Object destructor.
     }
 		
     /**
-     * Unset an event.
-     * Causes the object not to execute the event(s) described by an OR'ed bitmask of event constants. For a list of supproted events see
-     * Object::shouldExecute(...).
-     * @param int event_type         an OR'ed bitwise mask of event constants
-     * @return bool success - 		true on success, false on failure
-     * @see shouldExecute
+     * Cause the object not to execute the event(s) described by an
+     * OR'ed bitmask of event constants. For a list of supproted
+     * events see Object::set(...).
+     *
+     * @param event_type     an OR'ed bitwise mask of event constants
+     *
+     * @return               true on success, false on failure
+     *
+     * @see set
      * @see executes
-     * @see toggleExecutionFor
+     * @see toggle
      */
     bool Object::unset(int event_type){
       return Engine->removeEvent(this, event_type);
     }
 		
     /**
-     * Check if the object executes an event.
-     * Returns true if the object executes the event described by event_type, false otherwise. If event_type is an ORed bitmask of event
-     * constants, the return value is true if all of them are set and false if at least one isn't. 
-     * @param	int event_type		an event constant representing the event type to check the execution of
-     * @return 	bool does_execute	true if the object execute the event described by event_type, false otherwise
-     * @see shouldExecute
-     * @see shouldNotExecute
-     * @see toggleExecutionFor
+     * Return true if the object executes the event described by
+     * event_type, false otherwise. If event_type is an ORed bitmask
+     * of event constants, the return value is true if all of them are
+     * set and false if at least one isn't.
+     *
+     * @param	event_type 
+     *   an event constant representing the event type to check the execution of
+     *
+     * @return 		
+     *  true if the object execute the event described by event_type, 
+     *  false otherwise
+     *
+     * @see set
+     * @see unset
+     * @see toggle
      */
     bool Object::executes(int event_type){
       return Engine->objectHasEvent(this, event_type);	
     }
 		
     /**
-     * Toggle execution of an event.
-     * Inverts the state of execution of the event(s) described by the OR'ed bitmask of event constants event_type, causing each individual
-     * event to be executed if it is not currently being executed or not to be executed if it is currently being executed. 
-     * @param	int event_type		an OR'ed bitwise mask of event constants		
-     * @see shouldExecute
+     * Inverts the state of execution of the event(s) described by the
+     * OR'ed bitmask of event constants event_type, causing each
+     * individual event to be executed if it is not currently being
+     * executed or not to be executed if it is currently being
+     * executed.
+     *
+     * @param  event_type     an OR'ed bitwise mask of event constants
+     *
+     * @see set
      * @see executes
-     * @see shouldNotExecute
+     * @see unset
      */
     void Object::toggle(int event_type){
       Engine->toggleEvent(this, event_type);
@@ -178,69 +164,58 @@ g     * Object destructor.
     /* Dynamic Methods */
 		
     /**
-     * The render event callback function.
-     * The render event callback function. This callback method is called each fram for objects whose render event is set, and can
-     * be used to render graphics in a perspective projection; override this method in derived classes to customize how the object is rendered.
-     * Note that the object's local coordinate system is NOT enforced by the engine! This means that you must translate to the
-     * objects position, rotate according to the orientation angles and then translate by the displacement before executing
-     * any rendering commands if you intend to render with respect to the local coordinate system. Use openGL functions.
-     * The openGL library is guaranteed to be available but no other extensions are (you will have to include them yourself if
-     * you want to use them).
+     * The render event callback function. This callback method is
+     * called each frame for objects whose render event is set, and
+     * can be used to render graphics in a perspective projection;
+     * override this method in derived classes to customize how the
+     * object is rendered.  Note that the object's local coordinate
+     * system is NOT enforced by the engine! This means that you must
+     * call transform() before rendering if you wish to render with
+     * respect to the local coordinate system. Use openGL functions
+     * for rendering. The openGL library is guaranteed to be
+     * available but no other extensions are (you will have to include
+     * them yourself if you want to use them).
      */
     void Object::render(){
       // skip
     }
-		
+
     /**
-     * The draw event callback function.
-     * The draw event callback function. This callback method is called each fram for objects whose draw event is set, and can
-     * be used to render graphics in orthographic projection; override this method in derived classes to customize how the object is rendered.
-     * Note that the object's local coordinate system is NOT enforced by the engine! This means that you must translate to the
-     * objects position, rotate according to the orientation angles and then translate by the displacement point before executing
-     * any rendering commands if you intend to render with respect to the local coordinate system. Use openGL functions.
-     * The openGL library is guaranteed to be available but no other extensions are (you will have to include them yourself if
-     * you want to use them).
+     * The draw event callback function. This callback method is
+     * called each fram for objects whose draw event is set, and can
+     * be used to render graphics in orthographic projection; override
+     * this method in derived classes to customize how the object is
+     * rendered.  Note that the object's local coordinate system is
+     * NOT enforced by the engine! This means that you must call
+     * transform() before rendering if you intend to render with
+     * respect to the local coordinate system. Use openGL functions.
+     * The openGL library is guaranteed to be available but no other
+     * extensions are (you will have to include them yourself if you
+     * want to use them).
      */
     void Object::draw(){
       // skip
     }
 		
-    /**
-     * The pre-step event callback function.
-     * The pre-step event callback function. This callback method is called each frame for objects whose pre-step event has been set.
-     * See Object::step for an explanation of the difference between the pre-step, step and post-step events.
-     * @see step()
-     * @see post_step()
-     */
-    void Object::pre_step(){
-      // pass
-    }
 		
     /**
-     * The step event callback function.
-     * The step event callback function. This callback method is called each frame for objects whose step event has been set.
-     * The pre-step, step and post-step differ only in the order in which they are trigerred: the pre-step event is trigerred
-     * for all objects with that event set, then the step event of all objects, then the post-step event.
-     * @see pre_step()
-     * @see post_step()
+     * The step event callback function. This callback method is
+     * called each frame for objects whose step event has been set.
+     * This event is appropriate for object "logic".
      */
     void Object::step(){
       // skip
     }
 		
-    /**
-     * The post-step event callback function.
-     * The post-step event callback function. This callback method is called each frame for objects whose step event has been set.
-     *  See Object::step for an explanation of the difference between the pre-step, step and post-step events.
-     */
-    void Object::post_step(){
-      // skip
-    }		
 		
     /**
-     * The input event callback function.
-     * The input event callback function. When input events are enabled, this callback method is called when a key has been pressed or released, for those objects whose
+     * The input event callback function. When input events are
+     * enabled, this callback method is called when a keyboard or
+     * mouse key has been pressed or released, for those objects whose
      * input event has been set.
+     *
+     * @param &event   
+     *   an InputEvent instance representing the event that occurred
      */
     void Object::input(inputEvent &event){
       // skip
@@ -277,9 +252,13 @@ g     * Object destructor.
     /* Constructors, Destructors */
 		
     /**
-     * Default CoreEngine constructor.
-     * Creates a CoreEngine. The default window settings are 60 FPS, windowed mode with dimensions 640x480. Depending on the
-     * implementation, these settings may be ignored.
+     * Create a CoreEngine. The default window settings are 60 FPS,
+     * windowed mode with dimensions 640x480. A CoreEngine instance is
+     * passive insofar as enforcing these settings - it is a
+     * placeholder for the information. It is the job of an
+     * intermediate os layer to query these settings and apply them,
+     * or update them with correct values if the default ones are
+     * incorrect.
      */
     CoreEngine::CoreEngine(){
       for (int i = 0; i < ENGINE_MAX_EVENT_TYPES; i += 1){
@@ -303,7 +282,6 @@ g     * Object destructor.
     }
 		
     /**
-     * CoreEngine destructor.
      * Deletes all objects that have been registered with the engine.
      */
     CoreEngine::~CoreEngine(){
@@ -313,13 +291,18 @@ g     * Object destructor.
 		
 		
     /* Object Methods */
+
     /**
-     * Add an object to the engine's list of objects.
-     * Adds an object to the engine's list of objects. This sets the object's CoreEngine *engine member pointer to this engine
-     * (until this is done that pointer is NULL and should not be used) and assigns it an ID. Every object MUST be added before it is
-     * set to have event callback (in general, this happens automatically in an Object's constructor)
+     * Adds an object to the engine's list of objects. This sets the
+     * object's CoreEngine *engine member pointer to this engine
+     * (until this is done that pointer is NULL and should not be
+     * used) and assigns it an ID. Every object MUST be added before
+     * it is set to have event callback (in general, this happens
+     * automatically in an Object's constructor). 
+     *
      * @param Object *object    The object to be added
-     * @return int objectID - the objects assigned ID, or -1 on failure.
+     *
+     * @return objectID   the objects assigned ID, or -1 on failure.
      */
     int CoreEngine::addObject(Object* object){
       objects.push_back(object);
@@ -327,20 +310,24 @@ g     * Object destructor.
     }
 		
     /**
-     * Returns a pointer to a Object.
-     * Returns a pointer to a Object based on an object ID.
-     * @param    int objectID       an object ID
-     * @return   Object* anObject   A pointer to the object with the given ID, NULL on failure.
+     * Returns a pointer to a the Object with the given ID.
+     *
+     * @param    objectID       an object ID
+     *
+     * @return      
+     *   A pointer to the object with the given ID, NULL on failure.
      */
     Object* CoreEngine::object(int objectID){
       return objects[objectID];
     }
 		
     /**
-     * Remove an object from the engine's list of objects.
-     * Removes an object from the engine's list of objects based on ID. Returns a pointer to the object that was removed.
-     * Note that if no object with the given ID exists the return value will be NULL.
-     * @param int objectID   the ID of the object to remove.
+     * Remove an object from the engine's list of objects based on
+     * ID. Returns a pointer to the object that was removed. If no
+     * object with the given ID exists the return value will be NULL.
+     *
+     * @param objectID   the ID of the object to remove.
+     *
      * @return Object* anObject     A pointer to the object removed.
      */
     Object* CoreEngine::removeObject(int objectID){
@@ -365,25 +352,28 @@ g     * Object destructor.
     /* Event Methods */
 		
     /**
-     * Set an event for an object.
-     * Sets event(s) for an object based on a OR'ed bitmask of event constants. Objects that are set to
-     * have events trigerred for them should be added to the engine prior to this call using CoreEngine::addObject().
-     * (Normally this is done automatically in the Object() default constructor). 
-     * Note that the engine will trigger a particular event for all objects for which the event is set only when
-     * CoreEngine::executeEvent() is called (this is only of relevance when implementing an intermediate layer to
-     * interact with the operating system).
-     * The current supported events are:
+     * Set event(s) for an object based on a OR'ed bitmask of event
+     * constants. Objects that are set to have events trigerred for
+     * them should be added to the engine prior to this call using
+     * CoreEngine::addObject()  (Normally this is done automatically
+     * in the Object default constructor).  Note that the engine
+     * will trigger a particular event for all objects for which the
+     * event is set only when CoreEngine::executeEvent() is called
+     * (this is only of relevance when implementing an intermediate
+     * layer to interact with the operating system).  The current
+     * supported events are:
+     *
      * - RENDER
      * - DRAW
-     * - PRE_STEP
      * - STEP
-     * - POST_STEP
      * - INPUT
-     * - MOUSE_MOVE
-     * @param Object* object    the object for which to set the event
-     * @param int event_type         an OR'ed bitwise mask of  event constants
-     * @return bool success - true on success, false on failure
-     * @see executeEvent
+     *
+     * @param  object     the object for which to set the event
+     * @param  event_type an OR'ed bitwise mask of  event constants
+     *
+     * @return true on success, false on failure
+     *
+     * @see setEvent
      * @see removeEvent
      * @see toggleEvent
      * @see objectHasEvent
@@ -406,12 +396,15 @@ g     * Object destructor.
     }
 		
     /**
-     * Remove an object's event.
-     * Removes event(s) set for an object, based on an OR'ed bitmask of event constants. Removing an event that
-     * was never set for an object simply does nothing.
-     * @param Object* object        the object whose events to remove
-     * @param int event_type             an OR'ed bitwise mask of  event constants
-     * @return bool success  - true on success, false on failure.
+     * Removes event(s) set for an object, based on an OR'ed bitmask
+     * of event constants. Removing an event that was never set for an
+     * object simply does nothing.
+     *
+     * @param object       the object whose events to remove
+     * @param event_type   an OR'ed bitwise mask of event constants
+     *
+     * @return              true on success, false on failure.
+     *
      * @see addEvent
      * @see toggleEvent
      * @see objectHasEvent
@@ -435,12 +428,15 @@ g     * Object destructor.
     }
 		
     /**
-     * Toggle an event for an object.
-     * Modifies the event(s) for an object based on a OR'ed bitmask of event constants. If the
-     * object's event was set it is unset, and if it was unset it is set
-     * @param Object* object    the object for which to toggle the event
-     * @param int event_type         an OR'ed bitwise mask of  event constants
-     * @return bool success - true on success, false on failure
+     * Modifies the event(s) for an object based on a OR'ed bitmask of
+     * event constants. If the object's event was set it is unset, and
+     * if it was unset it is set
+     *
+     * @param object             the object for which to toggle the event
+     * @param event_type         an OR'ed bitwise mask of  event constants
+     *
+     * @return                   true on success, false on failure
+     *
      * @see setEvent
      * @see removeEvent
      * @see objectHasEvent
@@ -473,13 +469,19 @@ g     * Object destructor.
     }
 		
     /**
-     * Check if an event is set for an object
-     * Checks if the event described by event_type is set for the given object. Returns true if it is
-     * and false otherwise. If event_type is a mask of events, the return value is true if all of them
-     * are set and false otherwise (i.e. it is false even if only one is unset).
-     * @param Object* object    the object for which to check the events
-     * @param int event_type         an OR'ed bitwise mask of event constants
-     * @return bool evt_set - true if the event is set, false otherwise
+     * Check if the event described by event_type is set for the given
+     * object. Returns true if it is and false otherwise. If
+     * event_type is a mask of events, the return value is true if all
+     * of them are set and false otherwise (i.e. it is false even if
+     * only one is unset).
+     *
+     * @param object             the object for which to check the events
+     * @param event_type         an OR'ed bitwise mask of event constants
+     *
+     * @return                   
+     *   true if all events descrbed by the bit mask are now set, 
+     *   false otherwise
+     *
      * @see setEvent
      * @see removeEvent
      * @see toggleEvent
@@ -493,25 +495,13 @@ g     * Object destructor.
     }
 					
 		
-    /**
-     * Execute the pre-step event for all object with that event set.
-     * Executes the pre-step event for all objects set to have that event with CoreEngine::setEvent.
-     * The order in which the events are executed for individual objects is not necessarily in the order in which they were added.			
-     * @see executeStepEvents()
-     * @see executePostStepEvents()
-     * @see executeRenderEvents()		
-     * @see executeInputEvents()
-     */
-    void CoreEngine::executePreStepEvents(){
-      evt_pre_step();
-    }
 		
     /**
-     * Execute the step event for all object with that event set.
-     * Executes the step event for all objects set to have that event with CoreEngine::setEvent.
-     * The order in which the events are executed for individual objects is not necessarily in the order in which they were added.	
-     * @see executePreStepEvents()	
-     * @see executePostStepEvents()
+     * Execute the step event for all objects set to have that event.
+     * The order in which the events are executed for individual
+     * objects is not necessarily in the order in which they were
+     * added.
+     *
      * @see executeRenderEvents()
      * @see executeDrawEvents()
      * @see executeInputEvents()
@@ -520,27 +510,15 @@ g     * Object destructor.
       evt_step();
     }
 		
-    /**
-     * Execute the post-step event for all object with that event set.
-     * Executes the post-step event for all objects set to have that event with CoreEngine::setEvent.
-     * The order in which the events are executed for individual objects is not necessarily in the order in which they were added.	
-     * @see executePreStepEvents()	
-     * @see executeStepEvents()
-     * @see executeRenderEvents()		
-     * @see executeInputEvents()
-     */
-    void CoreEngine::executePostStepEvents(){
-      evt_post_step();
-    }
 		
     /**
-     * Execute the render event for all object with that event set.
-     * Executes the render event for all objects set to have that event with CoreEngine::setEvent. Each object is brought into its
-     * own frame of reference and displaced by its displacement before its own render event method is executed. The order in which 
-     * the events are executed for individual objects is not necessarily in the order in which they were added.	
-     * @see executePreStepEvents()	
+     * Executes the render event for all objects set to have that
+     * event. The render events of distinct objects do not interact
+     * via the OpenGL state machine. The order in which the events are
+     * executed for individual objects is not necessarily in the order
+     * in which they were added.
+     *
      * @see executeStepEvents()
-     * @see executePostStepEvents()
      * @see executeDrawEvents()
      * @see executeInputEvents()
      */
@@ -549,12 +527,12 @@ g     * Object destructor.
     }
 		
     /**
-     * Execute the draw event for all object with that event set.
-     * Executes the draw event for all objects set to have that event with CoreEngine::setEvent.
-     * The order in which the events are executed for individual objects is not necessarily in the order in which they were added.	
-     * @see executePreStepEvents()	
+     * Executes the draw event for all objects set to have that event.
+     * The order in which the events are executed for individual
+     * objects is not necessarily in the order in which they were
+     * added.
+     *
      * @see executeStepEvents()
-     * @see executePostStepEvents()
      * @see executeRenderEvents()
      * @see executeInputEvents()
      */
@@ -563,42 +541,50 @@ g     * Object destructor.
     }
 		
     /**
-     * Execute the input event for all object with that event set.
-     * Executes the input event for all objects set to have that event with CoreEngine::setEvent.
-     * The order in which the events are executed for individual objects is not necessarily in the order in which they were added.	
-     * @see executePreStepEvents()	
-     * @see executeStepEvents()
-     * @see executePostStepEvents()
-     * @see executeRenderEvents()
+     * Executes the input event for all objects set to have that
+     * event.  The order in which the events are executed for
+     * individual objects is not necessarily in the order in which
+     * they were added.  
+     *
+     * @see executeStepEvents() 
+     * @see executeRenderEvents() 
      * @see executeDrawEvents()
      */
     void CoreEngine::executeInputEvents(){
       evt_input();
     }
-		
-		
+				
 		
     /**
-     * Set the camera object of the engine.
-     * Sets the camera object of the engine. The camera object should be a derived class of BaseCamera that
-     * overrides BaseCamera::manipulateCamera(). This method is called at a particular point during the rendering
-     * process that makes the camera object uniquely suited for modifying the rendering process based on input or other
-     * parameters (for instance changing the angle at which the scene is viewed based on the mouse position). CoreCamera
-     * is a class that implements the most common functions for a camera object.
-     * @param BaseCamera* cam     a ptr to BaseCamera-derived object.
+     * Set the camera object of the engine. The camera object should
+     * be a derived class of BaseCamera that overrides
+     * BaseCamera::manipulateCamera(). This method is called at a
+     * particular point during the rendering process that makes the
+     * camera object uniquely suited for modifying the rendering
+     * process based on input or other parameters (for instance
+     * changing the angle at which the scene is viewed based on the
+     * mouse position). CoreCamera is a class that implements some
+     * common functions for a camera object.
+     *
+     * @param cam     a pointer to BaseCamera derived object.
      */
     void CoreEngine::setCameraObject(BaseCamera* cam){
       camera = cam;
     }
 		
     /**
-     * Set the view object of the engine.
-     * Sets the view object of the engine. In this case, 'view' is supposed to mean 'camera for the 2D scene' (for no reason, but it needs some name)
-     * The view object should be a derived class of BaseCamera that
-     * overrides BaseCamera::manipulateCamera(). This method is called at a particular point during the drawing
-     * process that makes the CoreCamera uniquely suited for modifying the rendering process based on input or other
-     * parameters (for instance changing the angle at which the scene is viewed based on the mouse position). CoreCamera
-     * is a class that implements the most common functions for a view object.
+     * Set the view object of the engine. Mango renders two scenes, a
+     * 2-dimensional one suprimposed ontop of a 3-dimensional one, and
+     * the view is the "camera" object for the 2d scene. The view
+     * object should be a derived class of BaseCamera that overrides
+     * BaseCamera::manipulateCamera(). This method is called at a
+     * particular point during the drawing process that makes the
+     * view uniquely suited for modifying the scene
+     * based on input or other parameters (for instance changing the
+     * angle at which the scene is viewed based on the mouse
+     * position). CoreCamera is a class that implements the most
+     * common functions for a view object.
+     *
      * @param BaseCamera* vw     a ptr to BaseCamera-derived object.
      */
     void CoreEngine::setViewObject(BaseCamera* vw){
@@ -655,14 +641,7 @@ g     * Object destructor.
     }
 		
 		
-    void CoreEngine::evt_pre_step(){
-      std::vector<Object*>::iterator current_object;
-		
-      for (current_object = events[EVT_TYPE_PRE_STEP].begin(); current_object < events[EVT_TYPE_PRE_STEP].end(); current_object++){
-	(*current_object)->pre_step();
-      }
-		
-    }
+
 		
 		
     void CoreEngine::evt_step(){
@@ -674,14 +653,6 @@ g     * Object destructor.
     }
 		
 		
-    void CoreEngine::evt_post_step(){
-      std::vector<Object*>::iterator current_object;
-		
-      for (current_object = events[EVT_TYPE_POST_STEP].begin(); current_object < events[EVT_TYPE_POST_STEP].end(); current_object++){
-	(*current_object)->post_step();
-      }
-		
-    }				
 		
 		
     void CoreEngine::evt_input(){
@@ -704,18 +675,17 @@ g     * Object destructor.
     }
 
 
-
-
     /* Window Settings Methods */
 		
     /**
-     * Set the size of the window.
-     * Sets the width and height of the window, in pixels (the default value is 640x480). Changes to these dimensions are
-     * meaningful only if made before window intialization is performed. Depending on the implementation, this
-     * value may be ignored.
-     * @param int width      the width of the window, in pixels
-     * @param int height     the height of the window, in pixels
-     * @see getWindowDimensions
+     * Set the width and height of the window, in pixels. Changes to
+     * these dimensions are meaningful only if made before window
+     * intialization is performed.
+     *
+     * @param width      the width of the window, in pixels
+     * @param height     the height of the window, in pixels
+     *
+     * @see windowDimensions
      * @see windowHeight
      * @see windowWidth
      */
@@ -729,23 +699,26 @@ g     * Object destructor.
     }
 		
     /**
-     * Set the window mode.
-     * Sets the window full screen mode (the default is windowed mode). Changes to this value are
-     * meaningful only if made before window intialization is performed. Depending on the implementation, this
-     * value may be ignored.
-     * @param bool mode      0 for windowed, 1 for fullscreen
-     * @see windowIsFullscreen
+     * Set the window full screen mode (the default is windowed
+     * mode). Changes to this value are meaningful only if made before
+     * window intialization is performed. 
+     *
+     * @param mode      0 for windowed, 1 for fullscreen
+     *
+     * @see windowFullscreen
      */
     void CoreEngine::setWindowFullscreen(bool mode){
       full_screen_mode = mode;
     }
 		
     /**
-     * Set the desired FPS.
-     * Sets the maximum number of frames-per-second used to render the scene (the default is 60). The actual FPS may be less if the rendering is slow.
-     * Changes to this value are meaningful only if made before window intialization is performed. Depending on the
-     * implementation, this value may be ignored.
-     * @param int fps      The desired FPS
+     * Set the maximum number of frames-per-second used to render the
+     * scene (the default is 60). The actual FPS may be less if the
+     * rendering is slow.  Changes to this value are meaningful only
+     * if made before window intialization is performed. 
+     *
+     * @param fps      The desired FPS
+     *
      * @see windowFps
      */
     void CoreEngine::setWindowFps(int fps){
@@ -758,35 +731,50 @@ g     * Object destructor.
     }
 		
     /**
-     * Sets whether the buffer should be cleared.
-     * Sets whether the buffer should be cleared at the beginning of every frame. The clear color defaults to black.
-     * @param bool should_clear      boolean value indicating if the buffer should be cleared
+     * Set whether the buffer should be cleared at the beginning of
+     * every frame. The clear color defaults to black.
+     *
+     * @param should_clear      
+     *   boolean value indicating if the buffer should be cleared
+     *
      * @see setClearColor
-     * @see getClearColor
-     * @see clearsBuffer
+     * @see clearColor
+     * @see clearBuffer
      */
     void CoreEngine::setClearBuffer(bool should_clear){
       clear_buffer = should_clear;
     }
 		
     /**
-     * Sets the color used to clear the buffer.
-     * Sets the color that is used to clear the buffer every frame. Defaults to black.
-     * @param GLfloat color_r      float value between 0 and 1 that represents the red component of the clear color
-     * @param GLfloat color_g      float value between 0 and 1 that represents the green component of the clear color
-     * @param GLfloat color_b      float value between 0 and 1 that represents the blue component of the clear color
+     * Set the color that is used to clear the buffer every
+     * frame. Defaults to black.
+     *
+     * @param color_r      
+     *   float value between 0 and 1 that represents the 
+     *   red component of the clear color
+     *
+     * @param color_g      
+     *   float value between 0 and 1 that represents the 
+     *   green component of the clear color
+     *
+     * @param color_b      
+     *   float value between 0 and 1 that represents the 
+     *   blue component of the clear color
+     *
      * @see setClearBuffer
-     * @see getClearColor
+     * @see clearColor
      */
     void CoreEngine::setClearColor(GLfloat cl_r, GLfloat cl_g, GLfloat cl_b){
-      //glClearColor(cl_r, cl_g, cl_b, 0.0);
+      glClearColor(cl_r, cl_g, cl_b, 0.0);
     }
 		
     /**
-     * Retrieves the window dimensions, in pixels.
-     * Assigns the window dimensions (in pixels) to two integer variables passed by reference.
+     * Retrieve the window dimensions (in pixels) by assigning them to
+     * two integer variables passed by reference.
+     *
      * @param int &width     a variable to which the width of the window will be assigned
      * @param int &height    a variable to which the height of the window will be assigned
+     *
      * @see setWindowDimensions
      * @see windowWidth
      * @see windowHeight
@@ -798,8 +786,9 @@ g     * Object destructor.
 		
     /**
      * Returns the window's width in pixels.
-     * Returns the window's width in pixels.
-     * @return int width     the window's width
+     *
+     * @return  width     the window's width
+     *
      * @see setWindowDimensions
      * @see getWindowDimensions
      * @see windowHeight
@@ -810,8 +799,9 @@ g     * Object destructor.
 		
     /**
      * Returns the window's height in pixels.
-     * Returns the window's height in pixels.
-     * @return int height     the window's height
+     *
+     * @return  height     the window's height
+     *
      * @see setWindowDimensions
      * @see getWindowDimensions
      * @see windowWidth
@@ -821,19 +811,22 @@ g     * Object destructor.
     }
 		
     /**
-     * Returns the window's fullscreen mode.
-     * Returns the windows fullscreen mode (true if in fullscreen, false if windowed).
-     * @return bool mode     the window's fullscreen mode.
-     * @see windowShouldBeFullscreen
+     * Returns the window's fullscreen mode (true if in fullscreen,
+     * false if windowed).
+     *
+     * @return      the window's fullscreen mode.
+     *
+     * @see setWindowFullscreen
      */
     bool CoreEngine::windowFullscreen(){
       return full_screen_mode;
     }
 		
     /**
-     * Returns the window's FPS.
-     * Returns the windows desired FPS mode.
-     * @return int FPS     the current desired FPS.
+     * Returns the desired FPS.
+     *
+     * @return      the current desired FPS.
+     *
      * @see setWindowFPS
      */
     int CoreEngine::windowFps(){
@@ -842,10 +835,11 @@ g     * Object destructor.
 		
     /**
      * Returns true if the buffer is set to be cleared every frame.
-     * Returns true if the buffer is set to be cleared every frame.
-     * @return bool will_clear      boolean value indicating if the buffer will be cleared
-     * @see shouldClearBuffer
-     * @see getClearColor
+     *
+     * @return       boolean value indicating if the buffer will be cleared
+     *
+     * @see setClearBuffer
+     * @see clearColor
      * @see setClearColor
      */
     bool CoreEngine::clearBuffer(){
@@ -853,14 +847,24 @@ g     * Object destructor.
     }
 		
     /**
-     * Retrieves the color used to clear the buffer.
-     * Retrieves the color that is used to clear the buffer every frame by assigning it to cl_r, cl_g, cl_b and cl_alpha
-     * @param GLfloat color_r      float value between 0 and 1 that represents the red component of the clear color
-     * @param GLfloat color_g      float value between 0 and 1 that represents the green component of the clear color
-     * @param GLfloat color_b      float value between 0 and 1 that represents the blue component of the clear color
-     * @see shouldClearBuffer
-     * @see clearsBuffer
-     * @see getClearColor
+     * Retrieve the color that is used to clear the buffer every frame
+     * by assigning it to cl_r, cl_g, cl_b and cl_alpha
+     *
+     * @param color_r      
+     *   float value between 0 and 1 that represents the red 
+     *   component of the clear color
+     *
+     * @param color_g      
+     *   float value between 0 and 1 that represents the green 
+     *   component of the clear color
+     *
+     * @param color_b      
+     *   float value between 0 and 1 that represents the blue 
+     *   component of the clear color
+     *
+     * @see setClearBuffer
+     * @see clearBuffer
+     * @see setClearColor
      */
     void CoreEngine::clearColor(GLfloat &cl_r, GLfloat &cl_g, GLfloat &cl_b){
       GLfloat clear_colors[4];
@@ -870,6 +874,10 @@ g     * Object destructor.
       cl_b = clear_colors[2];
     }
 		
+    /**
+     * Limit the frame rate, by sleeping for an amount of milliseconds
+     * appropriate for maintaining the current desired FPS     
+     */
     void CoreEngine::limitFps(){
       int now, time_taken;
       float dt;
@@ -883,10 +891,20 @@ g     * Object destructor.
       last_render_time = elapsed_time_in_milliseconds();
     }
 
+    /**
+     * Count the current frame. This method should be called once per
+     * frame if actualFps() is to return any meaningful results (this
+     * is generally done by the intermediate os layer; mango-on-glut
+     * does).
+     */
     void CoreEngine::countFrame(){      
       frame_count += 1;
     }
 
+    /**
+     * Return the average FPS acheived. For the value returned by this method
+     * to have any meaning, countFrame() should be called every frame.
+     */
     double CoreEngine::actualFps(){
       int now, dt;
 
@@ -915,24 +933,22 @@ g     * Object destructor.
     */
 		
     /**
-     * BaseCamera constructor.
      * BaseCamera constructor, an empty method.
      */
     BaseCamera::BaseCamera() : Object(){
     }
 		
     /**
-     * BaseCamera destructor.
      * BaseCamera destructor, an empty method.
      */
     BaseCamera::~BaseCamera(){
     }
 		
     /**
-     * A pre-render event method trigerred at each render event.
-     * If the object is set as the engineObject's camera object, this method will be called at the begining of
-     * each render event, before the render events of any other world-objects are created. Derived classes should
-     * override this method to specialize camera object functionality.
+     * A pre-render event method trigerred before the render events
+     * for all objects (assuming that the object is set as the CoreEngine's
+     * camera object). Derived classes should override this
+     * method to specialize camera object functionality.
      */
     void BaseCamera::manipulateCamera(){
       // pass
@@ -948,24 +964,14 @@ g     * Object destructor.
 
 
 
-
-
-
-
-		
-		
-		
-		
-		
 		
     /*
       CoreCamera
     */
 		
     /**
-     * CoreCamera constructor.
-     * CoreCamera constructor. Initializes the CoreCamera to the default mode allowing
-     * generic 3D-scene navigation.
+     * CoreCamera constructor. Initializes the CoreCamera to the
+     * default mode allowing generic 3D-scene navigation.
      */
     CoreCamera::CoreCamera():BaseCamera(){
       requirePresenceOfMouse(objectType(), "CoreCamera");
@@ -988,30 +994,33 @@ g     * Object destructor.
 		
     /**
      * CoreCamera destructor.
-     * CoreCamera destructor.
      */
     CoreCamera::~CoreCamera(){
       delete focus_frame;
     }
 					
     /**
-     * Set the camera mode.
-     * Sets the camera mode. See CoreCamera for a detailed description of the different modes.
-     * @param int new_mode       An OR'ed bitwise mask of Vector* mode constants.
+     * Set the camera mode. See CoreCamera for a detailed description
+     * of the different modes.
+     *
+     * @param new_mode       An OR'ed bitwise mask of mode constants.
+     *
      * @see CoreCamera
-     * @see getMode
+     * @see modeEnabled
      */
     void CoreCamera::setMode(int new_mode){
       mode = new_mode;
     }
 		
     /**
-     * Set scale factors.
-     * Sets the scale factors for the camera.
-     * @param GLfloat sx       the scale factor for the x-axis, must be non-zero.
-     * @param GLfloat sy       the scale factor for the y-axis, must be non-zero.
-     * @param GLfloat sz       the scale factor for the z-axis, must be non-zero.
-     * @see getScaleFactors
+     * Set the scale factors for the camera. These are used to glScale
+     * the scene before rendering.
+     *
+     * @param sx       scale factor for the x-axis, must be non-zero.
+     * @param sy       scale factor for the y-axis, must be non-zero.
+     * @param sz       scale factor for the z-axis, must be non-zero.
+     *
+     * @see scaleFactors
      * @see scale
      */
     void CoreCamera::setScaleFactors(GLfloat sx, GLfloat sy, GLfloat sz){
@@ -1031,29 +1040,58 @@ g     * Object destructor.
       zoom_camera_button_code = code;
     }
 
+    /**
+     * Return the focus frame of the camera. This is the frame of reference
+     * that a CoreCamera is always pointing at. 
+     * 
+     * @return a pointer to a Core::Frame instance
+     */
     Frame *CoreCamera::focus(){
       return focus_frame;
     }
 
+    
+    /**
+     * Set the parent frame of the focus frame of the camera. This has
+     * the effect that the camera "follows" the given frame. 
+     *
+     * @param frame_to_follow  pointer to a Core::Frame instance
+     */
     void CoreCamera::follow(Frame *frame_to_follow){
       focus_frame->setParentFrame(frame_to_follow);
     }
 
-
+    /**
+     * Toggle a camera mode on or off
+     *
+     * @param mode_mask  a mode to be toggled
+     */
     void CoreCamera::toggleMode(int mode_mask){
       mode = (mode ^ mode_mask);
     }
 
+    /**
+     * Check if the given camera mode is enabled
+     *
+     * @param mode_mask  a mode to check 
+     * 
+     * @return    true if the given mode is enabled, false otherwise
+     */
     bool CoreCamera::modeEnabled(int mode_mask){
       return ((mode & mode_mask) == mode_mask);
     }
 
     /**
-     * Retrieve camera scale factors.
-     * Retrieves the scale factors for the camera by assigning them to the GLfloats sx, sy, sz that are passed by reference.
-     * @param GLfloat &sx    reference to a variable that will store the camera's x scale-factor
-     * @param GLfloat &sy    reference to a variable that will store the camera's y scale-factor
-     * @param GLfloat &sz    reference to a variable that will store the camera's z scale-factor
+     * Retrieve the scale factors for the camera by assigning them to
+     * the GLfloats sx, sy, sz that are passed by reference.
+     *
+     * @param &sx    
+     *   reference to a variable that will store the camera's x scale-factor
+     * @param &sy    
+     *   reference to a variable that will store the camera's y scale-factor
+     * @param &sz    
+     *   reference to a variable that will store the camera's z scale-factor
+     *
      * @see setScaleFactors
      * @see scale
      */
@@ -1073,14 +1111,16 @@ g     * Object destructor.
     }
 		
     /**
-     * Scale the world.
-     * Scales the world by rx, ry, rz. This has the effect of multiplying the camera's x scale-factor
-     * by rx, the y scale-factor by ry and the z scale-factor by rz
-     * @param GLfloat &sx    reference to a variable that will store the camera's x scale-factor, must be non-zero.
-     * @param GLfloat &sy    reference to a variable that will store the camera's y scale-factor, must be non-zero.
-     * @param GLfloat &sz    reference to a variable that will store the camera's z scale-factor, must be non-zero.
+     * Scale the current scale factors by rx, ry, rz. This has the
+     * effect of multiplying the camera's x scale-factor by rx, the y
+     * scale-factor by ry and the z scale-factor by rz.
+     *
+     * @param rx    amount to scale camera's x scale-factor
+     * @param ry    amount to scale camera's y scale-factor
+     * @param rz    amount to scale camera's z scale-factor
+     *
      * @see setScaleFactors
-     * @see scale
+     * @see scaleFactors
      */
     void CoreCamera::scale(GLfloat rx, GLfloat ry, GLfloat rz){
       if ((rx == 0) || (ry == 0) || (rz == 0)){
@@ -1090,23 +1130,18 @@ g     * Object destructor.
       scale_y = scale_y*ry;
       scale_z = scale_z*rz;
     }
-				
-    // LookAt Functions
+			
+	
+    // look* Functions
 		
     /**
-     * Look at a point from a given distance and orientation.
-     * Positions and orients the camera so as to be pointing at a particular point from a given distance, with
-     * the given orientation angles.
-     * @param Vector at_point      the point the camera will be pointed at
-     * @param GLflaot dist           the distance from at_point for the camera to be positioned at
-     * @param GLfloat alpha          the first orientation angle of the camera
-     * @param GLfloat beta           the second orientation angle of the camera
-     * @param GLfloat gamma          the third orientation angle of the camera
-     * @see lookAtPointFromRelativePoint
-     * @see lookAtPointFromAbsolutePoint
-     * @see lookAtObjectFromDistance
-     * @see lookAtObjectFromRelativePoint
-     * @see lookAtObjectFromObject
+     * Position and orient the camera so as to be pointing at a
+     * particular point from a given distance.
+     *
+     * @param at_point     position the camera will point at
+     * @param dist         distance from at_point to position the camera at
+     *
+     * @see lookFrom
      */
     void CoreCamera::lookAt(Vector at_point, GLfloat dist){
       if (dist > 0){
@@ -1116,11 +1151,28 @@ g     * Object destructor.
       focus_frame->position = at_point;
     }
 
+    /**
+     * Position and orient the camera so that it is looking from one
+     * point at another point.
+     *
+     * @param from_point  new position of the camera
+     * @param at_point    point in space the camera should point to
+     *
+     * @see lookAt
+     */
     void CoreCamera::lookFrom(Vector from_point, Vector at_point){
       focus_frame->position = at_point;
       lookFrom(from_point);
     }
 
+    /**
+     * Move the camera to a given position, but reorient it so that
+     * the position it is pointing at does not change.
+     *
+     * @param from_point  new position of the camera
+     *
+     * @see lookAt
+     */
     void CoreCamera::lookFrom(Vector from_point){
       GLfloat alef, bet;
       Vector v(0, 0, from_point.norm());
@@ -1130,8 +1182,8 @@ g     * Object destructor.
     }
 				
     /**
-     * Parses the input necessary to control the camera.
-     * Parses the input necessary to control the camera and sets the appropriate internal variables.
+     * Parses the input necessary to control the camera and sets the
+     * appropriate internal variables.
      */
     void CoreCamera::step(){
       int mouse_x, mouse_y;
@@ -1217,9 +1269,9 @@ g     * Object destructor.
     }
 		
     /**
-     * Sets the viewing angle of the scene.
-     * Translates and rotates the point from which the scene is viewed, in accordance with input from the mouse and the
-     * set camera mode.
+     * Translates and rotates the point from which the scene is
+     * viewed, in accordance with input from the mouse and the set
+     * camera mode.
      */
     void CoreCamera::manipulateCamera(){
       glScalef(scale_x, scale_y, scale_z);
@@ -1236,36 +1288,54 @@ g     * Object destructor.
   Core::CoreCamera *View;
   Core::Frame *GlobalFrame;
 
+  /**
+   * Throw a Core::EnvironmentError if no global Engine has been initialized.
+   */
   void requirePresenceOfEngine(const char *object, const char *method){
     if (Engine == NULL){
       throw Core::EnvironmentError(object, method, "Global variable Mango::Engine is NULL");
     }
   }
 
+  /**
+   * Throw a Core::EnvironmentError if no global frame has been initialized.
+   */
   void requirePresenceOfGlobalFrame(const char *object, const char *method){
     if (GlobalFrame == NULL){
       throw Core::EnvironmentError(object, method, "Global variable Mango::GlobalFrame is NULL");
     }
   }
 
+  /**
+   * Throw a Core::EnvironmentError if no global keyboard has been initialized.
+   */
   void requirePresenceOfKeyboard(const char *object, const char *method){
     if (Keyboard == NULL){
       throw Core::EnvironmentError(object, method, "Global variable Mango::Keyboard is NULL");
     }
   }
 
+  /**
+   * Throw a Core::EnvironmentError if no global mouse has been initialized.
+   */
   void requirePresenceOfMouse(const char *object, const char *method){
     if (Mouse == NULL){
       throw Core::EnvironmentError(object, method, "Global variable Mango::Mouse is NULL");
     }
   }
 
+  /**
+   * Throw a Core::EnvironmentError if no global camera has been initialized.
+   */
   void requirePresenceOfCamera(const char *object, const char *method){
     if (Camera == NULL){
       throw Core::EnvironmentError(object, method, "Global variable Mango::Camera is NULL");
     }
   }
 
+  /**
+   * Throw a Core::EnvironmentError if no global view has been initialized.
+   */
   void requirePresenceOfView(const char *object, const char *method){
     if (View == NULL){
       throw Core::EnvironmentError(object, method, "Global variable Mango::View is NULL");

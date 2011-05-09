@@ -105,8 +105,7 @@ bool PyEngine::setScriptedEvent(mpy_Object* object, int event_type){
 	  eventRecord.second = callback;
 	  python_events[i].push_back(eventRecord); // Push new callback onto the python_events vector	   
 	  object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first = python_events[i].size()-1; // save a reference to where this callback is stored in the object itself
-	  //            cout << "Saving reference to where object (" << object->internalObject->getObjectID() << ") is stored, at :" << object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first << " for event " << basicObjectEventMethods[i] << endl;
-	  object->internalObject->objectContainers[BOC_TYPE_IDS[i]].second = this;                     // save a reference to this PyEngine object as a basicObjectRecordContainer                        
+	  object->internalObject->objectContainers[BOC_TYPE_IDS[i]].second = this;                     // save a reference to this PyEngine object as a ObjectRecordContainer
 	  
 	  /*
 	    __printPythonEvents(0);
@@ -140,7 +139,7 @@ bool PyEngine::removeScriptedEvent(mpy_Object* object, int event_type){
                 event_index = object->internalObject->objectContainers[BOC_TYPE_IDS[i]].first;
                 event_list_size = python_events[i].size();
                 
-                // XDECREF its ass
+                // XDECREF it
                 Py_XDECREF(python_events[i][event_index].second);
                 
                 if (event_index < event_list_size - 1){

@@ -3,6 +3,13 @@
 
 namespace Mango{
   namespace Core{
+
+    /**
+     * Create a Frame at position (0, 0, 0)  with orientation axes
+     * (0, 1, 0), (1, 0, 0) and (0, 1, 0) and rotation angles all
+     * 0. The default parent frame is the global GlobalFrame, unless
+     * this frame is indicated as being itself a GlobalFrame.     
+     */
     Frame::Frame(bool is_global_frame){
       position[0] = 0;
       position[1] = 0;
@@ -27,27 +34,21 @@ namespace Mango{
       parent_frame = (is_global_frame ? NULL : GlobalFrame);
     }
 
+    /**
+     * Destroy frame instance
+     */
     Frame::~Frame(){
     }
 
     /**
-     * Set the orientation axes.
-     * Sets the orientation axes of the object. The objects orientation in 3-space is determined by rotating
-     * it by its first orientation angle about its first orientation axis, then rotating it by its second
-     * orientation angle about its second oreintation axis (relative to the new coordinate system obtained
-     * from the first rotation) and finally rotating by its third orientation angle about its third orientation
-     * axis (again relative to the new coordinate system). The default values are
-     *
-     * u1 = (0, 1, 0) // the y-axis
-     *
-     * u2 = (1, 0, 0) // the x-axis
-     *
-     * u3 = (0, 1, 0) // the y-axis
-     *
-     * With these values, the oreintation angles of the object are equivalent to its Euler angles.
-     * @param Vector u1    the first orientation axis
-     * @param Vector u2    the second orientation axis
-     * @param Vector u3    the third orientation axis
+     * Set the orientation axes of the object. The object's
+     * orientation in 3-space is determined by rotating it by its
+     * first orientation angle about its first orientation axis, then
+     * rotating it by its second orientation angle about its second
+     * oreintation axis (relative to the new coordinate system
+     * obtained from the first rotation) and finally rotating by its
+     * third orientation angle about its third orientation axis (again
+     * relative to the new coordinate system).
      */
     void Frame::setOrientationAxes(Vector &new_u1, Vector &new_u2, Vector &new_u3){
       if (new_u1[0] == 0 && new_u1[1] == 0 && new_u1[2] == 0){
@@ -65,15 +66,15 @@ namespace Mango{
       u3 = new_u3;
     }
 		
-    /**
-     * Set the orientation angles.
-     * Sets all three orientation angles of the object. For an explanation of the role of the orientation angles 
-     * see Frame::setOrientationAxes.
-     * @param GLfloat alpha    the first orientation angle
-     * @param GLfloat beta     the second orientation angle
-     * @param GLfloat gamma    the third orientation angle
-     * @see setOrientationAxes
-     * @see orientation
+    /**     
+     * Set all three orientation angles of the object. For an
+     * explanation of the role of the orientation angles see
+     * Frame::setOrientationAxes.  
+     *
+     * @param alpha first orientation angle 
+     * @param beta second orientation angle 
+     * @param gamma third orientation angle 
+     * @see setOrientationAxes @see orientation
      */
     void Frame::setOrientation(GLfloat angle_alpha, GLfloat angle_beta, GLfloat angle_gamma){
       alpha = angle_alpha;
@@ -83,11 +84,21 @@ namespace Mango{
 		
 
     /**
-     * Retrieve the object's orientation axes.
-     * Retrieves the object's orientation axes, by assigning them to three Vector variables passed as arguments by reference.
-     * @param Vector &vec_u1      a reference to a Vector variable that will be assigned the value of the first orientation axis
-     * @param Vector &vec_u2      a reference to a Vector variable that will be assigned the value of the second orientation axis
-     * @param Vector &vec_u3      a reference to a Vector variable that will be assigned the value of the third orientation axis
+     * Retrieve the object's orientation axes, by assigning them to
+     * three Vector variables passed as arguments by reference.
+     *
+     * @param &vec_u1 
+     *   Vector variable that will be assigned the value
+     *   of the first orientation axis
+     *
+     * @param  &vec_u2           
+     *   Vector variable that will be assigned the value of the second
+     *   orientation axis
+     *
+     * @param  &vec_u3      
+     *   Vector variable that will be assigned the value of the third
+     *   orientation axis
+     *
      * @see setOrientationAxes
      * @see setOrientation
      * @see orientation
@@ -99,11 +110,21 @@ namespace Mango{
     }
 		
     /**
-     * Retrieve the object's orientation angles.
-     * Retrieves the object's orientation angles, by assigning them to three GLfloat variables passed as arguments by reference.
-     * @param GLfloat &alpha      a reference to a GLfloat variable that will be assigned the value of the first orientation angle
-     * @param GLfloat &beta      a reference to a GLfloat variable that will be assigned the value of the second orientation angle
-     * @param GLfloat &gamma      a reference to a GLfloat variable that will be assigned the value of the third orientation angle
+     * Retrieve the object's orientation angles, by assigning them to
+     * three GLfloat variables passed as arguments by reference.
+     *
+     * @param &alpha      
+     *   variable that will be assigned the
+     *   value of the first orientation angle
+     *
+     * @param &beta      
+     *   variable that will be assigned the
+     *   value of the second orientation angle
+     *
+     * @param &gamma      
+     *   variable that will be assigned the
+     *   value of the third orientation angle
+     *
      * @see setOrientation
      * @see setOrientationAxes
      * @see orientationAxes
@@ -115,11 +136,12 @@ namespace Mango{
     }
 		
     /**
-     * Translate the position of the object.
-     * Translates the position of the object's frame of reference.
-     * @param GLfloat dx     the change in the x-component.
-     * @param GLfloat dy     the change in the y-component.
-     * @param GLfloat dz     the change in the z-component.
+     * Translate the position of the frame of reference.
+     *
+     * @param dx      change in the x-component.
+     * @param dy      change in the y-component.
+     * @param dz      change in the z-component.
+     *
      * @see rotate
      */
     void Frame::translate(GLfloat dx, GLfloat dy, GLfloat dz){
@@ -129,9 +151,12 @@ namespace Mango{
     }
 		
     /**
-     * Translate the frame of reference.
-     * Translates the frame of reference.
-     * @param GLfloat dpos 	a vector representing the change to effect in the frame's position
+     * Translate the position of the frame of reference.
+     *
+     * @param dv 	     
+     *   a vector representing the change to effect in the frame's
+     *   position
+     *
      * @see rotate
      */
     void Frame::translate(Vector &dv){
@@ -139,11 +164,13 @@ namespace Mango{
     }
 
     /**
-     * Rotate the frame of reference.
-     * Rotates the frame of reference by modifying its orientation angles.
-     * @param GLfloat dalpha -   the change in the first orientation angle
-     * @param GLfloat dbeta -    the change in the second orientation angle
-     * @param GLfloat dgamma -   the change in the third orientation angle
+     * Rotate the frame of reference by modifying its orientation angles.
+     *
+     * @param dalpha     change in the first orientation angle
+     * @param dbeta      change in the second orientation angle
+     * @param dgamma     change in the third orientation angle
+     *
+     * @see setOrientationAngles
      */
     void Frame::rotate(GLfloat dalpha, GLfloat dbeta, GLfloat dgamma){
       alpha += dalpha;
@@ -152,6 +179,12 @@ namespace Mango{
     }
 
 
+    /** 
+     * Calculate and return a rotation matrix representing the tranformation
+     * from the parent's orientation to this frame's orientation.
+     *
+     * @return Matrix object representing the desired rotation
+     */
     Matrix Frame::rotationFromParent(){
       GLfloat m[17];
       Matrix M;
@@ -182,6 +215,12 @@ namespace Mango{
       return M;
     }
 
+    /** 
+     * Calculate and return a rotation matrix representing the tranformation
+     * from this frame's orientation to the parent's orientation.
+     *
+     * @return Matrix object representing the desired rotation
+     */
     Matrix Frame::rotationToParent(){
       GLfloat m[17];
       Matrix M;
@@ -212,6 +251,19 @@ namespace Mango{
     }
 
 
+    /** 
+     * Transform and return the given vector to the parent's frame of
+     * reference.  If one thinks of the given vector graphically as
+     * having its base at the origin of this frame of reference and
+     * it's tip at the point it represents relative to this frame of
+     * reference, the returned vector would have its tip at the same point
+     * in 3-space but its base at the origin of the parent frame.
+     *
+     * @return the transformed Vector
+     *
+     * @see transformToAncestor
+     * @see transformFromParent
+     */
     Vector Frame::transformToParent(Vector &w){
       Matrix Rotation = rotationToParent();
       Vector v = Rotation.transform(w);
@@ -219,6 +271,16 @@ namespace Mango{
       return v;
     }
 
+    /** 
+     * Transform and return the given vector to the given ancestor's
+     * frame of reference. If the given frame is not actually an
+     * ancestor of this frame, a Core::ValueError will be thrown. 
+     *
+     * @return the transformed Vector
+     *
+     * @see transformToParent
+     * @see transformFromAncestor
+     */
     Vector Frame::transformToAncestor(Vector &w, Frame *ancestor){
       Vector v;
       if ((parent_frame == NULL) && (ancestor != this)){
@@ -233,7 +295,20 @@ namespace Mango{
     }
 
 
-
+    /** 
+     * Transform and return the given vector from the parent frame of
+     * reference to this one.  If one thinks of the given vector
+     * graphically as having its base at the origin of the parent
+     * frame of reference and it's tip at the point it represents
+     * relative to the parent, the returned vector would have its tip
+     * at the same point in 3-space but its base at the origin of this
+     * frame of reference.
+     *
+     * @return the transformed Vector
+     *
+     * @see transformToParent
+     * @see transformFromAncestor
+     */
     Vector Frame::transformFromParent(Vector &w){
       Matrix Rotation = rotationFromParent();      
       Vector v = w - position;
@@ -241,6 +316,17 @@ namespace Mango{
       return v;
     }
 
+    /** 
+     * Transform and return the given vector from the given ancestor's
+     * frame of reference to this one. If the given frame is not
+     * actually an ancestor of this frame, a Core::ValueError will be
+     * thrown.
+     *
+     * @return the transformed Vector
+     *
+     * @see transformFromParent
+     * @see transformToAncestor
+     */
     Vector Frame::transformFromAncestor(Vector &w, Frame *ancestor){
       Vector v;
       if ((parent_frame == NULL) && (ancestor != this)){
@@ -255,10 +341,25 @@ namespace Mango{
     }
 
 
-
-
-
-
+    /**
+     * Return the first and second orientation angles that would
+     * orient a frame of reference so that its y-axis points in the
+     * same direction as the given vector. Note that if v has length
+     * 0 the variables alef and bet will not be modified.
+     *
+     * @param v a 
+     *   Vector that will determine the orientation angles
+     *
+     * @param &alef 
+     *   variable that will receive the value of the first
+     *   orientation angle
+     *
+     * @param &bet
+     *   variable that will receive the value of the second
+     *   orientation angle
+     * 
+     * @see pointTo
+     */
     void Frame::orientationFor(Vector &v, GLfloat &alef, GLfloat &bet){
       GLfloat r;      
       r = v.norm();
@@ -270,14 +371,27 @@ namespace Mango{
       bet = 90 - (180 / 3.14159265358979323846) * asin(v[1]/r);
     }
 
+    /**
+     * Orient this frame of reference so that its y-axis points in the same
+     * direction as v. If v has zero length, no change it effected to the 
+     * frame's orientation.
+     * 
+     * @param v 
+     *   a Vector that determines the desired orientation for the frame's
+     *   y-axis
+     *
+     * @see orientationFor
+     */
     void Frame::pointTo(Vector &v){
       orientationFor(v, alpha, beta);
     }
 
     /**
-     * Return the frame's parent frame of reference.
-     * Returns a poitner to the parent frame of reference of this frame of reference.
-     * @return  Frame *parent_frame           pointer to the parent frame of reference
+     * Retrieve a pointer to the parent frame of this
+     * frame of reference. A global frame of reference will return NULL.
+     * 
+     * @return pointer to the frame's parent
+     * 
      * @see setParentFrame
      */
     Frame *Frame::parentFrame(){
@@ -285,13 +399,19 @@ namespace Mango{
     }
 
     /**
-     * Set the frame's parent frame of reference.
-     * Sets the frame's parent frame of reference. Passing NULL will cause the global frame of reference to be used. The 
-     * function will return true on success and false on failure. Failure can result from passing a pointer to a frame 
-     * that would cause a circular loop of frames (e.g. passing the frame itself or a frame that has this frame as an 
-     * ancestor). 
-     * @param  Frame* parent_frame            pointer to a frame that will be the new parent frame of reference.
-     * @return bool   success                 true on success, false on failure
+     * Set the frame's parent frame of reference. Passing NULL will
+     * cause the global frame of reference to be used. The function
+     * will return true on success and false on failure. Failure can
+     * result from passing a pointer to a frame that would cause a
+     * circular loop of frames (e.g. passing the frame itself or a
+     * frame that has this frame as an ancestor).
+     *
+     * @param  parent_frame  
+     *   pointer to a frame that will be the new parent 
+     *   frame of reference.
+     *
+     * @return true on success, false on failure
+     *
      * @see parentFrame
      */
     bool Frame::setParentFrame(Frame *new_parent_frame){
@@ -318,10 +438,15 @@ namespace Mango{
     }
 
     /**
-     * Check if a frame is an ancestor of this frame.
-     * Returns true of the argument is an ancestor of this frame, false otherwise
-     * @param  Frame *suspect_ancestor         a frame to check ancestry against
-     * @return bool   is_ancestor              true if suspect_ancestor is an ancestor of this frame, false otherwise
+     * Return true if the argument is an ancestor of this frame, false
+     * otherwise
+     *
+     * @param  suspect_ancestor  a frame to check ancestry against
+     *
+     * @return 
+     *   true if suspect_ancestor is an ancestor of this frame, 
+     *   false otherwise
+     *
      * @see setParentFrame
      * @see parentFrame
      */
@@ -337,13 +462,22 @@ namespace Mango{
 
 
     /**
-     * Transform to the frame's position and orientation
-     * Transforms the rendering point to the frame's position and orientation, in preparation for rendering in this 
-     * frame of reference. If true  is passed, this method will first call transform on its parent, causing the final 
-     * transformation to be relative to the global frame. If false is passed as an argument, the method will not
-     * invoke its parent transformation and so the final transformation will be relative to its parent frame. The
-     *  default value of the argument is true.
-     * @param bool transform_parent                true to invoke the same method on the parent, false to avoid doing so
+     * Transform the rendering point to the frame's position and
+     * orientation, in preparation for rendering in this frame of
+     * reference. If true is passed, this method will first call
+     * transform on its parent, causing the final transformation to be
+     * relative to the global frame. If false is passed as an
+     * argument, the method will not invoke its parent transformation
+     * and so the final transformation will be relative to its parent
+     * frame. The default value of the argument is true. Note that
+     * transformation in used in the context of the OpenGL functions
+     * glTranslated and glRotated.
+     *
+     * @param bool
+     *   true to invoke the same method on the parent,
+     *   false to avoid doing so
+     *
+     * @see reverseTransform
      */
     void Frame::transform(bool transform_parent){
       if (transform_parent && parent_frame != NULL){
@@ -357,6 +491,19 @@ namespace Mango{
       glRotated(gamma, u3[0], u3[1], u3[2]);
     }
 
+    /**
+     * Transform the rendering point with the inverse transformation
+     * to that determined by this frame's position and orientation. If
+     * true is passed, this method will call reverseTransform on its
+     * parent after performing the inverse transformation on this
+     * frame.      
+     *
+     * @param bool
+     *   true to invoke the same method on the parent,
+     *   false to avoid doing so
+     * 
+     * @see transform
+     */
     void Frame::reverseTransform(bool transform_parent){
       glRotated(-gamma, u3[0], u3[1], u3[2]);
       glRotated(-beta, u2[0], u2[1], u2[2]);

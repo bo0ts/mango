@@ -2,16 +2,12 @@
 
 namespace Mango{
   namespace Core{
-    /*
-      Triangle
-    */
     
-    /* Construcors, Destructors */
+
     
     
     /**
-     * Default constructor.
-     * The default constructor, creates a Triangle object with default radius of 0.3 and green color.
+     * Create a Triangle object with default size of 0.3. 
      */
     Triangle::Triangle():Object(){
       tsize = 0.3;
@@ -19,17 +15,16 @@ namespace Mango{
     
     Triangle::~Triangle(){
       //skip
-    }
-    
-    
-    
-    /* Set, Get functions */
+    }    
     
     /**
-     * Set the size.
-     * Sets the size of the Triangle, the distance from its center to any of its vertices.
-     * @param float size       - the new size
-     * @see getSize
+     * Set the size of the Triangle, the distance from its center to
+     * any of its vertices.
+     *
+     * @param size 
+     *   the new size, a ValueError will be raised if it is not positive.
+     *
+     * @see size
      */
     void Triangle::setSize(GLfloat new_size){
       if (new_size <= 0){
@@ -40,8 +35,9 @@ namespace Mango{
     }		
     
     /**
-     * Get the size.
-     * Returns the size of the Triangle, the distance from its center to any of its vertices.
+     * Return the size of the Triangle, the distance from its center
+     * to any of its vertices.
+     *
      * @see setSize
      */
     GLfloat Triangle::size(){

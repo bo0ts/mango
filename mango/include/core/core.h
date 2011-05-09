@@ -11,6 +11,7 @@
 #ifndef MANGO_CORE
 #define MANGO_CORE
 
+
 namespace Mango{
   namespace Core{		
     
@@ -18,16 +19,40 @@ namespace Mango{
     class BaseCamera;
     class CoreEngine;
     class CoreCamera;
-    //		class CoreMouse;
-    //		class CoreKeyboard;
-        
+    
+
+    /**
+     * An "abstract" class from which classes that keep lists of
+     * pointers to Core::Frames should inherit. Each ObjectContainer
+     * has a unique object-container ID and can register itself as a
+     * container of a given Core::Frame. Upon destruction the
+     * Core::Frame instance will notify each of its containers that it
+     * is being destroyed by calling its removeObject method and
+     * passing the appropriate object-container ID (this allows the
+     * ObjectContainer to retrieve the ObjectContainerRecord that
+     * captures the relationship between these two particular
+     * instances of a Frame and an ObjectContainer).
+     *
+     * This class is not used in the core Mango libraries, but
+     * supports fundamental functionality in the Python bindings.
+     */
     class ObjectContainer{
     public:
       virtual void removeObject(Object *object_to_remove, int BOCT_ID){
-	std::cout << "Called the base function ObjectContainer::removeBasicObject" << std::endl;
       }
     };
     
+    /**
+     * A convenience class that pairs an ObjectContainer pointer with
+     * an int. Every Core::Frame keeps a list of
+     * ObjectContainerRecords, the existence of which is assumed by
+     * the ObjectContainer. The latter may iterate over the list
+     * and store context information in the int portion of the
+     * pair. The existence of a populated ObjectContainerRecord in the
+     * list of a Core::Frame instance essentially means "this
+     * ObjectContainer contains me, and it asked me to remember that
+     * I'm it's number <value-of-first-member>, whatever that means".
+     */
     class ObjectContainerRecord: public std::pair<int, ObjectContainer*>{
     public:
       ObjectContainerRecord(){
@@ -37,11 +62,9 @@ namespace Mango{
     };
     
     /**
-     * The base-class for all event-capable objects.
-     * The base-class for all event-capable objects, it implements
-     * - Position and arbitrary orientation in 3-space
-     * - Global to local and local to global transformations
-     * - (Empty) events
+     * The base class for all event-capable objects. It inherits from
+     * Core::Frame, and implements event setting and unsetting
+     * mechanisms, as well as empty event callbacks.
      */
     class Object : public Frame{
    public:
@@ -98,7 +121,7 @@ namespace Mango{
 	  std::cout << "  " << i << ") object->objectContainers[i].second = " << objectContainers[i].second << std::endl;
 	}
 	std::cout << std::endl << "----------------------------------------------------------------" << std::endl;    
-      }		    
+	}	
       
       void __printObjectEvents(){
 	std::cout << std::endl << "----------------------------------------------------------------" << std::endl;
@@ -126,22 +149,12 @@ namespace Mango{
     
     
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
     /**
-     * The base engine class.
-     * The base engine class, it is responsible for keeping track of all objects, triggering object events
-     * callback functions (including the camera) and storing program initilization infromation. For most uses it is
-     * not necessary to derive any classes from it.
+     * The base engine class, it is responsible for keeping track of
+     * all objects, triggering object events callback functions
+     * (including the camera) and storing program initilization
+     * infromation. For most uses it is not necessary to derive any
+     * classes from it.
      */
     class CoreEngine{
     public:
@@ -161,10 +174,8 @@ namespace Mango{
       virtual bool toggleEvent(Object* object, int event_type);
       virtual bool objectHasEvent(Object* object, int event_type);
       
-      //virtual void executeEvent(int event);
-      virtual void executePreStepEvents();
+
       virtual void executeStepEvents();
-      virtual void executePostStepEvents();
       virtual void executeRenderEvents();
       virtual void executeDrawEvents();		        
       virtual void executeInputEvents();
@@ -198,9 +209,7 @@ namespace Mango{
     protected:
       virtual void evt_render();
       virtual void evt_draw();
-      virtual void evt_pre_step();
       virtual void evt_step();
-      virtual void evt_post_step();
       virtual void evt_input();
       
       std::vector<Object *> objects;
@@ -223,20 +232,21 @@ namespace Mango{
     
     
 		
-    
-		
-		
-		
     /**
-     * The base-class for camera objects.
-     * The base-class from which all camera objects should be derived - in fact, this class is more of an 'interface' in
-     * that all of its method implementations are empty (it doesn't really do anything other then force derived classes
-     * to have certain methods). A derived camera object should at least override manipulateCamera(), as this
-     * method is called at a the very begining of the rendering  process and this makes the camera object uniquely suited
-     * for modifying the rendering process based on input or other parameters (for instance changing the angle at which
-     * the scene is viewed based on the mouse position). CoreCamera is a class that implements the most common functions
-     * for a camera object and it suffices for most uses. When more specialized camera functionality is needed it will be
-     * necessary to derive a class from BaseCamera (or perhaps from CoreCamera).
+     * The base class from which all camera objects should be derived
+     * - in fact, this class is more of an 'interface' in that all of
+     * its method implementations are empty. A derived camera object
+     * should at least override manipulateCamera(), as this method is
+     * called at a the very begining of the rendering process and this
+     * makes the camera object uniquely suited for modifying the
+     * rendering process based on input or other parameters (for
+     * instance changing the angle at which the scene is viewed based
+     * on the mouse position). CoreCamera is a class that implements
+     * the some common functions for a camera object and it suffices
+     * for most uses. When more specialized camera functionality is
+     * needed it will be necessary to derive a class from BaseCamera
+     * (or perhaps from CoreCamera).  
+     *
      * @see CoreCamera
      */
     class BaseCamera : public Object{
@@ -259,27 +269,37 @@ namespace Mango{
 
 
     /**
-     * A camera object implementing the most common camera functionality.
-     * A camera object derived from BaseCamera that implements rudimentary mouse-control of the viewing angle, angle and position locking
-     * and convenient camera positioning functions. The CoreCamera object supports various modes:
-     * - LOCK_PAN: disable panning (disables panning by clicking and dragging the left mouse button)
-     * - LOCK_DISTANCE: disable zooming (disables zooming by holding and dragging both mouse buttons)
-     * - LOCK_FIRST_ANGLE: locks the first orientation angle of the camera object (no rotation about the vertical
-     * axis of the local coordinate system of the camera when the right mouse button is dragged)
-     * - LOCK_SECOND_ANGLE: locks the second orientation angle of the camera object (no rotation about the horizontal
-     * axis of the local coordinate system of the camera when the right mouse button is dragged)
-     * - LOCK_THIRD_ANGLE: locks the third orientation angle of the camera object (no rotation about the axis running
-     * into the screen of the local coordinate system of the camera. This affects the camera's interaction with the mouse only
-     * if RMB_CYLINDRICAL_ROTATE is set, in which case the camera won't rotate when the right mouse button is dragged)
-     * - FOCUS_FROM_OBJECT: focus the camera on the object set with CoreCamera::setObjectToFollow(...) at every frame.
-     * Note that this mode, on its own, does not imply the object's orientation angles are used for the camera
-     * - ANGLES_FROM_OBJECT: orient the camera in the same sense as the object set with CoreCamera::setObjectToFollow(...) at every frame.
-     * Note that this mode, on its own, does not imply the object's position is used for the camera
-     * - RMB_CYLINDRICAL_ROTATE: Dragging the right mouse button will cause the camera to rotate around the axis
-     * of the local coordinate system going into the page.
-     * - LOCK_POSITION = LOCK_DISTANCE | LOCK_FIRST_ANGLE | LOCK_SECOND_ANGLE | LOCK_THIRD_ANGLE
+     * A camera object derived from BaseCamera that implements
+     * rudimentary mouse-control of the viewing angle, angle and
+     * position locking and convenient camera positioning
+     * functions. The CoreCamera object supports various modes:
+     *
+     * - LOCK_PAN: disable panning (disables panning by clicking and
+     *   dragging the left mouse button) 
+     * - LOCK_DISTANCE: disable zooming (disables zooming by holding 
+     *   and dragging both mouse buttons)
+     * - LOCK_FIRST_ANGLE: locks the first orientation angle of the 
+     *   camera object (no rotation about the vertical
+     *   axis of the local coordinate system of the camera when the 
+     *   right mouse button is dragged)
+     * - LOCK_SECOND_ANGLE: locks the second orientation angle of the 
+     *   camera object (no rotation about the horizontal
+     *   axis of the local coordinate system of the camera when the 
+     *   right mouse button is dragged)
+     * - LOCK_THIRD_ANGLE: locks the third orientation angle of the 
+     *   camera object (no rotation about the axis running
+     *   into the screen of the local coordinate system of the
+     *   camera. This affects the camera's interaction with the 
+     *   mouse only if RMB_CYLINDRICAL_ROTATE is set, in which case 
+     *   the camera won't rotate when the right mouse button is dragged)
+     * - RMB_CYLINDRICAL_ROTATE: Dragging the right mouse button will 
+     *   cause the camera to rotate around the axis of the local 
+     *   coordinate system going into the screen.
+     * - LOCK_POSITION = LOCK_DISTANCE | LOCK_FIRST_ANGLE | 
+     *   LOCK_SECOND_ANGLE | LOCK_THIRD_ANGLE
      * - LOCK_ALL = LOCK_POSITION | LOCK_PAN
-     * @see basicCameraObject
+     *
+     * @see BaseCamera
      */
     class CoreCamera : public BaseCamera{
     public:

@@ -6,7 +6,12 @@
 
 namespace Mango{
   namespace Core{
-				
+
+    /**
+     * The base class for all Mango errors. All objects should raise errors 
+     * derived from this class unless they wish to completely bypass Mango's 
+     * error catching mechanisms
+    */
     class Error : public std::exception{
     public:
       Error(const char *origObjectType, const char *originatingMethodName, const char *m="");
@@ -29,7 +34,10 @@ namespace Mango{
       char *origObjectType, *methodName, *fullMsg;
     };
 				
-		
+    /**
+     * An error appropriate for situations in which a variable or
+     * argument has an invalid value and execution cannot continue.
+     */
     class ValueError : public Error{
     public:
     ValueError(const char *origObjectType, const char *originatingMethodName, const char *m=""): Error(origObjectType, originatingMethodName, m){
@@ -40,6 +48,10 @@ namespace Mango{
       }
     };
 		
+    /**
+     * An error appropriate for situations in which an index variable
+     * has an invalid value and execution cannot continue.
+     */
     class IndexError : public Error{
     public:
     IndexError(const char *origObjectType, const char *originatingMethodName, const char *m=""): Error(origObjectType, originatingMethodName, m){
@@ -50,6 +62,10 @@ namespace Mango{
       }
     };
 	  
+    /**
+     * An error appropriate for situations in which a failure occurred
+     * while setting up the Mango, or a more general, environment.
+     */
     class EnvironmentError : public Error{
     public:
     EnvironmentError(const char *origObjectType, const char *originatingMethodName, const char *m=""): Error(origObjectType, originatingMethodName, m){
