@@ -67,7 +67,7 @@ and when prompted to select components, mark the following: "C++ compiler",
 "MSYS Basic System" and "MingW Developer Toolkit". Once the install 
 completes you should have MinGW and MSYS installed. 
 
-There are several ways to install GLUT. My perferred method is not to install
+There are several ways to install GLUT. My preferred method is not to install
 it at all, but rather use freeGLUT, which can be found at 
 http://freeglut.sourceforge.net. The download page should reference prebuilt
 packages for windows - make sure to get the MinGW package. Installation

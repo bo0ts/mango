@@ -1,5 +1,5 @@
-Mango API (Python)
-===================
+API (Python)
+============
 
 .. toctree::
    :maxdepth: 1
@@ -19,5 +19,6 @@ Mango API (Python)
 :mod:`Geometry` -- Geometric Objects
 
 
+|
 
-
+*see also* :doc:`/constants`

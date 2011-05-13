@@ -2,9 +2,11 @@
 Development in Python
 =====================
 
-To get started writing Mango simulations as Python scripts, all you need is 
-Mango and a text editor. You can download and install Mango HERE. If you're 
-not sure which is an appropriate editor, consider one of THESE. 
+Once Mango is set up (see :doc:`/setup`), arm yourself with your
+favorite editor and you are ready to start. Although any text editor
+will do, one intended for development is better (`Notepad++
+<http://notepad-plus-plus.org/>`_ on Windows or `gedit
+<http://projects.gnome.org/gedit/>`_ on OSX are good choices).
 
 .. toctree::
    :maxdepth: 2

@@ -11,7 +11,7 @@ dimensional space. For example, to create a vector with the coordinates
 
   print(v) # prints "<2.00, 3.00, 1.20>"
 
-Vectors behave like tupples with some additional functionality. You can add
+Vectors behave like tuples with some additional functionality. You can add
 and subtract vectors, multiply them by numbers, and access their components
 individually:
 

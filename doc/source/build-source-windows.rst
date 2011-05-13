@@ -14,7 +14,7 @@ Configuring, Building and Installing
 
 Download the source, say to *C:\\src\\mango.tar.gz* (if using another
 location, substitute the containing directory for *C:\\src\\* and the
-archive name for *mango.tar.gz* where apropriate). open a MinGW shell
+archive name for *mango.tar.gz* where appropriate). open a MinGW shell
 (for instance by selecting "MinGW > MinGW Shell" from the Program
 Files menu), cd into */c/src/* and untar the archive with:
 
@@ -26,7 +26,7 @@ This will extract the source to *C:\\src\\mango*.
 
 Next we will change into this directory. While it is not strictly
 necessary, we will also create a build directory and configure/build
-the project there (if you perfer not to do this simply skip those
+the project there (if you prefer not to do this simply skip those
 steps and adjust commands appropriately):
 
   .. code-block:: bash

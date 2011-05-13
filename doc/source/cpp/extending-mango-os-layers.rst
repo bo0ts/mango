@@ -17,18 +17,18 @@ the task of embedding or using Mango without GLUT a relatively
 straightforward manner. 
 
 If you wish to develop an additional intermediate OS layer, your best
-reference is the mango_on_glut source file which can be found at 
-mango_on_glut/src/mango_on_glut.cpp relative to the root of the source-code
-package. Your code will need to accomplish the same tasks, while also making
-calls to the global instances *Engine*, *Mouse* and *Keyboard* in the
-following situations:
+reference is the mango_on_glut source file which can be found at
+*mango_on_glut/src/mango_on_glut.cpp* relative to the root of the
+source-code package. Your code will need to accomplish the same tasks,
+while also making calls to the global instances *Engine*, *Mouse* and
+*Keyboard* in the following situations:
 
   * call *Engine->setWindowDimensions(...)* if/when the window dimensions
     change.
 
   * call *Engine->countFrame()* once per frame for Mango to keep track
     of the frame-rate, and *Engine->limitFps()* once per frame if you wish
-    Mango to limit the frame rate (if you provide your own frame-limitting
+    Mango to limit the frame rate (if you provide your own frame-limiting
     functionality, you should respect the value returned by 
     *Engine->windowFPS()*)
 

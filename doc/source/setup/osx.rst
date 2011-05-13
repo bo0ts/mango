@@ -46,7 +46,7 @@ Framework files will be located at
         all of your scripts to live in this directory, only those that
         should be accessible on a system-wide scale.
 
-    * **inculde**:
+    * **include**:
         C++ header files. These should be used in conjunction with the
         libraries in *lib*.
 

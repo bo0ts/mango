@@ -1,7 +1,7 @@
-Strucure of Framework
-=====================
+Structure of Framework
+======================
 
-Mango is intended to be a modular framework, with serveral components that 
+Mango is intended to be a modular framework, with server Al components that 
 are designed with each other in mind but nonetheless may be useful 
 independently. The names of these components are:
 
@@ -22,7 +22,7 @@ components follow.
 Mango *(Core Libraries)*
 ------------------------
 
-The Mango core libraries are refferred to simply as 'mango' in the rest of
+The Mango core libraries are referred to simply as 'mango' in the rest of
 this section. They define several classes in C++ (encompassed in the 
 namespaces Mango::Core and Mango::Draw) that implement object-tracking, 
 event registration and event dispatching mechanisms. mango's only dependency 
@@ -53,7 +53,7 @@ naming is inspired by a popular web application framework that you are
 most likely familiar with).
 
 Because the role of this component is a supporting one and GLUT does almost
-all of the hard work, its complexity is quite limited: it provids 
+all of the hard work, its complexity is quite limited: it provides 
 initialization routines that set up the GLUT environment (not too different 
 from what you would find in most GLUT tutorials), keyboard and mouse 
 GLUT-callbacks that populate the keyboard and mouse abstractions (voluminous 

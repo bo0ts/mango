@@ -1,4 +1,4 @@
-Knwon Issues
+Known Issues
 ============
 
 A few surprise features that crept in at the last minute
@@ -22,7 +22,7 @@ not good practice in this version of Mango:
       sphere = Geometry.Sphere() # Bad practice, each new sphere replaces previous one
       sphere.set(RENDER)
 
-The problem with the above snippet is that no reference is retained to the 
+The problem with the above snippet is that no reference is retained to
 the first 9 sphere objects created. The solution is simple - store the
 objects in a list:
 

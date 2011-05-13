@@ -4,10 +4,10 @@ Extending Mango: New Classes
 Implementing new Mango classes in Python and C++ is an integral part
 of developing simulations. In this sense, Mango can be extended with
 the addition of new classes simply by placing the code for derived
-classes in a seperate file and importing or including that file into
+classes in a separate file and importing or including that file into
 other simulations, according with the correct practices of each
 languages. If this seems unclear, consider reading through the portion
-of the documentation that describes simuation development in Python
+of the documentation that describes simulation development in Python
 and/or C++.
 
 It is also possible to extend Mango with Python-accessible classes
@@ -19,7 +19,7 @@ be imported into simulations written in Python with the standard
 "import" statement.
 
 Most of the work in this section is basic to creating any Python
-extension, and developers may find it enlightning or useful to read
+extension, and developers may find it enlightening or useful to read
 the "Extending and Embedding" portion of the Python
 documentation. This is not, however, required - the code presented
 here is intended as a skeletal Mango extension that builds "out of the
@@ -34,7 +34,7 @@ Platonic Solids
 Consider the following C++ header file *tetrahedron.h* that implements
 a bare-bones platonic solids module:
 
-  .. literalinclude:: /../../mangopy/samples/solids/tetrahedron.h
+  .. literalinclude:: /sample-code/solids/tetrahedron.h
      :language: c++
 
 We wish to create an extension that will allow Python simulations to
@@ -46,7 +46,7 @@ A Module is Born
 The first step will be to create a new Python module called Solids. To
 do this save the following as *pysolids.cpp*:
 
-  .. literalinclude:: /../../mangopy/samples/solids/pysolids.cpp
+  .. literalinclude:: /sample-code/solids/pysolids.cpp
      :language: c++
 
 This file defines the Solids module and provides an initialization
@@ -54,7 +54,7 @@ routine. The purpose of the initialization routine is to create the
 module object, run Mango module initialization, add new types and
 constants to the module and return the module. It will be called when
 "import Solids" is executed in a simulation, and indicates that an error
-occured by returning NULL.
+occurred by returning NULL.
 
 Note that *mpy_TetrahedronType* is used in *mpy_addObjectToModule*,
 and that this struct is defined in *pytetrahedron.h*.
@@ -67,18 +67,18 @@ with Python bindings. This is where the code gets lengthy with a fair
 amount of boiler-plate code. Let's start with the header
 *pytetrahedron.h*, which is still relatively short:
 
-  .. literalinclude:: /../../mangopy/samples/solids/pytetrahedron.h
+  .. literalinclude:: /sample-code/solids/pytetrahedron.h
      :language: c++
 
 And finally, the implementation of the bindings in
 *pytetrahedron.cpp*:
 
-  .. literalinclude:: /../../mangopy/samples/solids/pytetrahedron.cpp
+  .. literalinclude:: /sample-code/solids/pytetrahedron.cpp
      :language: c++
 
 In general, unless you are attempting something especially fancy, the
 dealloc and new methods require very little change - just replace
-occurances of Solids::Tetrahdeon with your own module and class (say
+occurrences of Solids::Tetrahdeon with your own module and class (say
 Foo::Bar) and leave the rest alone. 
 
 The setters and getters show the basics of wrapping C++ methods.
@@ -118,6 +118,12 @@ parallels between its C++ and Python APIs, so that class members will
 be exposed either via setters/getters in both languages, or as
 attributes in both languages, but not as one in one language and
 another in the other).
+
+While most of the C++ mangopy API is documented in the C++ API section, 
+the Python-centric C API is missing from there. Most of the functions you
+need are described or shown here, but looking through the source to see
+how things are accomplished in mangopy or pygeometry may be of use if 
+some concepts are unclear.
 
  .. note::
 
@@ -168,7 +174,7 @@ your Mango installation to make it available to all Mango scripts.
 For instance, if the following code is saved as pyramids.py and placed
 in the same directory as the build product Solids.so (or Solids.pyd):
 
-  .. literalinclude:: /../../mangopy/samples/solids/pyramids.py
+  .. literalinclude:: /sample-code/solids/pyramids.py
      :language: python
 
 Running it with Mango will yield:

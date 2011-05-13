@@ -1,6 +1,6 @@
 Frames
 =======
-All positioning and orienting of objects in Mango is done via a Frame 
+all positioning and orienting of objects in Mango is done via a Frame 
 object, an instance of the class Core.Frame, which represents a particular 
 frame of reference. All frames are positioned and oriented relative to a 
 global frame of reference that defines the coordinate system used by all 
@@ -35,7 +35,7 @@ Frames as instances of the class Core.Frame define frames of reference, but
 these are not the only frames in a simulation. Every object derived from
 Core.Object (i.e. any object you can set events on) is itself a frame - it has
 all the methods and attributes that a frame has, and it is completely 
-interchangable with frames in every situation. We will take advantage of this
+interchangeable with frames in every situation. We will take advantage of this
 convenient fact and use classes from the Geometry module as frames, because 
 they make visualization easier. Keep in mind as you
 proceed, however, that everything also applies to instances of the class 

@@ -14,7 +14,7 @@ A Template C++ Mango simulation takes the following form:
 
   .. code-block:: c++
   
-     #include "mango_on_glut.h" // include "Mango/mango_on_glut.h" on OSX
+     #include "Mango/mango_on_glut.h" 
      
      using namespace std;
      using namespace Mango;
@@ -55,8 +55,8 @@ hello_box.cpp:
 
   .. code-block:: c++
   
-     #include "mango_on_glut.h" // include "Mango/mango_on_glut.h" on OSX
-     #include "geometry.h" // include "Mango/geometry.h" on OSX
+     #include "Mango/mango_on_glut.h" 
+     #include "Mango/geometry.h" 
      
      using namespace std;
      using namespace Mango;
@@ -89,29 +89,6 @@ hello_box.cpp:
        Mango::finalize();
      }
 
-
-\ 
-
-  .. note::
-    
-     In order to include Mango headers on OSX, the header filenames 
-     must be prefixed with *"Mango/"*, like so:
-  
-       .. code-block:: c++
-       
-          #include "Mango/mango_on_glut.h"
-  
-     If you wish to write cross-platform code, you may leverage the fact 
-     that g++ defines __APPLE__ on OSX and use the following preprocessor
-     fanciness:
-  
-        .. code-block:: c++
-        
-  	 #ifdef __APPLE__
-  	   #include "Mango/mango_on_glut.h"
-  	 #else
-  	   #include "mango_on_glut.h"
-  	 #endif
 
 
 Then from a terminal window, build it in the manner appropriate for your 
@@ -192,14 +169,9 @@ parallel often holds for more complex simulations as well.
 Here is another example simulating a ball bouncing on a platform:
 
   .. code-block:: c++
-  
-    #ifdef __APPLE__
+      
     #include "Mango/mango_on_glut.h"
-    #include "Mango/geometry.h"
-    #else
-    #include "mango_on_glut.h"
-    #include "geometry.h"
-    #endif
+    #include "Mango/geometry.h"  
     
     using namespace Mango;
     

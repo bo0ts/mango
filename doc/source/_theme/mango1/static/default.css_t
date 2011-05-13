@@ -531,11 +531,11 @@ dl.data>dd>p {
 }
 
 dl.class>dt {
-    color: #82a3c7;
+    
 }
 
 dl.class>dd>p,dl.class>dd>ol,dl.class>dd>ul {
-    color: #637b96;
+    
 }
 
 dl.function>dt,dl.method>dt,dl.attribute>dt {
@@ -566,8 +566,7 @@ dl.function>dd>p:first-child:before, dl.method>dd>p:first-child:before, dl.attri
 }
 
 dt:target, .highlight {
-    color: #444;
-    background: #EEE;
+    background: #FFF;
 }
 
 .highlight {
@@ -655,3 +654,29 @@ dl.function>dd>ul, dl.method>dd>ul, dl.attribute>dd>ul,
 dl.class>dd>ol, dl.class>dd>ul {
     padding-left:20px;
 }
+
+.docutils dd{
+    padding-bottom: 20px;
+    padding-left: 80px
+}
+
+.docutils dd dd{
+    padding-bottom: 0px;
+}
+
+.docutils dt strong{
+    font-size: 120%;
+}
+
+.docutils dd th{
+    text-align: left;
+}
+
+.docutils dd tt{
+    background-color: #fff;
+}
+
+.docutils dd tt .pre{
+    color: #444;
+}
+

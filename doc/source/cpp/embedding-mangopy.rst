@@ -14,7 +14,7 @@ larger project, and that *mango-on-glut* is not configurable enough
 still possible to use Mango, but some additional work may be necessary
 for Mango to play nicely with the rest of the program.
 
-The first and most significatn step is to build (or otherwise obtain)
+The first and most significant step is to build (or otherwise obtain)
 a new intermediate os-layer, as described in
 :doc:`/cpp/extending-mango-os-layers`. This new layer should integrate
 with Mango and whatever code is used in your program to create a
@@ -45,7 +45,7 @@ call the following methods somewhere in your program:
 It doesn't get much simpler, does it? For these purposes you will need
 to include *Mango/mango.h* and link against *lib/libmango.a*. 
 
-If a scriptable Python envrionment is desired, use the MangoPy
+If a script able Python environment is desired, use the MangoPy
 routines instead:
 
   .. code-block:: c++
@@ -75,7 +75,7 @@ and OpenGL enabled Python environment in your C++ application. Check
 out the source code for *mangopy-on-glut*, the Mango executable, at
 *mangopy_on_glut/src/mangopy_on_glut.cpp* - it is a basic
 implementation of the concepts described here, and it's relative
-simplicty should be encouraging. 
+simplicity should be encouraging. 
 
 To compile/link in this case, include *Mango/mangopy.h* and link
 against *lib/libmango.a*, *lib/libmangopy.a*, and the Python library.

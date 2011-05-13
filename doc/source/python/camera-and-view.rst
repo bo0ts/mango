@@ -108,7 +108,7 @@ of the camera without changing the viewing angle:
   
   Camera.lookAt((1, 0, 1))
   
-Camera.lookAt changes the focus of the camera while maintaing the (relative)
+Camera.lookAt changes the focus of the camera while maintaining the (relative)
 viewing angle. In this case, we changed the focus to the center of the blue
 box:
 
@@ -220,8 +220,8 @@ pan at all, and can only rotate the viewing angle vertically.
 The View in 2D
 --------------
 
-Recall that the CoreCamera instance Camera controlls only the 3D scene, and
-that there is another instance of this class named View that controlls the
+Recall that the CoreCamera instance Camera controls only the 3D scene, and
+that there is another instance of this class named View that controls the
 2D one. View behaves much in the same way that Camera does, and all
 techniques mentioned so far for the camera apply to it as well. One notable
 difference is in the default mode: for View it is RMB_CYLINDRICAL_ROTATE.

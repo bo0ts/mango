@@ -108,7 +108,7 @@ revisit the box and give it some life. In order to do this, we are going to deri
 a class that inherits from Geometry.Box and override its 'step' event. The step
 event is an event that gets executed approximately 60 times per second. If we rotate
 the box just a little bit in every step event, the net effect will be for the box
-to rotate continuosly. Something like this should do the trick:
+to rotate continuously. Something like this should do the trick:
 
 .. code-block:: python
 
