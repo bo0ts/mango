@@ -6,21 +6,12 @@ AC_PROG_CXX
 LT_INIT([disable-shared])
 AC_CONFIG_FILES([Makefile])
 
-
 # Set default prefix
 AC_PREFIX_DEFAULT("/opt/mango/1.0/")
 AC_SUBST([scriptdir], "\${exec_prefix}/script")
 AC_SUBST([sampledir], "\${exec_prefix}/sample")
 AC_SUBST([bindir], "\${exec_prefix}/core")
 AC_SUBST([docdir], "\${exec_prefix}/doc")
-
-#AC_SUBST([docimagesdir], "\${exec_prefix}/doc/_images")
-#AC_SUBST([docstaticdir], "\${exec_prefix}/doc/_static")
-#AC_SUBST([doccppdir], "\${exec_prefix}/doc/cpp")
-#AC_SUBST([docpythondir], "\${exec_prefix}/doc/python")
-#AC_SUBST([docsetupdir], "\${exec_prefix}/doc/setup")
-
-
 
 # Detect host
 AC_CANONICAL_HOST
