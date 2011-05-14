@@ -16,6 +16,7 @@ be installed. Instructions are provided for Linux, OSX and Windows.
    setup/linux.rst
    setup/osx.rst
    setup/windows.rst
+   setup/uninstall.rst
    setup/dependencies-versions.rst
 
 

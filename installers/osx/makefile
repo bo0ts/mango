@@ -33,18 +33,22 @@ Headers: 1.0
 1.0: Mango
 	mkdir 1.0
 	mkdir 1.0/Resources
-	mkdir 1.0/bin
+	mkdir 1.0/core
+	mkdir 1.0/script
 	mkdir 1.0/lib
-	mkdir 1.0/cxxlib
 	mkdir 1.0/doc
-	mkdir 1.0/samples
-	cp imports/build-osx/mango 1.0/bin/
-	cp imports/build-osx/.libs/*.a 1.0/cxxlib/
-	cp imports/build-osx/.libs/libpygeometry.dylib 1.0/lib/Geometry.pyd
+	mkdir 1.0/sample
+	cp imports/build-osx/mango 1.0/core/
+	cp -R ../../python-redist/* 1.0/core/
+	cp imports/build-osx/.libs/*.a 1.0/lib/
+	cp -L imports/build-osx/.libs/Geometry.so 1.0/script/Geometry.so
+	cp imports/mangopy_on_glut/demo/demo.py 1.0/script/
 	cp -R imports/doc/build/html/ 1.0/doc/
+	cp imports/mangopy_on_glut/sample/*.py 1.0/sample/
 	cp Info.plist 1.0/Resources/
 	cp osx-link-mango.sh 1.0/Resources/
 	cp Mango 1.0/Mango
+	cp ../../LICENSE 1.0/LICENSE
 
 clean:
 	rm Mango
