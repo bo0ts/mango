@@ -26,7 +26,7 @@ folder and symbolic link:
   | */Library/Frameworks/Mango.framework/*
   | */usr/bin/mango*
 
-Admin permissions may be required to remove these folders.
+Admin permissions may be required to remove these files.
 
 
 Windows
