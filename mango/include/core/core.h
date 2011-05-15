@@ -70,67 +70,55 @@ namespace Mango{
    public:
       Object();		        
       ~Object();
+      //// @cond
       virtual void removeObjectFromEngineAndBOCs();
+      //// @endcond
       
+      /**
+       * Return a string that represents the object type. This method
+       * is automatically called in some error conditions in order to
+       * provide object-specific trace information. Derived classes 
+       * should override this method for customization.
+       */
       virtual const char *objectType() const{
 	return "Object";
       }
-      
+
+      //// @cond
       void __printEventIndices__();
       
       bool toggleVisibility();
       void setVisible(bool should_be_visible);
       bool visible();
+      //// @endcond
 
       bool set(int event_type);
       bool unset(int event_type);
       void toggle(int event_type);
       bool executes(int event_type);
-      //int getEventMask();		uncomment if needed                        
             
-      int objectID();								        
+      //// @cond
+      int objectID();
       
       int events;
       int event_indices[ENGINE_MAX_EVENT_TYPES]; // keeps track of where in the events array this object is
+      //// @endcond
       
-      virtual void pre_step();
       virtual void step();
-      virtual void post_step();
       virtual void render();
       virtual void draw();
       virtual void input(inputEvent &event);
       
 		
+      //// @cond
       std::vector<ObjectContainerRecord> objectContainers;
       static int nextObjectTypeId;
       static int createObjectContainerType(){
 	nextObjectTypeId += 1;
 	return nextObjectTypeId - 1;
-      }            
-      
-      
-      // Debugging
-      
-      void __printObjectContainers(){
-	int size = objectContainers.size();
-	std::cout << std::endl << "----------------------------------------------------------------" << std::endl;
-	std::cout << "object @(" << this << ") with " << size << " object containers: " << std::endl;
-	for (int i = 0; i < size; i += 1){
-	  std::cout << "  " << i << ") object->objectContainers[i] = " << &(objectContainers[i]) << std::endl;
-	  std::cout << "  " << i << ") object->objectContainers[i].first = " << objectContainers[i].first << std::endl;
-	  std::cout << "  " << i << ") object->objectContainers[i].second = " << objectContainers[i].second << std::endl;
-	}
-	std::cout << std::endl << "----------------------------------------------------------------" << std::endl;    
-	}	
-      
-      void __printObjectEvents(){
-	std::cout << std::endl << "----------------------------------------------------------------" << std::endl;
-	std::cout << "object @(" << this << ") with event_mask: " << events << std::endl;
-	for (int i = 0; i < ENGINE_MAX_EVENT_TYPES; i += 1){
-	  std::cout << "  " << i << ") object->event_indices[" << i << "] = " << event_indices[i] << std::endl;		                
-	}
-	std::cout << std::endl << "----------------------------------------------------------------" << std::endl;    
-      }		        
+      }   
+      //// @endcond
+           
       
     protected:
       void setObjectID(int new_objectID);
@@ -184,8 +172,10 @@ namespace Mango{
       void setCameraObject(BaseCamera* cam);
       void setViewObject(BaseCamera* vw);
       
+      //// @cond
       BaseCamera *camera, *view;
       int prev_mouse_x, prev_mouse_y;
+      //// @endcond
       
       // Window Settings Setters/Getters
       void setWindowDimensions(int width, int height);
@@ -254,9 +244,11 @@ namespace Mango{
       BaseCamera();
       ~BaseCamera();
       
+      //// @cond
       virtual const char *objectType() const{
 	return "BaseCamera";
       }
+      //// @endcond
       
       virtual void manipulateCamera();
     };
@@ -269,36 +261,34 @@ namespace Mango{
 
 
     /**
-     * A camera object derived from BaseCamera that implements
-     * rudimentary mouse-control of the viewing angle, angle and
+     * A Camera object derived from BaseCamera that implements
+     * rudimentary control of the viewing angle, angle and
      * position locking and convenient camera positioning
-     * functions. The CoreCamera object supports various modes:
-     *
-     * - LOCK_PAN: disable panning (disables panning by clicking and
-     *   dragging the left mouse button) 
-     * - LOCK_DISTANCE: disable zooming (disables zooming by holding 
-     *   and dragging both mouse buttons)
-     * - LOCK_FIRST_ANGLE: locks the first orientation angle of the 
-     *   camera object (no rotation about the vertical
-     *   axis of the local coordinate system of the camera when the 
-     *   right mouse button is dragged)
-     * - LOCK_SECOND_ANGLE: locks the second orientation angle of the 
-     *   camera object (no rotation about the horizontal
-     *   axis of the local coordinate system of the camera when the 
-     *   right mouse button is dragged)
-     * - LOCK_THIRD_ANGLE: locks the third orientation angle of the 
-     *   camera object (no rotation about the axis running
-     *   into the screen of the local coordinate system of the
-     *   camera. This affects the camera's interaction with the 
-     *   mouse only if RMB_CYLINDRICAL_ROTATE is set, in which case 
-     *   the camera won't rotate when the right mouse button is dragged)
-     * - RMB_CYLINDRICAL_ROTATE: Dragging the right mouse button will 
-     *   cause the camera to rotate around the axis of the local 
-     *   coordinate system going into the screen.
-     * - LOCK_POSITION = LOCK_DISTANCE | LOCK_FIRST_ANGLE | 
-     *   LOCK_SECOND_ANGLE | LOCK_THIRD_ANGLE
-     * - LOCK_ALL = LOCK_POSITION | LOCK_PAN
-     *
+     * functions. The CoreCamera object supports various modes:     
+     * \verbatim embed:rst 
+     * LOCK_PAN: disable panning (disables panning by clicking and dragging the left mouse button) 
+     * LOCK_DISTANCE: disable zooming (disables zooming by holding and dragging both mouse buttons)
+     * LOCK_FIRST_ANGLE: locks the first orientation angle of the 
+         camera object (no rotation about the vertical
+         axis of the local coordinate system of the camera when the 
+         right mouse button is dragged)
+     * LOCK_SECOND_ANGLE: locks the second orientation angle of the 
+         camera object (no rotation about the horizontal
+         axis of the local coordinate system of the camera when the 
+         right mouse button is dragged)
+     * LOCK_THIRD_ANGLE: locks the third orientation angle of the 
+         camera object (no rotation about the axis running
+         into the screen of the local coordinate system of the
+         camera. This affects the camera's interaction with the 
+         mouse only if RMB_CYLINDRICAL_ROTATE is set, in which case 
+         the camera won't rotate when the right mouse button is dragged)
+     * RMB_CYLINDRICAL_ROTATE: Dragging the right mouse button will 
+         cause the camera to rotate around the axis of the local 
+         coordinate system going into the screen.
+     * LOCK_POSITION = LOCK_DISTANCE | LOCK_FIRST_ANGLE | 
+         LOCK_SECOND_ANGLE | LOCK_THIRD_ANGLE
+     *  LOCK_ALL = LOCK_POSITION | LOCK_PAN
+      \endverbatim
      * @see BaseCamera
      */
     class CoreCamera : public BaseCamera{
@@ -306,31 +296,34 @@ namespace Mango{
       CoreCamera();
       ~CoreCamera();
       
+      //// @cond
       virtual const char *objectType() const{
 	return "CoreCamera";
       }
       
-      void setMode(int new_mode);      
-      void setScaleFactors(GLfloat sx, GLfloat sy, GLfloat sz);
       void setRotationButton(int code);
       void setZoomButton(int code);
-
+      int rotationButton();
+      int zoomButton();
+      //// @endcond
+      
+      void setMode(int new_mode);      
+      void setScaleFactors(GLfloat sx, GLfloat sy, GLfloat sz);
+      
       void follow(Frame *frame_to_follow);
       Frame *focus();
 
       void toggleMode(int mode_mask);
       bool modeEnabled(int mode_mask);
       
-      void scaleFactors(GLfloat &sx, GLfloat &sy, GLfloat &sz);      
-      int rotationButton();
-      int zoomButton();
+      void scaleFactors(GLfloat &sx, GLfloat &sy, GLfloat &sz);           
       void scale(GLfloat rx, GLfloat ry, GLfloat rz = 1);
 
       void lookAt(Vector at_point, GLfloat dist = -1);
       void lookFrom(Vector from_point, Vector at_point);
       void lookFrom(Vector from_point);
 
-      virtual void manipulateCamera();      
+      virtual void manipulateCamera();
       virtual void step();
       
     protected:

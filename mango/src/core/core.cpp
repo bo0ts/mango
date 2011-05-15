@@ -83,14 +83,13 @@ namespace Mango{
      * - RENDER
      * - DRAW
      * - INPU
-     *				
-     * @param  event_type     an OR'ed bitwise mask of event constants
      *
      * @return 
      *   true on success, false on failure
      *
      * @see unset
      * @see executes
+     * @see toggle
      */
     bool Object::set(int event_type){
       return Engine->setEvent(this, event_type);
@@ -99,9 +98,7 @@ namespace Mango{
     /**
      * Cause the object not to execute the event(s) described by an
      * OR'ed bitmask of event constants. For a list of supproted
-     * events see Object::set(...).
-     *
-     * @param event_type     an OR'ed bitwise mask of event constants
+     * events see Object::set.
      *
      * @return               true on success, false on failure
      *
@@ -119,13 +116,6 @@ namespace Mango{
      * of event constants, the return value is true if all of them are
      * set and false if at least one isn't.
      *
-     * @param	event_type 
-     *   an event constant representing the event type to check the execution of
-     *
-     * @return 		
-     *  true if the object execute the event described by event_type, 
-     *  false otherwise
-     *
      * @see set
      * @see unset
      * @see toggle
@@ -140,8 +130,6 @@ namespace Mango{
      * individual event to be executed if it is not currently being
      * executed or not to be executed if it is currently being
      * executed.
-     *
-     * @param  event_type     an OR'ed bitwise mask of event constants
      *
      * @see set
      * @see executes
@@ -300,9 +288,7 @@ namespace Mango{
      * it is set to have event callback (in general, this happens
      * automatically in an Object's constructor). 
      *
-     * @param Object *object    The object to be added
-     *
-     * @return objectID   the objects assigned ID, or -1 on failure.
+     * @return objectID   the object's assigned ID, or -1 on failure.
      */
     int CoreEngine::addObject(Object* object){
       objects.push_back(object);
@@ -310,12 +296,8 @@ namespace Mango{
     }
 		
     /**
-     * Returns a pointer to a the Object with the given ID.
-     *
-     * @param    objectID       an object ID
-     *
-     * @return      
-     *   A pointer to the object with the given ID, NULL on failure.
+     * Returns a pointer to a the Object with the given ID, or NULL on
+     * failure
      */
     Object* CoreEngine::object(int objectID){
       return objects[objectID];
@@ -325,10 +307,6 @@ namespace Mango{
      * Remove an object from the engine's list of objects based on
      * ID. Returns a pointer to the object that was removed. If no
      * object with the given ID exists the return value will be NULL.
-     *
-     * @param objectID   the ID of the object to remove.
-     *
-     * @return Object* anObject     A pointer to the object removed.
      */
     Object* CoreEngine::removeObject(int objectID){
       Object* discarded_object;
@@ -360,16 +338,8 @@ namespace Mango{
      * will trigger a particular event for all objects for which the
      * event is set only when CoreEngine::executeEvent() is called
      * (this is only of relevance when implementing an intermediate
-     * layer to interact with the operating system).  The current
-     * supported events are:
-     *
-     * - RENDER
-     * - DRAW
-     * - STEP
-     * - INPUT
-     *
-     * @param  object     the object for which to set the event
-     * @param  event_type an OR'ed bitwise mask of  event constants
+     * layer to interact with the operating system).  Currently
+     * supported events are: RENDER, DRAW, STEP, INPUT.
      *
      * @return true on success, false on failure
      *
@@ -400,12 +370,9 @@ namespace Mango{
      * of event constants. Removing an event that was never set for an
      * object simply does nothing.
      *
-     * @param object       the object whose events to remove
-     * @param event_type   an OR'ed bitwise mask of event constants
-     *
      * @return              true on success, false on failure.
      *
-     * @see addEvent
+     * @see setEvent
      * @see toggleEvent
      * @see objectHasEvent
      */
@@ -431,9 +398,6 @@ namespace Mango{
      * Modifies the event(s) for an object based on a OR'ed bitmask of
      * event constants. If the object's event was set it is unset, and
      * if it was unset it is set
-     *
-     * @param object             the object for which to toggle the event
-     * @param event_type         an OR'ed bitwise mask of  event constants
      *
      * @return                   true on success, false on failure
      *
@@ -474,9 +438,6 @@ namespace Mango{
      * event_type is a mask of events, the return value is true if all
      * of them are set and false otherwise (i.e. it is false even if
      * only one is unset).
-     *
-     * @param object             the object for which to check the events
-     * @param event_type         an OR'ed bitwise mask of event constants
      *
      * @return                   
      *   true if all events descrbed by the bit mask are now set, 
@@ -565,8 +526,6 @@ namespace Mango{
      * changing the angle at which the scene is viewed based on the
      * mouse position). CoreCamera is a class that implements some
      * common functions for a camera object.
-     *
-     * @param cam     a pointer to BaseCamera derived object.
      */
     void CoreEngine::setCameraObject(BaseCamera* cam){
       camera = cam;
@@ -584,8 +543,6 @@ namespace Mango{
      * angle at which the scene is viewed based on the mouse
      * position). CoreCamera is a class that implements the most
      * common functions for a view object.
-     *
-     * @param BaseCamera* vw     a ptr to BaseCamera-derived object.
      */
     void CoreEngine::setViewObject(BaseCamera* vw){
       view = vw;
@@ -682,9 +639,6 @@ namespace Mango{
      * these dimensions are meaningful only if made before window
      * intialization is performed.
      *
-     * @param width      the width of the window, in pixels
-     * @param height     the height of the window, in pixels
-     *
      * @see windowDimensions
      * @see windowHeight
      * @see windowWidth
@@ -703,7 +657,7 @@ namespace Mango{
      * mode). Changes to this value are meaningful only if made before
      * window intialization is performed. 
      *
-     * @param mode      0 for windowed, 1 for fullscreen
+     * @param mode      false for windowed, true for fullscreen
      *
      * @see windowFullscreen
      */
@@ -716,8 +670,6 @@ namespace Mango{
      * scene (the default is 60). The actual FPS may be less if the
      * rendering is slow.  Changes to this value are meaningful only
      * if made before window intialization is performed. 
-     *
-     * @param fps      The desired FPS
      *
      * @see windowFps
      */
@@ -734,9 +686,6 @@ namespace Mango{
      * Set whether the buffer should be cleared at the beginning of
      * every frame. The clear color defaults to black.
      *
-     * @param should_clear      
-     *   boolean value indicating if the buffer should be cleared
-     *
      * @see setClearColor
      * @see clearColor
      * @see clearBuffer
@@ -747,19 +696,8 @@ namespace Mango{
 		
     /**
      * Set the color that is used to clear the buffer every
-     * frame. Defaults to black.
-     *
-     * @param color_r      
-     *   float value between 0 and 1 that represents the 
-     *   red component of the clear color
-     *
-     * @param color_g      
-     *   float value between 0 and 1 that represents the 
-     *   green component of the clear color
-     *
-     * @param color_b      
-     *   float value between 0 and 1 that represents the 
-     *   blue component of the clear color
+     * frame. Defaults to black. Color components should be 
+     * between 0 and 1.
      *
      * @see setClearBuffer
      * @see clearColor
@@ -771,9 +709,6 @@ namespace Mango{
     /**
      * Retrieve the window dimensions (in pixels) by assigning them to
      * two integer variables passed by reference.
-     *
-     * @param int &width     a variable to which the width of the window will be assigned
-     * @param int &height    a variable to which the height of the window will be assigned
      *
      * @see setWindowDimensions
      * @see windowWidth
@@ -787,8 +722,6 @@ namespace Mango{
     /**
      * Returns the window's width in pixels.
      *
-     * @return  width     the window's width
-     *
      * @see setWindowDimensions
      * @see getWindowDimensions
      * @see windowHeight
@@ -799,8 +732,6 @@ namespace Mango{
 		
     /**
      * Returns the window's height in pixels.
-     *
-     * @return  height     the window's height
      *
      * @see setWindowDimensions
      * @see getWindowDimensions
@@ -814,8 +745,6 @@ namespace Mango{
      * Returns the window's fullscreen mode (true if in fullscreen,
      * false if windowed).
      *
-     * @return      the window's fullscreen mode.
-     *
      * @see setWindowFullscreen
      */
     bool CoreEngine::windowFullscreen(){
@@ -825,8 +754,6 @@ namespace Mango{
     /**
      * Returns the desired FPS.
      *
-     * @return      the current desired FPS.
-     *
      * @see setWindowFPS
      */
     int CoreEngine::windowFps(){
@@ -835,8 +762,6 @@ namespace Mango{
 		
     /**
      * Returns true if the buffer is set to be cleared every frame.
-     *
-     * @return       boolean value indicating if the buffer will be cleared
      *
      * @see setClearBuffer
      * @see clearColor
@@ -849,18 +774,6 @@ namespace Mango{
     /**
      * Retrieve the color that is used to clear the buffer every frame
      * by assigning it to cl_r, cl_g, cl_b and cl_alpha
-     *
-     * @param color_r      
-     *   float value between 0 and 1 that represents the red 
-     *   component of the clear color
-     *
-     * @param color_g      
-     *   float value between 0 and 1 that represents the green 
-     *   component of the clear color
-     *
-     * @param color_b      
-     *   float value between 0 and 1 that represents the blue 
-     *   component of the clear color
      *
      * @see setClearBuffer
      * @see clearBuffer
@@ -1003,8 +916,6 @@ namespace Mango{
      * Set the camera mode. See CoreCamera for a detailed description
      * of the different modes.
      *
-     * @param new_mode       An OR'ed bitwise mask of mode constants.
-     *
      * @see CoreCamera
      * @see modeEnabled
      */
@@ -1013,12 +924,9 @@ namespace Mango{
     }
 		
     /**
-     * Set the scale factors for the camera. These are used to glScale
-     * the scene before rendering.
-     *
-     * @param sx       scale factor for the x-axis, must be non-zero.
-     * @param sy       scale factor for the y-axis, must be non-zero.
-     * @param sz       scale factor for the z-axis, must be non-zero.
+     * Set the scale factors for the camera, in each axis
+     * independently. These are used to glScale the scene before
+     * rendering.
      *
      * @see scaleFactors
      * @see scale
@@ -1043,8 +951,6 @@ namespace Mango{
     /**
      * Return the focus frame of the camera. This is the frame of reference
      * that a CoreCamera is always pointing at. 
-     * 
-     * @return a pointer to a Core::Frame instance
      */
     Frame *CoreCamera::focus(){
       return focus_frame;
@@ -1054,8 +960,6 @@ namespace Mango{
     /**
      * Set the parent frame of the focus frame of the camera. This has
      * the effect that the camera "follows" the given frame. 
-     *
-     * @param frame_to_follow  pointer to a Core::Frame instance
      */
     void CoreCamera::follow(Frame *frame_to_follow){
       focus_frame->setParentFrame(frame_to_follow);
@@ -1063,8 +967,6 @@ namespace Mango{
 
     /**
      * Toggle a camera mode on or off
-     *
-     * @param mode_mask  a mode to be toggled
      */
     void CoreCamera::toggleMode(int mode_mask){
       mode = (mode ^ mode_mask);
@@ -1072,10 +974,6 @@ namespace Mango{
 
     /**
      * Check if the given camera mode is enabled
-     *
-     * @param mode_mask  a mode to check 
-     * 
-     * @return    true if the given mode is enabled, false otherwise
      */
     bool CoreCamera::modeEnabled(int mode_mask){
       return ((mode & mode_mask) == mode_mask);
@@ -1084,13 +982,6 @@ namespace Mango{
     /**
      * Retrieve the scale factors for the camera by assigning them to
      * the GLfloats sx, sy, sz that are passed by reference.
-     *
-     * @param &sx    
-     *   reference to a variable that will store the camera's x scale-factor
-     * @param &sy    
-     *   reference to a variable that will store the camera's y scale-factor
-     * @param &sz    
-     *   reference to a variable that will store the camera's z scale-factor
      *
      * @see setScaleFactors
      * @see scale
@@ -1115,10 +1006,6 @@ namespace Mango{
      * effect of multiplying the camera's x scale-factor by rx, the y
      * scale-factor by ry and the z scale-factor by rz.
      *
-     * @param rx    amount to scale camera's x scale-factor
-     * @param ry    amount to scale camera's y scale-factor
-     * @param rz    amount to scale camera's z scale-factor
-     *
      * @see setScaleFactors
      * @see scaleFactors
      */
@@ -1138,9 +1025,6 @@ namespace Mango{
      * Position and orient the camera so as to be pointing at a
      * particular point from a given distance.
      *
-     * @param at_point     position the camera will point at
-     * @param dist         distance from at_point to position the camera at
-     *
      * @see lookFrom
      */
     void CoreCamera::lookAt(Vector at_point, GLfloat dist){
@@ -1155,9 +1039,6 @@ namespace Mango{
      * Position and orient the camera so that it is looking from one
      * point at another point.
      *
-     * @param from_point  new position of the camera
-     * @param at_point    point in space the camera should point to
-     *
      * @see lookAt
      */
     void CoreCamera::lookFrom(Vector from_point, Vector at_point){
@@ -1168,8 +1049,6 @@ namespace Mango{
     /**
      * Move the camera to a given position, but reorient it so that
      * the position it is pointing at does not change.
-     *
-     * @param from_point  new position of the camera
      *
      * @see lookAt
      */

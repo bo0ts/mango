@@ -14,9 +14,11 @@ namespace Mango{
      * is characterized by a source, type, and key code. Instances may
      * be compared using the comparison operator '==', where two instances
      * e1 and e2 are equal if all of the following hold: 
-     *  - e1.source == e2.source, or at least one of them is equal to ANY
-     *  - e1.type == e2.type, or at least one of them is equal to ANY
-     *  - e1.code == e2.code, or at least one of them is equal to ANY
+     \verbatim embed:rst
+     * e1.source == e2.source, or at least one of them is equal to ANY
+     * e1.type == e2.type, or at least one of them is equal to ANY
+     * e1.code == e2.code, or at least one of them is equal to ANY
+     \endverbatim
      */
     class inputEvent{
     public:
@@ -46,25 +48,30 @@ namespace Mango{
     /**
      * An abstracted keyboard class that provides individual key state
      * information. Each framework that wishes to supply keyboard
-     * functionality is responsible for calling registerKeyPress(...)
-     * and registerKeyRelease(...)  when key presses and releases
+     * functionality is responsible for calling registerKeyPress
+     * and registerKeyRelease  when key presses and releases
      * occur.
      */
     class CoreKeyboard{
     public:
+      //// @cond
       std::deque<int> typedKeyBuffer;
       std::deque<inputEvent> eventBuffer;
+      //// @endcond
 
       CoreKeyboard();
       ~CoreKeyboard();
 
+      //// @cond
       virtual const char *objectType() const{
 	return "CoreKeyboard";
       }
+
+      void suppress(int key_code);
+      //// @endcond
             
       bool down(int key_code);
       short int state(int key_code);
-      void suppress(int key_code);
 
       bool keyPressOccurred();
       void clearKeyPressOccurredFlag();
@@ -76,8 +83,6 @@ namespace Mango{
       
       void pushInputEvent(int type, int code);
       inputEvent popInputEvent();
-      //bool eventOccured();                    // uncomment if needed 
-      //void clearEventOccuredFlag(); 		  // uncomment if needed
 	    
     private:
       int keys[MAX_KEYCODE_INDEX];
@@ -94,18 +99,22 @@ namespace Mango{
      * An abstracted mouse class that provides mouse state
      * information. Each framework that wishes to supply mouse
      * functionality is responsible for calling
-     * registerButtonPress(...), registerButtonRelease(...)  and
-     * updateCoordinates(...) when mouse events occur.
+     * registerButtonPress, registerButtonRelease and
+     * updateCoordinates when mouse events occur.
      */
     class CoreMouse{
     public:
+      //// @cond
       std::deque<inputEvent> eventBuffer;
+      //// @endcond
 
       CoreMouse();
       
+      //// @cond
       virtual const char *objectType() const{
 	return "CoreMouse";
       }
+      //// @endcond
       
       bool down(int button_code);
       int state(int button_code);

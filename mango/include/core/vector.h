@@ -6,6 +6,13 @@
 
 namespace Mango{
   namespace Core{
+
+    /**
+     * Three dimensional vector class. Supports basic vector
+     * operations (adding, subtracting, scaling, comparing) as well as
+     * several convenience methods such as normalization, dot and
+     * cross products with other vectors.
+     */
     class Vector {
     public:
 			

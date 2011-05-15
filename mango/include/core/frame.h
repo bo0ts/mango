@@ -16,9 +16,11 @@ namespace Mango{
       Frame(bool is_global_frame = false);
       ~Frame();
 
+      //// @cond
       virtual const char *objectType() const{
 	return "Frame";
       }
+      //// @endcond
 
       void setOrientationAxes(Vector &new_u1, Vector &new_u2, Vector &new_u3);		        
       void setOrientation(GLfloat alpha, GLfloat beta, GLfloat gamma);

@@ -7,6 +7,14 @@
 
 namespace Mango{
   namespace Core{
+
+    /**
+     * Three dimensional matrix class. Supports basic matrix
+     * operations (adding, subtracting, scaling, comparing,
+     * transforming other matrices and vectors) as well as several
+     * convenience methods such as computation of trace, determinant
+     * and inverse.
+     */
     class Matrix {
     public:
 			
