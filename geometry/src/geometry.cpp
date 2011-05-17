@@ -13,7 +13,6 @@ namespace Mango{
     /* Constructors, Destructors */									
 		
     /**
-     * Create a ColorfulObject of given dimensions.
      * Creates a ColorfulObject with a given height, width and length.						
      */
     ColorfulObject::ColorfulObject():Object(){	
@@ -28,12 +27,8 @@ namespace Mango{
 								
 		
     /**
-     * Set the color.
-     * Sets the color of the ColorfulObject in RGBA format. Each component is a GLfloat between 0 and 1.
-     * @param GLfloat r        - the red component
-     * @param GLfloat g        - the green component
-     * @param GLfloat b        - the green component
-     * @see getColor
+     * Sets the color of the ColorfulObject in RGB format. Each component is a GLfloat between 0 and 1.
+     * @see color
      * @see setRedComponent
      * @see setGreenComponent
      * @see setBlueComponent		
@@ -45,55 +40,41 @@ namespace Mango{
     }		
 		
     /**
-     * Set the red component.
      * Sets the red component of the ColorfulObject's color, as a GLfloat between 0 and 1.
-     * @param GLfloat r        - the new red component
-     * @see getColor			
+     * @see color			
      * @see setColor
      * @see setGreenComponent
      * @see setBlueComponent
-     * @see setAlphaComponent	
      */
     void ColorfulObject::setRedComponent(GLfloat c_r){
       color_r = c_r;
     }				
 		
     /**
-     * Set the green component.
      * Sets the green component of the ColorfulObject's color, as a GLfloat between 0 and 1.
-     * @param GLfloat g        - the new green component
-     * @see getColor		
+     * @see color		
      * @see setColor
      * @see setRedComponent		
      * @see setBlueComponent
-     * @see setAlphaComponent
      */
     void ColorfulObject::setGreenComponent(GLfloat c_g){
       color_g = c_g;
     }		
 		
     /**
-     * Set the blue component.
      * Sets the blue component of the ColorfulObject's color, as a GLfloat between 0 and 1.
-     * @param GLfloat b        - the new blue component
-     * @see getColor
+     * @see color
      * @see setColor
      * @see setRedComponent
      * @see setGreenComponent		
-     * @see setAlphaComponent
      */
     void ColorfulObject::setBlueComponent(GLfloat c_b){
       color_b = c_b;
     }									
 		
     /*
-     * Retrieve the object's color.
      * Retrieve the object's color by assigning the color components to three variables passed by reference.
      * Each component is a float between 0 and 1.
-     * @param &r     - the variable to which the red component will be assigned.
-     * @param &g     - the variable to which the green component will be assigned.
-     * @param &b     - the variable to which the blue component will be assigned.
-     * @param &alpha - the variable to which the alpha component will be assigned.
      * @see setColor
      * @see redComponent
      * @see greenComponent
@@ -106,10 +87,8 @@ namespace Mango{
     }
 		
     /**
-     * Get the red component.
      * Returns the red component of the ColorfulObject's color, as a GLfloat between 0 and 1.
-     * @return GLfloat r        - the red component
-     * @see getColor			
+     * @see color			
      * @see setColor		
      * @see greenComponent
      * @see blueComponent		
@@ -119,10 +98,8 @@ namespace Mango{
     }
 		
     /**
-     * Get the green component.
      * Returns the green component of the ColorfulObject's color, as a GLfloat between 0 and 1.
-     * @return GLfloat g        - the green component
-     * @see getColor			
+     * @see color			
      * @see setColor		
      * @see redComponent
      * @see blueComponent			
@@ -132,10 +109,8 @@ namespace Mango{
     }	
 		
     /**
-     * Get the blue component.
      * Returns the blue component of the ColorfulObject's color, as a GLfloat between 0 and 1.
-     * @return GLfloat b        - the blue component
-     * @see getColor			
+     * @see color			
      * @see setColor		
      * @see redComponent
      * @see greenComponent					
@@ -157,11 +132,7 @@ namespace Mango{
     /* Constructors, Destructors */									
 		
     /**
-     * Create a Box of given dimensions.
      * Creates a Box with a given height, width and length.
-     * @param float height       - the height of the box, defaults to 1.0.
-     * @param float width        - the width of the box, defaults to 1.0.
-     * @param float length       - the length of the box, defaults to 1.0.
      */
     Box::Box(GLfloat h, GLfloat w, GLfloat l):ColorfulObject(){
       if (h <= 0){
@@ -188,11 +159,7 @@ namespace Mango{
     /* Set, Get functions */
 		
     /**
-     * Set the dimensions.
      * Sets the dimensions of the Box.
-     * @param float h        - the height of the box.
-     * @param float w        - the width of the box.
-     * @param float l        - the length of the box.
      * @see getDimensions
      */
     void Box::setDimensions(GLfloat h, GLfloat w, GLfloat l){
@@ -214,9 +181,6 @@ namespace Mango{
      * Retrieve the box's dimensions.
      * Retrieve the dimensions of the box by assigning them to three variables passed by reference.
      * Each component is a float between 0 and 1.
-     * @param &h     - the variable to which the height will be assigned.
-     * @param &w     - the variable to which the width will be assigned.
-     * @param &l     - the variable to which the length will be assigned.
      * @see setDimensions
      */
     void Box::dimensions(GLfloat &h, GLfloat &w, GLfloat &l){
@@ -292,10 +256,7 @@ namespace Mango{
     /* Construcors, Destructors */
 		
     /**
-     * Create a Sphere of a given radius and number of sides.
      * Creates a red Sphere with a given radius and number of sides
-     * @param float radius       - the radius of the sphere.
-     * @param int sides         - the number of sides to use when rendering the sphere (affects the smoothness of the sphere).
      */
     Sphere::Sphere(GLfloat radius, int num_sides):ColorfulObject(){
       if (radius <= 0){
@@ -319,9 +280,7 @@ namespace Mango{
     /* Set, Get functions */
 		
     /**
-     * Set the radius.
      * Sets the radius of the Sphere.
-     * @param float radius       - the new radius
      * @see radius
      */
     void Sphere::setRadius(GLfloat radius){
@@ -332,9 +291,7 @@ namespace Mango{
     }
 		
     /**
-     * Set the number of sides.
      * Sets the number of sides used when rendering the sphere (affects its smoothness).
-     * @param int sides     - the number of sides to use.
      * @see numberOfSides
      */
     void Sphere::setNumberOfSides(int num_sides){
@@ -347,7 +304,6 @@ namespace Mango{
     }
 		
     /**
-     * Get the radius.
      * Returns the radius of the sphere.
      * @see setRadius
      */
@@ -356,7 +312,6 @@ namespace Mango{
     }
 		
     /**
-     * Get the number of sides.
      * Returns the number of sides used when rendering the sphere.
      * @see setNumberOfSides
      */
@@ -484,11 +439,7 @@ namespace Mango{
     /* Construcors, Destructors */
 		
     /**
-     * Create a cylinder of given dimensions.
      * Creates a red cylinder with a given radius, height and number of sides
-     * @param GLfloat radius       - the radius of the cylinder.
-     * @param GLfloat height		  - the height of the cylinder.
-     * @param int sides         - the number of sides to use when rendering the Cylinder (affects the smoothness of the Cylinder).
      */
     Cylinder::Cylinder(GLfloat radius, GLfloat height, int num_sides):ColorfulObject(){
       if (radius <= 0){
@@ -516,9 +467,7 @@ namespace Mango{
     /* Set, Get functions */
 		
     /**
-     * Set the radius.
      * Sets the radius of the cylinder.
-     * @param GLfloat radius       - the new radius
      * @see radius
      */
     void Cylinder::setRadius(GLfloat radius){
@@ -530,9 +479,7 @@ namespace Mango{
 		
 		
     /**
-     * Set the height.
      * Sets the height of the cylinder.
-     * @param GLfloat height       - the new height
      * @see height
      */
     void Cylinder::setHeight(GLfloat height){
@@ -543,9 +490,7 @@ namespace Mango{
     }
 		
     /**
-     * Set the number of sides.
      * Sets the number of sides used when rendering the cylinder (affects its smoothness).
-     * @param int sides     - the number of sides to use.
      * @see numberOfSides
      */
     void Cylinder::setNumberOfSides(int num_sides){
@@ -557,7 +502,6 @@ namespace Mango{
     }
 		
     /**
-     * Get the radius.
      * Returns the radius of the cylinder.
      * @see setRadius
      */
@@ -566,7 +510,6 @@ namespace Mango{
     }
 		
     /**
-     * Get the height.
      * Returns the height of the cylinder.
      * @see setHeight
      */
@@ -575,7 +518,6 @@ namespace Mango{
     }
 		
     /**
-     * Get the number of sides.
      * Returns the number of sides used when rendering the Cylinder.
      * @see setNumberOfSides
      */
@@ -656,10 +598,7 @@ namespace Mango{
     /* Construcors, Destructors */
 		
     /**
-     * Create a shell of a given radius and number of sides.
      * Creates a cyan shell with a given radius and number of sides
-     * @param float radius       - the radius of the shell.
-     * @param int sides         - the number of sides to use when rendering the shell (affects the smoothness of the shell).
      */
     Shell::Shell(GLfloat radius, GLfloat thcknss, GLfloat frctn, int sides):ColorfulObject(){
       if (radius <= 0){
@@ -694,9 +633,7 @@ namespace Mango{
     /* Set, Get functions */
 		
     /**
-     * Set the radius.
      * Sets the radius of the shell.
-     * @param float radius       - the new radius
      * @see radius
      */
     void Shell::setRadius(GLfloat radius){
@@ -708,9 +645,7 @@ namespace Mango{
     }
 		
     /**
-     * Set the thickness.
      * Sets the thickness of the shell.
-     * @param float thcknss       - the new thickness
      * @see thickness
      */
     void Shell::setThickness(GLfloat thcknss){
@@ -722,9 +657,7 @@ namespace Mango{
     }
 		
     /**
-     * Set the fraction to draw.
      * Sets the fraction of the shell that is rendered. 0 means just the north pole, 0.5 is the top hemisphere, and 1.0 is the whole sphere.
-     * @param float frctn       - the new fraction
      * @see fraction
      */
     void Shell::setFraction(GLfloat frctn){
@@ -737,9 +670,7 @@ namespace Mango{
 		
 		
     /**
-     * Set the number of sides.
      * Sets the number of sides used when rendering the shell (affects its smoothness).
-     * @param int sides     - the number of sides to use.
      * @see numberOfSides
      */
     void Shell::setNumberOfSides(int sides){
@@ -752,7 +683,6 @@ namespace Mango{
     }
 		
     /**
-     * Get the radius.
      * Returns the radius of the shell.
      * @see setRadius
      */
@@ -761,7 +691,6 @@ namespace Mango{
     }
 		
     /**
-     * Get the thickness.
      * Returns the thickness of the shell.
      * @see setThickness
      */
@@ -770,7 +699,6 @@ namespace Mango{
     }
 		
     /**
-     * Get the fraction.
      * Returns the fraction of the shell that is rendered.
      * @see setFraction
      */
@@ -779,7 +707,6 @@ namespace Mango{
     }
 		
     /**
-     * Get the number of sides.
      * Returns the number of sides used when rendering the shell.
      * @see setNumberOfSides
      */
@@ -898,10 +825,7 @@ namespace Mango{
 		
     /* Construcors, Destructors */
     /**
-     * Create an arrow of a given length and thickness.
      * Creates a yellow Arrow with a given length and thickness.
-     * @param float length       - the length of the vector.
-     * @param float thickness    - the thickness of the vector
      */
     Arrow::Arrow(GLfloat length, GLfloat thickness):ColorfulObject(){
       if (length <= 0){
@@ -928,9 +852,7 @@ namespace Mango{
     /* Set, Get functions */
 		
     /**
-     * Sets the length of the arrow.
      * Sets the length of the arrow (including the head).
-     * @param GLfloat length    the new length of the arrow
      * @see length
      * @see setThickness
      */
@@ -942,9 +864,7 @@ namespace Mango{
     }
 		
     /**
-     * Sets the thickness of the arrow.
      * Sets the thickness of the arrow (width of each side).
-     * @param GLfloat thickness    the new thickness of the arrow
      * @see thickness
      * @see setLength
      */
@@ -956,6 +876,10 @@ namespace Mango{
       w_y = thickness;
     }
 
+    /**
+     * Sets the length and orientation of the arrow so that its tip is
+     * located at the given position
+     */
     void Arrow::setTipPosition(Vector &v){
       pointTo(v);
       setLength(v.norm());
@@ -964,8 +888,6 @@ namespace Mango{
 		
     /**
      * Returns the length of the arrow.
-     * Returns the length of the arrow.
-     * @return GLfloat length    the length of the arrow
      * @see setLength
      * @see thickness
      */
@@ -975,8 +897,6 @@ namespace Mango{
 		
     /**
      * Returns the thickness of the arrow.
-     * Returns the thickness of the arrow.
-     * @return GLfloat thickness    the thickness of the arrow
      * @see setThickness
      * @see length
      */
@@ -1083,7 +1003,6 @@ namespace Mango{
 		
     /* Construcors, Destructors */
     /**
-     * Create a coordinate system.
      * Creates a 3D coordinate system with given orientation, axis length and thickness.				
      */
     CoordinateSystem::CoordinateSystem():Core::Object(){
@@ -1107,9 +1026,7 @@ namespace Mango{
     /* Set, Get functions */
 		
     /**
-     * Set the axis length.
      * Sets the length of axes in the coordinate system.
-     * @param float axis_length       - the new axis length
      * @see axisLength
      */
     void CoordinateSystem::setAxisLength(GLfloat axis_l){
@@ -1124,9 +1041,7 @@ namespace Mango{
 		
 		
     /**
-     * Set the axis thickness.
      * Sets the thickness of axes in the coordinate system.
-     * @param float axis_thickness       - the new axis thickness
      * @see axisThickness
      */
     void CoordinateSystem::setAxisThickness(GLfloat axis_t){
@@ -1141,10 +1056,8 @@ namespace Mango{
 		
 		
     /**
-     * Set the orientation of the coordiante system.
      * Sets the orientation of the coordinate system. The coordiante system will render as a right 
      * handed coordinate system if right_handed is true, and as a left handed coordinate system otherwise.
-     * @param bool right_handed       - whether to render the coordinate system right handed
      * @see isRightHanded
      */
     void CoordinateSystem::setRightHanded(bool right_handed){
@@ -1158,9 +1071,7 @@ namespace Mango{
 		
 		
     /**
-     * Returns the axis length.
      * Returns the length of the coordinate system's axes.
-     * @return GLfloat length    the length of the axes
      * @see setAxisLength
      * @see axisThickness
      */
@@ -1169,9 +1080,7 @@ namespace Mango{
     }
 		
     /**
-     * Returns the axis thickness.
      * Returns the thickness of the coordinate system's axes.
-     * @return GLfloat thickness    the thickness of the axes
      * @see setAxisThickness
      * @see axisLength
      */
@@ -1180,9 +1089,7 @@ namespace Mango{
     }
 		
     /**
-     * Returns true if the coordiante system is right handed.
      * Returns true if the coordiante system is right handed, false if it is left handed.
-     * @return bool is_right_handed    true if the coordinate system is right handed, false otherwise
      * @see shouldBeRightHanded		
      */
     bool CoordinateSystem::rightHanded(){
@@ -1214,7 +1121,6 @@ namespace Mango{
     /* Construcors, Destructors */
 		    
     /**
-     * Create a vertex array.
      * Creates an empty vertex array with the default style GL_LINES.				
      */
     VertexArray::VertexArray():ColorfulObject(){
@@ -1229,9 +1135,7 @@ namespace Mango{
 		
 		
     /**
-     * Add a vertex.
      * Adds the point represented by the Vector v to the array, as the last vertex in the array. 
-     * @param Vector v       - a vector representing a vertex to append to the array		
      * @see insertAt
      * @see vertexAt
      * @see removeAt
@@ -1242,11 +1146,7 @@ namespace Mango{
     }
 		
     /**
-     * Add a vertex.
      * Adds the point represented by the tuple (x, y, z) to the array, as the last vertex in the array. 
-     * @param GLfloat x       - the x coordinate of the new vertex
-     * @param GLfloat y       - the y coordinate of the new vertex
-     * @param GLfloat z       - the z coordinate of the new vertex
      * @see insertAt
      * @see vertexAt
      * @see removeAt
@@ -1257,11 +1157,8 @@ namespace Mango{
     }
 		
     /**
-     * Insert a vertex.
      * Inserts the point represented by the vector v into the array, in front of the vertex at the given index. An exception of
      * type Core::IndexError is raised of index is invalid. 
-     * @param int index       - the index at which to insert the vertex
-     * @param Vector v        - a vector representing the vertex to insert		
      * @see add
      * @see vertexAt
      * @see removeAt
@@ -1281,13 +1178,8 @@ namespace Mango{
 		
 		
     /**
-     * Insert a vertex.
      * Inserts the point represented by the tuple (x, y, z) into the array, in front of the vertex at the given index. An exception of
      * type Core::IndexError is raised of index is invalid.
-     * @param int index       - the index at which to insert the vertex
-     * @param GLfloat x       - the x coordinate of the vertex to insert		
-     * @param GLfloat y       - the y coordinate of the vertex to insert		
-     * @param GLfloat z       - the z coordinate of the vertex to insert		
      * @see add
      * @see vertexAt
      * @see removeAt
@@ -1306,9 +1198,7 @@ namespace Mango{
     }
 
     /**
-     * Remove a vertex.
      * Removes the vertex at the given index. An exception of type Core::IndexError is raised of index is invalid. 
-     * @param int index       - the index of the vertex to be removed
      * @see add
      * @see vertexAt
      * @see insertAt
@@ -1322,10 +1212,7 @@ namespace Mango{
     }  
 		
     /**
-     * Get a vertex.
      * Returns the vertex at the given index. An exception of type Core::IndexError is raised if index is invalid.
-     * @param int index       - index of the vertex to return
-     * @return Vector& v		 - the vector at the given index
      * @see size
      */
     Core::Vector& VertexArray::vertexAt(int index){
@@ -1337,9 +1224,7 @@ namespace Mango{
     }
 		
     /**
-     * Set the rendering style.
      * Sets the style used to render the vertices in the array. See VertexArray::VertexArray() for a list of supported rendering styles.
-     * @param int style    the style used to render the vertices in the array
      * @see style
      * @see VertexArray
      */
@@ -1348,7 +1233,6 @@ namespace Mango{
     }
 		
     /**
-     * Set whether or not to render the reverse orientation.
      * Sets a flag that, when true, causes the object to render its vertices in reverse order in addition to the normal order. Normally 
      * (when this flag is off) each vertex is rendered once in order of their position in the array. Some rendering styles, such as 
      * GL_TRIANGLES or GL_QUADS will render a two dimensional shape that is only visible from one side - which side depends on the
@@ -1363,9 +1247,7 @@ namespace Mango{
     }
 		
     /**
-     * Returns the rendering style.
      * Returns the style used to render the vertices in the array. See VertexArray::VertexArray() for a list of supported rendering styles.
-     * @return int style    the style used to render the vertices in the array
      * @see setStyle
      * @see VertexArray
      */
@@ -1374,10 +1256,8 @@ namespace Mango{
     }
 		
     /**
-     * Returns true if the object also renders its vertices in reverse.
      * Returns the value of the flag that determines if the object also renders its vertices in reverse order. See 
      * VertexArray::setRenderReverseOrientation() for a more detailed explanation.
-     * @return bool also_renders_in_reverse    true if the object also renders its vertices in reverse, false otherwise
      * @see setRenderReverseOrientation
      * @see setStyle
      * @see style
@@ -1388,9 +1268,7 @@ namespace Mango{
 		
 		
     /**
-     * Returns the size of the array.
      * Returns the size of the array, that is the number of vertices in the array.
-     * @return int size    the number of vertices in the array
      * @see add
      * @see style
      */
@@ -1435,10 +1313,7 @@ namespace Mango{
     /* Construcors, Destructors */
 		
     /**
-     * Create a Circle of a given radius and number of sides.
      * Creates a red Circle with a given radius and number of sides
-     * @param float radius       - the radius of the circle.
-     * @param int sides         - the number of sides to use when rendering the circle (affects the smoothness of the circle).
      */
     Circle::Circle(GLfloat radius, int num_sides):ColorfulObject(){
       if (radius <= 0){
@@ -1464,9 +1339,7 @@ namespace Mango{
     /* Set, Get functions */
 		
     /**
-     * Set the radius.
      * Sets the radius of the circle.
-     * @param float radius       - the new radius
      * @see radius
      */
     void Circle::setRadius(GLfloat radius){
@@ -1477,9 +1350,7 @@ namespace Mango{
     }
 		
     /**
-     * Set the number of sides.
      * Sets the number of sides used when rendering the circle (affects its smoothness).
-     * @param int sides     - the number of sides to use.
      * @see numberOfSides
      */
     void Circle::setNumberOfSides(int sides){
@@ -1491,14 +1362,12 @@ namespace Mango{
     }
 		
     /**
-     * Set the rendering style.
      * Sets the style used to render the circles. Possible values are:
      - WIRE
      - FILL
      * (these are aliases for GL_LINE_LOOP and GL_POLYGON, respectively. Technically any of the styles availabe for VertexArray 
      * are acceptable, but in practice these two are the most appropriate. Try experimenting with the other style constants 
      * for funky results). 
-     * @param int style    the style used to render the circle
      * @see style		
      */
     void Circle::setStyle(int new_style){
@@ -1506,7 +1375,6 @@ namespace Mango{
     }
 		
     /**
-     * Set whether or not to render the reverse orientation.
      * Sets a flag that, when true, causes the circle to render in reverse orientation. Normally 
      * (when this flag is off) the circle is rendered in only one of its orientations. This is irrelevant for the WIRE rendering style,
      * however the FILL rendering style will render a circle that is only visible from one side. In such cases, setting this flag to true
@@ -1520,7 +1388,6 @@ namespace Mango{
     }
 		
     /**
-     * Get the radius.
      * Returns the radius of the circle.
      * @see setRadius
      */
@@ -1529,7 +1396,6 @@ namespace Mango{
     }
 		
     /**
-     * Get the number of sides.
      * Returns the number of sides used when rendering the circle.
      * @see setNumberOfSides
      */
@@ -1538,9 +1404,7 @@ namespace Mango{
     }
 		
     /**
-     * Returns the rendering style.
      * Returns the style used to render the circle. See Circle::setStyle() for a list of supported rendering styles.
-     * @return int style    the style used to render the circle
      * @see setStyle		
      */
     int Circle::style(){
@@ -1548,10 +1412,8 @@ namespace Mango{
     }
 		
     /**
-     * Returns true if the circle also renders its vertices in reverse.
      * Returns the value of the flag that determines if the circle also renders in reverse orientation. See 
      * Circle::setRenderReverseOrientation() for a more detailed explanation.
-     * @return bool also_renders_in_reverse    true if the circle also renders its vertices in reverse, false otherwise
      * @see setRenderReverseOrientation
      * @see setStyle
      * @see style
@@ -1612,10 +1474,7 @@ namespace Mango{
     /* Construcors, Destructors */
 		
     /**
-     * Create an n-gon of a given radius and number of sides.
      * Creates a symmetric n-gon with a given radius and number of sides
-     * @param float radius       - the radius of the n-gon, the distance from its center to any of its vertices.
-     * @param int sides         - the number of sides to use when rendering the n-gon.
      */
     NGon::NGon(GLfloat radius, int num_sides):Circle(radius, num_sides){		     
       setColor(0.5, 1.0, 0.0);
@@ -1645,10 +1504,7 @@ namespace Mango{
     /* Construcors, Destructors */
 		
     /**
-     * Create a rectangle of a given width and length.
      * Creates a rectangle with a given width and length
-     * @param GLfloat width       - the width of the rectangle
-     * @param GLfloat length		 - the length of the rectangle		
      */
     Rectangle::Rectangle(GLfloat width, GLfloat length):ColorfulObject(){
       if (width <= 0){
@@ -1673,9 +1529,7 @@ namespace Mango{
     /* Set, Get functions */
 		
     /**
-     * Set the width.
      * Sets the width of the rectangle.
-     * @param GLfloat width       - the new width
      * @see width
      * @see setLength
      * @see setDimensions
@@ -1689,9 +1543,7 @@ namespace Mango{
 		
 		
     /**
-     * Set the length.
      * Sets the length of the rectangle.
-     * @param GLfloat length       - the new length
      * @see length
      * @see setWidth
      * @see setDimensions
@@ -1704,10 +1556,7 @@ namespace Mango{
     }
 		
     /**
-     * Set the dimensions.
      * Sets the width and length of the rectangle.
-     * @param GLfloat width       - the new width
-     * @param GLfloat length       - the new length
      * @see width
      * @see length
      * @see setWidth
@@ -1719,14 +1568,12 @@ namespace Mango{
     }
 		
     /**
-     * Set the rendering style.
      * Sets the style used to render the circles. Possible values are:
      - WIRE
      - FILL
      * (these are aliases for GL_LINE_LOOP and GL_POLYGON, respectively. Technically any of the styles availabe for VertexArray 
      * are acceptable, but in practice these two are the most appropriate. Try experimenting with the other style constants 
      * for funky results). 
-     * @param int style    the style used to render the circle
      * @see style		
      */
     void Rectangle::setStyle(int new_style){
@@ -1734,7 +1581,6 @@ namespace Mango{
     }
 		
     /**
-     * Set whether or not to render the reverse orientation.
      * Sets a flag that, when true, causes the circle to render in reverse orientation. Normally 
      * (when this flag is off) the circle is rendered in only one of its orientations. This is irrelevant for the WIRE rendering style,
      * however the FILL rendering style will render a circle that is only visible from one side. In such cases, setting this flag to true
@@ -1748,7 +1594,6 @@ namespace Mango{
     }
 		
     /**
-     * Get the width.
      * Returns the width of the rectangle.
      * @see setWidth
      */
@@ -1757,7 +1602,6 @@ namespace Mango{
     }
 		
     /**
-     * Get the length.
      * Returns the length of the rectangle.
      * @see setLength
      */
@@ -1766,9 +1610,7 @@ namespace Mango{
     }
 		
     /**
-     * Returns the rendering style.
      * Returns the style used to render the circle. See Rectangle::setStyle() for a list of supported rendering styles.
-     * @return int style    the style used to render the circle
      * @see setStyle		
      */
     int Rectangle::style(){
@@ -1776,10 +1618,8 @@ namespace Mango{
     }
 		
     /**
-     * Returns true if the circle also renders its vertices in reverse.
      * Returns the value of the flag that determines if the circle also renders in reverse orientation. See 
      * Rectangle::setRenderReverseOrientation() for a more detailed explanation.
-     * @return bool also_renders_in_reverse    true if the circle also renders its vertices in reverse, false otherwise
      * @see setRenderReverseOrientation
      * @see setStyle
      * @see style
@@ -1821,7 +1661,8 @@ namespace Mango{
     }
 		
 
-    
+
+    //// @cond
     /*
       NOTE: This function is copied from the freeGLUT project v2.6.0,
             specifically from the file freeglut_geometry.c. The original
@@ -1879,7 +1720,7 @@ namespace Mango{
       (*cost)[size] = (*cost)[0];
     }
 
-
+    //// @endcond
 
   } // Geometry
 } // Mango

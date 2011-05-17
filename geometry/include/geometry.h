@@ -10,18 +10,20 @@ namespace Mango{
     
     
     /**
-     * An object with color properties.
-     * An object with red, green, blue and alpha color values with matching set and get functions. This object
-     * is the base class for all objects that have a color.
+     * An object with red, green, and blue color components with
+     * matching set and get functions. This object is the base class
+     * for all other objects in this module.
      */
     class ColorfulObject : public Core::Object{
     public:		    	
       ColorfulObject();
       ~ColorfulObject();
       
+      //// @cond
       virtual const char *objectType() const{
 	return "ColorfulObject";
       }
+      //// @endcond
       
       void setColor(GLfloat c_r, GLfloat c_g, GLfloat c_b);
       void setRedComponent(GLfloat c_r);
@@ -35,27 +37,29 @@ namespace Mango{
       
     protected:
       GLfloat color_r, color_g, color_b;
-      //GLfloat color_alpha;
     };
     
     
     /**
-     * A "box".
-     * A "box" of particular dimensions, color with outward-pointing normals.
+     * A "box" of given dimensions and color, with outward-pointing normals.
      */
     class Box : public ColorfulObject{
     public:		    	
       Box(GLfloat h=1.0, GLfloat w=1.0, GLfloat l=1.0);
       ~Box();
       
+      //// @cond
       virtual const char *objectType() const{
 	return "Box";
       }
+      //// @endcond
       
       void setDimensions(GLfloat h, GLfloat w, GLfloat l);		        		
       void dimensions(GLfloat &h, GLfloat &w, GLfloat &l);	
       
+      //// @cond
       virtual void render();
+      //// @endcond
       
     protected:
       GLfloat height, width, length;
@@ -65,17 +69,19 @@ namespace Mango{
     
     
     /**
-     * A sphere.
-     * A sphere of arbitrary radius, color and smoothness with outward pointing normals.
+     * A sphere of arbitrary radius, color and smoothness with outward
+     * pointing normals.
      */
     class Sphere : public ColorfulObject{
     public:
       Sphere(GLfloat radius = 1.0, int sides = 24);
       ~Sphere();
       
+      //// @cond
       virtual const char *objectType() const{
 	return "Sphere";
       }
+      //// @endcond
       
       void setRadius(GLfloat radius);
       void setNumberOfSides(int sides);		        
@@ -83,7 +89,9 @@ namespace Mango{
       GLfloat radius();
       int numberOfSides();		        
       
+      //// @cond
       virtual void render();
+      //// @endcond
       
     protected:
       int sides;
@@ -99,17 +107,19 @@ namespace Mango{
     
     
     /**
-     * A cylinder.
-     * A cylinder of arbitrary radius, height, color and smoothness with outward pointing normals.
+     * A cylinder of arbitrary radius, height, color and smoothness
+     * with outward pointing normals.
      */
     class Cylinder : public ColorfulObject{
     public:
       Cylinder(GLfloat radius = 1.0, GLfloat height = 2.0, int num_sides = 24);
       ~Cylinder();
       
+      //// @cond
       virtual const char *objectType() const{
 	return "Cylinder";
       }
+      //// @endcond
       
       void setRadius(GLfloat radius);
       void setHeight(GLfloat height);
@@ -119,7 +129,9 @@ namespace Mango{
       GLfloat height();
       int numberOfSides();		        
       
+      //// @cond
       virtual void render();
+      //// @endcond
       
     protected:
       int sides;
@@ -131,17 +143,19 @@ namespace Mango{
     
     
     /**
-     * A shell.
-     * A shell of arbitrary radius, color and smoothness with outward pointing normals.
+     * A spherical shell of arbitrary radius, color and smoothness
+     * with outward and inward pointing normals.
      */
     class Shell : public ColorfulObject{
     public:
       Shell(GLfloat radius = 1.0,  GLfloat thickness=0.1, GLfloat fraction=0.3, int sides = 24);
       ~Shell();
       
+      //// @cond
       virtual const char *objectType() const{
 	return "Shell";
       }
+      //// @endcond
       
       void setRadius(GLfloat radius);
       void setThickness(GLfloat thickness);
@@ -153,7 +167,9 @@ namespace Mango{
       GLfloat fraction();
       int numberOfSides();		        
       
+      //// @cond
       virtual void render();
+      //// @endcond
       
     protected:
       GLfloat r, t, f, dtheta, dphi;
@@ -169,17 +185,18 @@ namespace Mango{
     
     
     /**
-     * An arrow.
-     * An arrow of arbitrary length, thickness and color, with outward normals.
+     * An arrow of arbitrary length, thickness and color.
      */
     class Arrow : public ColorfulObject{
     public:
       Arrow(GLfloat length = 1, GLfloat thickness = 0.1);
       ~Arrow();
       
+      //// @cond
       virtual const char *objectType() const{
 	return "Arrow";
       }
+      //// @endcond
       
       void setLength(GLfloat length);
       void setThickness(GLfloat thickness);        
@@ -190,7 +207,9 @@ namespace Mango{
       
       
       
+      //// @cond
       virtual void render();
+      //// @endcond
       
     protected:
       GLfloat l, w_x, w_y;        
@@ -211,17 +230,20 @@ namespace Mango{
     
     
     /**
-     * A coordinate system.
-     * A set of orthogonal axes that form a three dimensional coordinate system of given orientation, axis length and axis thickness.
+     * A set of orthogonal axes that form a three dimensional
+     * coordinate system of given orientation, axis length and axis
+     * thickness.
      */
     class CoordinateSystem : public Core::Object{
     public:
       CoordinateSystem();
       ~CoordinateSystem();
       
+      //// @cond
       virtual const char *objectType() const{
 	return "CoordinateSystem";
       }
+      //// @endcond
       
       void setAxisLength(GLfloat length);
       void setAxisThickness(GLfloat thickness);        
@@ -231,7 +253,9 @@ namespace Mango{
       GLfloat axisThickness();        
       bool rightHanded();		
 
+      //// @cond
       virtual void render();
+      //// @endcond
       
     protected:
       Arrow* axes[3];		        
@@ -245,29 +269,67 @@ namespace Mango{
 		
 		
     /**
-     * A collection of vertices.
-     * A collection of vertices that are rendered with a given style. This object provides an interface that allows defining 
-     * sophisticated two and three dimensional shapes without overriding an Object's render event. The object will render the 
+     * A collection of vertices that are rendered with a given
+     * style. This object provides an interface that allows defining
+     * sophisticated two and three dimensional shapes without
+     * overriding an Object's render event. The object will render the
      * vertices in order, with one of the following styles:
-     * 	GL_POINTS                 - render the vertices as individual points
-     * 	GL_LINES              	  - render a lines between each consecutive, non-overlapping pair of vertices
-     * 	GL_LINE_LOOP          	  - render a line between each consecutive, overlapping pair of vertices, including the last and first
-     * 	GL_LINE_STRIP             - render a line between each consecutive, overlapping pair of vertices, not including the last and first
-     * 	GL_TRIANGLES              - render a triangle between each consecutive, non-overlapping triplet of vertices
-     * 	GL_TRIANGLE_STRIP         - ?
-     * 	GL_TRIANGLE_FAN           - ?
-     * 	GL_QUADS                  - render a quad between each consecutive, non-overlapping quadruplet of vertices
-     * 	GL_QUAD_STRIP             - ?
-     * 	GL_POLYGON 				  - ?
+     \verbatim embed:rst
+ * GL_POINTS: 
+     render the vertices as individual points
+      
+ * GL_LINES: 
+     render a lines between each consecutive, 
+     non-overlapping pair of vertices
+
+ * GL_LINE_LOOP: 
+     render a line between each consecutive, 
+     overlapping pair of vertices, including the last and first
+	  
+ * GL_LINE_STRIP: 
+     render a line between each consecutive, overlapping 
+     pair of vertices, not including the last and first
+
+ * GL_TRIANGLES: 
+     render a triangle between each consecutive, non-overlapping 
+     triplet of vertices
+
+ * GL_TRIANGLE_STRIP: 
+     render a sequence of triangles formed so: the first three
+     vertices determine a triangle, and every additional vertex
+     (in order) determines an additional triangle with the
+     two vertices preceding it. 
+
+ * GL_TRIANGLE_FAN: 
+     render a sequence of triangles formed so: the first three 
+     vertices determine a triangle, and every additional vertex
+     (in order) determines an additional triangle with the 
+     very first vertex and the one preceding it. 
+
+ * GL_QUADS: 
+     render a quad between each consecutive, non-overlapping 
+     quadruplet of vertices
+
+ * GL_QUAD_STRIP: 
+     render a sequence of quads, formed so: the first four
+     vertices determine a quad, and every additional pair of
+     vertices determines a quad with the pair preceding it.
+
+ * GL_POLYGON: 
+     render a simple, convex polygon
+
+     \endverbatim
      */
     class VertexArray : public ColorfulObject {
     public:
       VertexArray();
       ~VertexArray();
       
+      //// @cond
       virtual const char *objectType() const{
 	return "VertexArray";
       }
+      //// @endcond
       
       void add(Core::Vector &v);
       void add(GLfloat x, GLfloat y, GLfloat z);
@@ -291,7 +353,9 @@ namespace Mango{
       bool renderReverseOrientation();
       int size();
       
+      //// @cond
       virtual void render();	        
+      //// @endcond
       
     protected:
       std::vector<Core::Vector> vertices;
@@ -312,7 +376,6 @@ namespace Mango{
 		
     
     /**
-     * A circle.
      * A circle with a given radius and smoothness.
      */
     class Circle : public ColorfulObject {
@@ -320,9 +383,11 @@ namespace Mango{
       Circle(GLfloat radius = 1.0, int num_sides=24);
       ~Circle();
       
+      //// @cond
       virtual const char *objectType() const{
 	return "Circle";
       }
+      //// @endcond
       
       void setRadius(GLfloat radius);
       void setNumberOfSides(int sides);
@@ -333,9 +398,11 @@ namespace Mango{
       int numberOfSides();
       int style();	
       bool renderReverseOrientation();	        
-						
+	
+      //// @cond
       virtual void render();
       virtual void draw();
+      //// @endcond
       
     protected:
       GLfloat r, dtheta;
@@ -345,17 +412,18 @@ namespace Mango{
     
     
     /**
-     * A symmetric n-gon.
-     * A symmetric n-gon with n sides, with a given radius.
+     * A symmetric n-gon with n sides, with a given "radius".
      */
     class NGon : public Circle {
     public:
       NGon(GLfloat radius = 1.0, int num_sides=5);
       ~NGon();
       
+      //// @cond
       virtual const char *objectType() const{
 	return "NGon";
-      }			        		        			                										        	    
+      }
+      //// @endcond
     };
     
     
@@ -367,7 +435,6 @@ namespace Mango{
 		
     
     /**
-     * A rectangle.
      * A rectangle with given width and length.
      */
     class Rectangle : public ColorfulObject {
@@ -375,9 +442,11 @@ namespace Mango{
       Rectangle(GLfloat width = 1.0, GLfloat height = 1.618);
       ~Rectangle();
       
+      //// @cond
       virtual const char *objectType() const{
 	return "Rectangle";
       }
+      //// @endcond
       
       void setWidth(GLfloat width);
       void setLength(GLfloat length);
@@ -390,8 +459,10 @@ namespace Mango{
       int style();	
       bool renderReverseOrientation();	        
       
+      //// @cond
       virtual void render();
       virtual void draw();
+      //// @endcond
       
     protected:
       GLfloat w, l;
