@@ -1,6 +1,9 @@
 #include "mangopy.h"
 #include <locale.h>
 #include <algorithm>
+#ifdef __APPLE__
+#include <mach-o/dyld.h>
+#endif
 
 namespace MangoPy{ 
     
@@ -34,7 +37,7 @@ namespace MangoPy{
   
   
   PyObject *mpy_getVersion(PyObject *, PyObject* args){
-    return Py_BuildValue("s", "Mango: 0.1\nMangoPy: 0.1");
+    return Py_BuildValue("s", Mango::full_version_string());
   }
 
   static PyMethodDef MangoPyGeneralMethods[] = {
@@ -109,7 +112,9 @@ namespace MangoPy{
   
   void initialize(int argc, char *argv[], bool setup_default_environment){
     wchar_t **argv_copy;
-    
+    char exec_path[2048];
+    wchar_t *wide_exec_path;
+
     argv_copy = (wchar_t **)PyMem_Malloc(sizeof(wchar_t*)*argc);
     for (int i = 0; i < argc - 1; i++) {
       argv_copy[i] = char2wchar(argv[i + 1]);
@@ -120,7 +125,7 @@ namespace MangoPy{
 
     if (setup_default_environment) {      
       Mango::GlobalFrame = new Mango::Core::Frame(true);
-      Mango::Engine = new PyEngine();
+      Mango::Engine = new MangoPy::PyEngine();
       Mango::Keyboard = new Mango::Core::CoreKeyboard();
       Mango::Mouse = new Mango::Core::CoreMouse();
       Mango::Camera = new Mango::Core::CoreCamera();
@@ -144,6 +149,17 @@ namespace MangoPy{
     PyImport_AppendInittab("Draw", PyInit_Draw);
     
     // Initialize Python    
+    if (!executable_path(exec_path, 2048)){
+      std::cout << "Warning: could not determine executable path." << std::endl;
+      std::cout << "         using argv[0], but this value is not reliable" << std::endl;
+      std::cout << "         and Mango may not be able to find or execute " << std::endl;
+      std::cout << "         files outside of its own directory" << std::endl;
+      strncpy(exec_path, argv[0], 2047);
+      exec_path[2047] = NULL;
+    }
+    wide_exec_path = char2wchar(exec_path);
+    Py_SetProgramName(wide_exec_path);
+
     Py_Initialize();
     PySys_SetArgv(argc - 1, argv_copy);
     
@@ -186,9 +202,10 @@ namespace MangoPy{
     }
     
     // Add absolute path to engine to the module search path
-    PyModule_AddStringConstant(module_core, "MANGO_RELATIVE_EXECUTABLE_NAME", argv[0]);
-    PyRun_SimpleString("import os; Core.MANGO_ABSOLUTE_PATH = os.path.dirname(os.path.normpath(os.path.join(os.getcwd(), Core.MANGO_RELATIVE_EXECUTABLE_NAME)))");
-    PyRun_SimpleString("import sys; sys.path.append(Core.MANGO_ABSOLUTE_PATH)");
+    PyRun_SimpleString("import os, sys");
+    PyModule_AddStringConstant(module_core, "MANGO_LAUNCH_PATH", exec_path);
+    PyRun_SimpleString("Core.MANGO_ABSOLUTE_PATH = os.path.dirname(os.path.normpath(os.path.realpath(Core.MANGO_LAUNCH_PATH)))");
+    PyRun_SimpleString("sys.path.append(Core.MANGO_ABSOLUTE_PATH)");
     PyRun_SimpleString("sys.path.append(os.path.normpath(os.path.join(Core.MANGO_ABSOLUTE_PATH, '../script')))");
 
     // Make the Core module globally available
@@ -197,9 +214,7 @@ namespace MangoPy{
     PyRun_SimpleString("__builtins__.Draw = Draw");
     PyRun_SimpleString("__builtins__.OpenGL = OpenGL");
     PyRun_SimpleString("__builtins__.Vector = Core.Vector");
-    PyRun_SimpleString("__builtins__.PRE_STEP = Core.PRE_STEP");
     PyRun_SimpleString("__builtins__.STEP = Core.STEP");
-    PyRun_SimpleString("__builtins__.POST_STEP = Core.POST_STEP");
     PyRun_SimpleString("__builtins__.RENDER = Core.RENDER");
     PyRun_SimpleString("__builtins__.DRAW = Core.DRAW");
     PyRun_SimpleString("__builtins__.INPUT = Core.INPUT");
@@ -608,6 +623,40 @@ char* check_cmd_op_presence(char **begin, char **end, const std::string &option)
       return *itr;
   }
   return 0;
+}
+
+// Determine executable path and place it in buff.
+// Returns true on success, false on failure. failure
+// means different things on different platforms:
+//  OSX: buffer was too small
+//  Linux: could not read /proc/self/exe, check value of errno
+//  Windows: <...>
+bool executable_path(char *buff, int buffer_size){
+#if defined(__APPLE__)
+  uint32_t size = buffer_size;
+  if (_NSGetExecutablePath(buff, &size) == 0){
+    return true;
+  }
+  else{
+    return false;
+  }
+#elif defined(WINDOWS)
+  /*
+  TCHAR szFileName[MAX_PATH];
+  GetModuleFileName( NULL, szFileName, MAX_PATH )
+  */
+#else 
+  // Assume Linux, and that we can access /proc
+  int res = readlink("/proc/self/exe", buff, buffer_size - 1);
+  if (res != -1){
+
+    buff[res] = NULL;
+    return true;
+  }
+  else{
+    return false;
+  }
+#endif
 }
 
 
