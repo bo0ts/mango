@@ -3,7 +3,7 @@ AC_PREREQ([2.59])
 AM_INIT_AUTOMAKE([1.10 no-define])
 AC_CONFIG_HEADERS([config.h])
 AC_PROG_CXX
-LT_INIT([disable-shared])
+LT_INIT([enable-shared])
 AC_CONFIG_FILES([Makefile])
 
 # Set default prefix
