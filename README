@@ -1,0 +1,20 @@
+Mango v1.0b
+===========
+
+The Mango simulation framework is:
+  * cross platform (Linux, OSX, Windows)
+  * open source, under the MIT license
+
+With Mango you
+  * move things around in three dimensional space
+  * subclass and override methods to implement custom behavior/graphics
+
+It rocks because
+  * setup is easy
+  * simulations are in Python or C++, or both
+  * boilerplate code is minimal
+  * the only Python code running is that in overridden events
+  * modular design encourages extension and reuse
+
+See the documentation included in the *doc/* folder for more
+information, or find it at http://www.devmango.org
