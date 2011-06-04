@@ -55,6 +55,9 @@ if BUILD_GEOMETRY
   libgeometry_la_CXXFLAGS = -I@MANGODIR@/include -I@GEOMETRYDIR@/include
 
   include_HEADERS += $(top_srcdir)/geometry/include/*.h
+
+
+
 endif
 
 if BUILD_SAMPLES
@@ -116,8 +119,8 @@ endif
 if BUILD_MANGOPY_ON_GLUT
   bin_PROGRAMS += mango
   mango_SOURCES = @MANGOPY_ON_GLUTDIR@/src/mangopy_on_glut.cpp
-  mango_LDFLAGS = -L.libs -lmong -lmangopy -lmango $(GL_FRAMEWORK) $(GLUT_FRAMEWORK) $(PYTHON_FRAMEWORK)
-  mango_CXXFLAGS = -I@MANGODIR@/include -I@MANGO_ON_GLUTDIR@/include -I@MANGOPYDIR@/include
+  mango_LDFLAGS = -L.libs -lmong -lmangopy -lmango -lgeometry  $(GL_FRAMEWORK) $(GLUT_FRAMEWORK) $(PYTHON_FRAMEWORK)
+  mango_CXXFLAGS =  -I@MANGODIR@/include -I@MANGO_ON_GLUTDIR@/include -I@MANGOPYDIR@/include  -I@GEOMETRYDIR@/include
 endif
 
 include_HEADERS += $(top_builddir)/config.h

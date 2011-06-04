@@ -3,7 +3,7 @@ AC_PREREQ([2.59])
 AM_INIT_AUTOMAKE([1.10 no-define])
 AC_CONFIG_HEADERS([config.h])
 AC_PROG_CXX
-LT_INIT([enable-shared])
+LT_INIT([])
 AC_CONFIG_FILES([Makefile])
 
 # Set default prefix
@@ -145,7 +145,7 @@ debug_default="yes"
 AC_ARG_ENABLE(debug, [  --enable-debug=[no/yes] turn on debugging
                        [default=$debug_default]],, enable_debug=$debug_default)
 if test "x$enable_debug" = "xyes"; then
-         CFLAGS="$CFLAGS -g -DDEBUG"
+         CXXFLAGS="$CXXFLAGS -g -DDEBUG"
 else
   #CFLAGS="$CFLAGS -O3 -ffast-math -mcpu=v8 -mtune=ultrasparc"
   AC_MSG_RESULT(no)
