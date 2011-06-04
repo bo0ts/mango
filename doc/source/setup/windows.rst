@@ -5,32 +5,19 @@ Windows - Running Scripts
 -------------------------
 
 Download and run the windows installer. By default, Mango will install at:
-
-  .. code-block:: text
    
-     C:\Program Files\Mango\1.0
+  *C:\\Program Files\\Mango\\<version>\\*
 
 At this point you are ready to run simulations written in Python (see
-:doc:`/samples`). In order to do this, open up a command prompt (you
-can find it in the start menu under "Accessories"), and type:
+:doc:`/samples`). In order to do this, right click any such simulation
+and select *Run with Mango* from the context menu.
 
-  .. code-block:: text
-
-     mango path\to\script.py
-
-For instance, if you were to save a script as "c:\\test.py", typing the 
-following at a command prompt would run the simulation in Mango:
-
-  .. code-block:: text
-
-     mango c:\test.py
-
-Mango program files will be located at *C:\\Program Files\\Mango\\1.0\\*
-or *C:\\Program Files (X86)\\Mango\\1.0\\* and include:
+Mango program files will be located at *C:\\Program
+Files\\Mango\\<version>\\* or *C:\\Program Files
+(X86)\\Mango\\<version>\\* and include:
 
   * **core**: 
-      A directory containing the mango executable. The installer will
-      automatically add this directory to the path.
+      A directory containing the mango executable.
   
   * **doc**: 
       A copy of the documentation.
@@ -54,7 +41,12 @@ or *C:\\Program Files (X86)\\Mango\\1.0\\* and include:
       mangopy. These may linked against when developing simulations in
       C++.
 
-.. _setup-windows-cpp:
+
+An entry point in the Start Menu titled "Mango-<version>" will also be
+installed. It includes shortcuts to the samples directory,
+documentation and the uninstaller.
+
+ .. _setup-windows-cpp:
 
 Windows - C++ Development
 -------------------------

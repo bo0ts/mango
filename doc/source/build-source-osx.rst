@@ -38,7 +38,7 @@ The following command configures Mango:
 
   .. code-block:: bash
 
-     $ ../configure CXXFLAGS="-arch i386" LDFLAGS="-arch i386"  --enable-shared
+     $ ../configure CXXFLAGS="-arch i386" 
 
 These instructions assume all components are 32bit, if building for a
 64bit architecture leave off *-arch i386* from the command.

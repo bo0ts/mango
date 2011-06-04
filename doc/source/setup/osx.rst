@@ -4,16 +4,16 @@ Setup on OSX
 OSX - Running Scripts
 ---------------------
 
-Download and run the OSX installer. By default, Mango will install as a 
-framework in:
+Download and run the OSX installer. By default, Mango will install:
 
-  .. code-block:: text
-
-     /Library/Frameworks/Mango.framework
+  | A framework at */Library/Frameworks/Mango.framework*
+  | A launcher at */Applications/Mango Launcher.app*
+     
 
 Once installed, you are ready to run simulations written in Python
-(see :doc:`/samples`). To do so, fire up a terminal window (you can
-find it by typing 'Terminal' in spotlight) and type:
+(see :doc:`/samples`). To do so, right click a *.py* file and choose
+"Open With > Mango Launcher". Alternatively, fire up a terminal window
+(you can find it by typing 'Terminal' in spotlight) and type:
  
   .. code-block:: text
 

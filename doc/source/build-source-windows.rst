@@ -39,7 +39,7 @@ The following command configures Mango:
 
   .. code-block:: bash
 
-     $ ../configure CXXFLAGS="-I/c/MingGW/include -I/c/Python31/include" LDFLAGS="-L/c/MingGW/lib -L/c/Python31/libs -lopengl32 -lfreeglut -lpython31" --enable-shared
+     $ ../configure CXXFLAGS="-I/c/MingGW/include -I/c/Python31/include" LDFLAGS="-L/c/MingGW/lib -L/c/Python31/libs -lopengl32 -lfreeglut -lpython31"
 
 Finally, issue the following to build:
 

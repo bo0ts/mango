@@ -46,12 +46,11 @@ steps and adjust commands appropriately):
 
 Mango must be configured with the path to the Python include
 files. Replace */usr/include/python3.1/* with the correct path on your
-system, and execute this command to configure:
+system, exclude '-m32' if building 64bit binaries, and execute this command to configure:
 
   .. code-block:: bash
 
-     $ ../configure CXXFLAGS="-I/usr/include/python3.1/" \
-       LDFLAGS="-lglut -lpython3.1" --enable-shared 
+     $ ../configure CXXFLAGS="-m32 -I/usr/include/python3.1/" LDFLAGS="-lglut -lpython3.1" 
 
 And then the following to install:
 
