@@ -1,3 +1,24 @@
+/*
+ Copyright (c) 2011 Amos Joshua
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+*/
 #include "mangopy_core.h"
 #include "mangopy_frame.h"
 #include "mangopy_triangle.h"
@@ -45,15 +66,12 @@ PyInit_Core(void){
   mpy_addObjectToModule(m, &mpy_PyEngineType, NULL, "PyEngine");
 
   // Add Event Constants
-  PyModule_AddIntConstant(m, "PRE_STEP", PRE_STEP);
   PyModule_AddIntConstant(m, "STEP", STEP);
-  PyModule_AddIntConstant(m, "POST_STEP", POST_STEP);
   PyModule_AddIntConstant(m, "RENDER", RENDER);
   PyModule_AddIntConstant(m, "DRAW", DRAW);
   PyModule_AddIntConstant(m, "INPUT", INPUT);
  
   // Add Camera Constants
-  PyModule_AddIntConstant(m, "PRE_STEP", PRE_STEP);
   PyModule_AddIntConstant(m, "CAMERA_DEFAULT_MODE", CAMERA_DEFAULT_MODE);
   PyModule_AddIntConstant(m, "LOCK_PAN", LOCK_PAN);
   PyModule_AddIntConstant(m, "LOCK_DISTANCE", LOCK_DISTANCE);
@@ -210,7 +228,7 @@ void throwCExceptionFromPythonException(const char *orig_object, const char *ori
   MangoPy::pythonScriptStderr.clear();
   std::string err = MangoPy::pythonScriptStderr.str(); // Retrieve the error from stderr
   const char *err_c = err.c_str();
-  throw PythonScriptError(orig_object, orig_method, err_c);
+  throw MangoPy::PythonScriptError(orig_object, orig_method, err_c);
 }
 
 /*
@@ -328,7 +346,7 @@ PyObject *mpy_Object_visible(mpy_Object *self){
 // 0 if the object does not have a scripted event
 // 1 if the object has a scripted event
 int mpy_object_has_scripted_event(mpy_Object *self, int event_type){
-  const char *event_method_name = static_cast<PyEngine *>(Mango::Engine)->getObjectEventMethodName(event_type);
+  const char *event_method_name = static_cast<MangoPy::PyEngine *>(Mango::Engine)->getObjectEventMethodName(event_type);
 
   if (event_method_name == NULL){
     char err_msg[50];
@@ -399,7 +417,7 @@ static PyObject *mpy_Object_set(mpy_Object *self, PyObject *args){
 	  Mango::Engine->setEvent(self->internalObject, j);
 	}
 	else if (object_has_scripted_event == 1){
-	  reinterpret_cast<PyEngine *>(Mango::Engine)->setScriptedEvent(self, j);
+	  reinterpret_cast<MangoPy::PyEngine *>(Mango::Engine)->setScriptedEvent(self, j);
 	}
       }
       j = j << 1;
@@ -447,7 +465,7 @@ static PyObject *mpy_Object_unset(mpy_Object *self, PyObject *args){
 	  Mango::Engine->removeEvent(self->internalObject, j);
 	}
 	else if (object_has_scripted_event == 1){
-	  reinterpret_cast<PyEngine *>(Mango::Engine)->removeScriptedEvent(self, j);
+	  reinterpret_cast<MangoPy::PyEngine *>(Mango::Engine)->removeScriptedEvent(self, j);
 	}
       }
       j = j << 1;
@@ -492,7 +510,7 @@ static PyObject *mpy_Object_toggle(mpy_Object *self, PyObject *args){
 	  Mango::Engine->toggleEvent(self->internalObject, j);
 	}
 	else if (object_has_scripted_event == 1){
-	  reinterpret_cast<PyEngine *>(Mango::Engine)->toggleScriptedEvent(self, j);
+	  reinterpret_cast<MangoPy::PyEngine *>(Mango::Engine)->toggleScriptedEvent(self, j);
 	}
       }
       j = j << 1;
@@ -541,7 +559,7 @@ static PyObject *mpy_Object_executes(mpy_Object *self, PyObject *args){
 	  executes_evt = executes_evt && Mango::Engine->objectHasEvent(self->internalObject, j);
 	}
 	else if (object_has_scripted_event == 1){
-	  executes_evt = executes_evt && reinterpret_cast<PyEngine *>(Mango::Engine)->objectHasScriptedEvent(self, j);
+	  executes_evt = executes_evt && reinterpret_cast<MangoPy::PyEngine *>(Mango::Engine)->objectHasScriptedEvent(self, j);
 	}
       }
       j = j << 1;
@@ -569,31 +587,11 @@ static PyObject *mpy_Object_executes(mpy_Object *self, PyObject *args){
 /*
   Object Events
 */
-static PyObject *mpy_Object_pre_step(mpy_Object *self){
-  try{
-    self->internalObject->pre_step();
-  }
-  catch (Mango::Core::Error &e){
-    return pythonExceptionFromCException(e);
-  }
-  Py_INCREF(Py_None);
-  return Py_None;
-}
+
 
 static PyObject *mpy_Object_step(mpy_Object *self){
   try{
     self->internalObject->step();
-  }
-  catch (Mango::Core::Error &e){
-    return pythonExceptionFromCException(e);
-  }
-  Py_INCREF(Py_None);
-  return Py_None;
-}
-
-static PyObject *mpy_Object_post_step(mpy_Object *self){
-  try{
-    self->internalObject->post_step();
   }
   catch (Mango::Core::Error &e){
     return pythonExceptionFromCException(e);
@@ -668,13 +666,9 @@ static PyObject *mpy_Object_repr(PyObject *selff){
   char object_repr[50];
   mpy_Object *self;
 
-  //std::cout << "Representing object at " << selff << std::endl;
   self = reinterpret_cast<mpy_Object *>(selff);
   sprintf(object_repr, "<%s #%d>", self->internalObject->objectType(), self->internalObject->objectID());
-  //sprintf(object_repr, "Some Object");
-  //std::cout << "Done representing object at " << selff << std::endl;
   return PyUnicode_FromString(object_repr);
-  //return PyUnicode_FromString("An Object");
 }
 
 
@@ -722,14 +716,8 @@ PyMethodDef mpy_Object_methods[] = {
   },
     
   // Events
-  {"pre_step", (PyCFunction)mpy_Object_pre_step, METH_VARARGS,
-   "Object pre-step event"
-  },
   {"step", (PyCFunction)mpy_Object_step, METH_VARARGS,
    "Object step event"
-  },
-  {"post_step", (PyCFunction)mpy_Object_post_step, METH_VARARGS,
-   "Object post-step event"
   },
   {"render", (PyCFunction)mpy_Object_render, METH_VARARGS,
    "Object render event"

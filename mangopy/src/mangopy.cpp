@@ -1,13 +1,36 @@
+/*
+ Copyright (c) 2011 Amos Joshua
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+*/
 #include "mangopy.h"
 #include <locale.h>
 #include <algorithm>
-#ifdef __APPLE__
+#if defined(__APPLE__)
 #include <mach-o/dyld.h>
+#elif defined(WIN32)
+#include <Windows.h>
 #endif
 
 namespace MangoPy{ 
     
-  std::stringstream pythonScriptStderr(std::stringstream::in | std::stringstream::out);
+  std::stringstream pythonScriptStderr(std::stringstream::in | std::stringstream::out);  
 
   static void mpy_trivialDelMethod(void *ptr)
   {
@@ -113,7 +136,9 @@ namespace MangoPy{
   void initialize(int argc, char *argv[], bool setup_default_environment){
     wchar_t **argv_copy;
     char exec_path[2048];
+    char home_path[2048];
     wchar_t *wide_exec_path;
+    wchar_t *wide_home_path;
 
     argv_copy = (wchar_t **)PyMem_Malloc(sizeof(wchar_t*)*argc);
     for (int i = 0; i < argc - 1; i++) {
@@ -159,10 +184,20 @@ namespace MangoPy{
     }
     wide_exec_path = char2wchar(exec_path);
     Py_SetProgramName(wide_exec_path);
+       
+#ifndef WIN32
+    // Set Home Path
+    // Windows seems to set exec_prefix just fine without this, so
+    // it is skipped on windows until needed
+    python_home_path(exec_path, home_path, 2048);
+    wide_home_path = char2wchar(home_path);
+    Py_SetPythonHome(wide_home_path);       
+#endif
 
     Py_Initialize();
     PySys_SetArgv(argc - 1, argv_copy);
     
+
     // Add modules - phase two
     PyObject* main_module = PyImport_AddModule("__main__");    
     PyObject *module_mpygen = PyImport_ImportModule("_mpygen");	
@@ -457,20 +492,65 @@ class MangoPy_StdErr: \n\
         _mpygen.writeToPythonScriptStderr(msg) \n\
 sys.stderr = MangoPy_StdErr() \n\
 ");    
+
+    // Setup Paths Array
+    PyRun_SimpleString("Core.SOURCES = []");    
   }
+
+  
   
   void runScript(const char* fname, bool prepend_engine_path){    
-    char run_script_code[300];
-    
-    if (prepend_engine_path){
-      sprintf(run_script_code, "exec(compile(open(os.path.join(Core.MANGO_ABSOLUTE_PATH, \"%s\")).read(), 'main.py', 'exec'), locals(), globals())", fname, fname);
+    // char run_script_code[300];
+    char run_script_code[] = "exec(compile(open(Core.SOURCES[-1]).read(), Core.SOURCES[-1], 'exec'), locals(), globals())";
+
+    PyObject* core_module = PyImport_AddModule("Core");
+    if (core_module == NULL){
+      throw MangoPy::ScriptError(NULL, "Main Script", "Cannot execut script");
     }
-    else{
-      sprintf(run_script_code, "exec(compile(open(\"%s\").read(), '%s', 'exec'), locals(), globals())", fname, fname);		
-    }    
+
+    PyObject *pyfname = PyUnicode_FromString(fname);
+    PyObject *sources_list = PyObject_GetAttrString(core_module, "SOURCES");    
+    
+    PyList_Append(sources_list, pyfname);
     if (PyRun_SimpleString(run_script_code) == -1){
       throw MangoPy::ScriptError(NULL, "Main Script", "");
-    }    
+    }
+
+      /*
+    
+    PyObject* PyFileObject = PyFile_FromString(fname, "r");
+    if (PyFileObject == NULL){
+      throw MangoPy::ScriptError(NULL, "Main Script", "");
+    }
+
+    PyRun_SimpleFile(PyFile_AsFile(PyFileObject), fname);
+    Py_DECREF(PyFileObject);
+      */
+
+
+    /*
+PyObject* PyFileObject = PyFile_FromString(FileName, "r");
+ if (PyFileObject == NULL) return NULL; // Let the user know the error.
+
+ // Function Declration is: int PyRun_SimpleFile(FILE *fp, char *filename);
+ // So where the hack should we get it a FILE* ? Therefore we have "PyFile_AsFile".
+ PyRun_SimpleFile(PyFile_AsFile(PyFileObject), FileName);
+
+Py_DECREF(PyFileObject);
+    */
+    
+    /*
+    if (prepend_engine_path){
+      sprintf(run_script_code, "exec(compile(open(os.path.join(Core.MANGO_ABSOLUTE_PATH, r'%s')).read(), 'main.py', 'exec'), locals(), globals())", fname, fname);
+    }
+    else{
+      sprintf(run_script_code, "exec(compile(open(r\"%s\").read(), '%s', 'exec'), locals(), globals())", fname, fname);		
+    } 
+       
+    if (PyRun_SimpleString(run_script_code) == -1){
+      throw MangoPy::ScriptError(NULL, "Main Script", "");
+    }
+    */
   }
   
   void finalize(){
@@ -625,6 +705,24 @@ char* check_cmd_op_presence(char **begin, char **end, const std::string &option)
   return 0;
 }
 
+// Determine Python home path based on the executable path
+void python_home_path(char *exec_path, char *buffer, int buffer_size){
+#ifdef WIN32
+  // TODO: implement
+#else
+  posix_cpy_dirname(exec_path, buffer);
+#endif
+}
+
+void posix_cpy_dirname(const char *file_path, char *buffer){ 
+  char *dir;
+  int len = strlen(file_path);
+  char *tmp_file_path = new char[len];
+  strncpy(tmp_file_path, file_path, len);
+  dir = dirname(tmp_file_path);
+  strcpy(buffer, dir);
+}
+
 // Determine executable path and place it in buff.
 // Returns true on success, false on failure. failure
 // means different things on different platforms:
@@ -633,6 +731,24 @@ char* check_cmd_op_presence(char **begin, char **end, const std::string &option)
 //  Windows: <...>
 bool executable_path(char *buff, int buffer_size){
 #if defined(__APPLE__)
+
+  char *tmp_b = new char[buffer_size];
+  uint32_t size = buffer_size;
+
+  if (_NSGetExecutablePath(tmp_b, &size) == 0){
+    int bytes_written = readlink(tmp_b, buff, buffer_size - 1);
+    if (bytes_written == -1)
+      strncpy(buff, tmp_b, buffer_size);
+    else
+      buff[bytes_written] = '\0';
+    delete tmp_b;
+    return true;
+  }
+  else{
+    return false;
+  }
+
+  /*
   uint32_t size = buffer_size;
   if (_NSGetExecutablePath(buff, &size) == 0){
     return true;
@@ -640,11 +756,22 @@ bool executable_path(char *buff, int buffer_size){
   else{
     return false;
   }
-#elif defined(WINDOWS)
-  /*
-  TCHAR szFileName[MAX_PATH];
-  GetModuleFileName( NULL, szFileName, MAX_PATH )
   */
+
+#elif defined(WIN32)  
+  //TCHAR wide_path[MAX_PATH]; 
+  //char path[MAX_PATH]; 
+
+  // todo: alternative implementation with smarter TCHAR to char
+  //conversion
+  int res;
+  res = GetModuleFileName(NULL, (TCHAR *)buff, buffer_size);
+  if (res){
+    return true;
+  }
+  else{
+    return false;
+  }
 #else 
   // Assume Linux, and that we can access /proc
   int res = readlink("/proc/self/exe", buff, buffer_size - 1);

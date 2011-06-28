@@ -1,12 +1,5 @@
-#ifdef __APPLE__
-#include "Mango/mangopy.h"
-#else
-  #include "mangopy.h"
-#endif
-
+#include "mangopy.h"
 #include "pytetrahedron.h"
-
-
 
 // Module definition object
 static PyModuleDef solids_module_def = {

@@ -1,9 +1,4 @@
-#ifdef __APPLE__
-  #include "Mango/mangopy.h"
-#else
-  #include "mangopy.h"
-#endif
-
+#include "mangopy.h"
 #include "tetrahedron.h" 
 
 #ifndef MPY_SOLIDS_PYTETRAHEDRON
