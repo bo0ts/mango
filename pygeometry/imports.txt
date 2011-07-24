@@ -1,4 +1,0 @@
-mango
-mangopy
-geometry
-python
