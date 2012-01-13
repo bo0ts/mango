@@ -183,7 +183,6 @@ dist_dochtml_images_DATA = $(top_srcdir)/doc/build/html/_images/*.png
 dist_dochtml_static_DATA = $(top_srcdir)/doc/build/html/_static/*.css \
      $(top_srcdir)/doc/build/html/_static/*.png \
      $(top_srcdir)/doc/build/html/_static/*.mod \
-     $(top_srcdir)/doc/build/html/_static/*.css_t~ \
      $(top_srcdir)/doc/build/html/_static/*.js \
      $(top_srcdir)/doc/build/html/_static/*.ico \
      $(top_srcdir)/doc/build/html/_static/*.jpg
