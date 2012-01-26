@@ -715,12 +715,14 @@ void python_home_path(char *exec_path, char *buffer, int buffer_size){
 }
 
 void posix_cpy_dirname(const char *file_path, char *buffer){ 
+#ifndef WIN32
   char *dir;
   int len = strlen(file_path);
   char *tmp_file_path = new char[len];
   strncpy(tmp_file_path, file_path, len);
   dir = dirname(tmp_file_path);
   strcpy(buffer, dir);
+#endif
 }
 
 // Determine executable path and place it in buff.
