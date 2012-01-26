@@ -96,6 +96,16 @@ AC_ARG_ENABLE([samples],
      esac],[build_samples=true])
 AM_CONDITIONAL([BUILD_SAMPLES], [test x$enableval != x"no"])
 
+# Allow enabling 'installer_data' component
+AC_ARG_ENABLE([installer-data],
+     [  --enable-installer-data  build the installer data],
+     [case "${enableval}" in
+       yes) build_installer_data=true ;;
+       no)  build_installer_data=false ;;
+       *) AC_MSG_ERROR([bad value ${enableval} for --disable-installer-data]) ;;
+     esac],[build_installer_data=false])
+AM_CONDITIONAL([BUILD_INSTALLER_DATA], [test x$enableval != x"no"])
+
 # Allow setting path to 'mango' component
 AC_ARG_WITH([mango_prefix],
             [AS_HELP_STRING([--with-mango-prefix=[path]],
@@ -159,6 +169,7 @@ AC_MSG_NOTICE([build mangopy (at "$mangopydir"): $build_mangopy])
 AC_MSG_NOTICE([build pygeometry (at "$pygeometrydir"): $build_pygeometry])
 AC_MSG_NOTICE([build mangopy_on_glut (at "$mangopy_on_glutdir"): $build_mangopy_on_glut])
 AC_MSG_NOTICE([build samples (at "$mango_on_glutdir/samples"): $build_samples])
+AC_MSG_NOTICE([build installer-data: $build_installer_data])
 
 AC_SUBST([MANGODIR], [$mangodir])
 AC_SUBST([MANGO_ON_GLUTDIR], [$mango_on_glutdir])

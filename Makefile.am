@@ -125,13 +125,12 @@ endif
 
 include_HEADERS += $(top_builddir)/config.h
 
-dist_script_DATA = $(top_srcdir)/mangopy_on_glut/demo/demo.py
-dist_sample_DATA = $(top_srcdir)/mangopy_on_glut/sample/*.py 
-
 install-exec-hook:
 	ln -fs $(DESTDIR)$(bindir)/mango /usr/local/bin/mango
 
-
+if BUILD_INSTALLER_DATA
+dist_script_DATA = $(top_srcdir)/mangopy_on_glut/demo/demo.py
+dist_sample_DATA = $(top_srcdir)/mangopy_on_glut/sample/*.py 
 
 
 
@@ -280,3 +279,5 @@ dist_coreLibxmletree_DATA = $(top_srcdir)/python-redist/Lib/xml/etree/*.py
 dist_coreLibxmlparsers_DATA = $(top_srcdir)/python-redist/Lib/xml/parsers/*.py
 dist_coreLibxmlsax_DATA = $(top_srcdir)/python-redist/Lib/xml/sax/*.py
 dist_coreLibxmlrpc_DATA = $(top_srcdir)/python-redist/Lib/xmlrpc/*.py
+
+endif
