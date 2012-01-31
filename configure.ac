@@ -104,7 +104,7 @@ AC_ARG_ENABLE([installer-data],
        no)  build_installer_data=false ;;
        *) AC_MSG_ERROR([bad value ${enableval} for --disable-installer-data]) ;;
      esac],[build_installer_data=false])
-AM_CONDITIONAL([BUILD_INSTALLER_DATA], [test x$enableval != x"no"])
+AM_CONDITIONAL([BUILD_INSTALLER_DATA], [test x$build_installer_data != x"no"])
 
 # Allow setting path to 'mango' component
 AC_ARG_WITH([mango_prefix],
