@@ -4,7 +4,7 @@ all: installer
 
 installer: staging/include staging/script staging/lib staging/doc staging/sample \
      staging/core staging/mango-a-493-312.bmp 
-	makensis -DPRODUCT_VERSION=`tgit describe` mango-setup.nsi
+	makensis -DPRODUCT_VERSION=`git describe` mango-setup.nsi
 
 staging/include: 
 	mkdir -p staging/include
