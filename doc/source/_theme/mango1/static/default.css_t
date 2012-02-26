@@ -37,7 +37,7 @@ body {
 }
 
 div.document {
-    margin:20px auto 0;
+    margin:0px auto 0;
     position:relative;
     text-align:left;
     width:980px;
