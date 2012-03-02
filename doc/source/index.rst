@@ -31,3 +31,4 @@ Contents:
    mangoinpython
    mangoincpp
    building-from-source
+   license
