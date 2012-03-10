@@ -153,7 +153,7 @@ namespace Mango{
       glTranslated(x, y, 0);
       glScaled(scale, scale, scale);      
       for (i = 0; true; i += 1){
-	if (str[i] == NULL){
+	if (str[i] == '\0'){
 	  break;
 	}
 	Draw::letter(str[i]);
@@ -169,7 +169,7 @@ namespace Mango{
       if (width != NULL){
 	w = 0;
 	for (i = 0; true; i += 1){
-	  if (str[i] == NULL){
+	  if (str[i] == '\0'){
 	    break;
 	  }
 	  

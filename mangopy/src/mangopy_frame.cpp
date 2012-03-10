@@ -726,21 +726,21 @@ int mpy_Frame_set_gamma(mpy_Frame* self, PyObject *value, void *closure)
 */
 
 static PyGetSetDef mpy_Frame_GetSetMethods[] = {
-  {"position", 
+  {const_cast<char *>("position"), 
    (getter)mpy_Frame_get_position, (setter)mpy_Frame_set_position,
-   "",
+   const_cast<char *>(""),
    NULL},
-  {"alpha", 
+  {const_cast<char *>("alpha"), 
    (getter)mpy_Frame_get_alpha, (setter)mpy_Frame_set_alpha,
-   "",
+   const_cast<char *>(""),
    NULL},
-  {"beta", 
+  {const_cast<char *>("beta"), 
    (getter)mpy_Frame_get_beta, (setter)mpy_Frame_set_beta,
-   "",
+   const_cast<char *>(""),
    NULL},
-  {"gamma", 
+  {const_cast<char *>("gamma"), 
    (getter)mpy_Frame_get_gamma, (setter)mpy_Frame_set_gamma,
-   "",
+   const_cast<char *>(""),
    NULL},
 
   {NULL}  /* Sentinel */
@@ -751,66 +751,66 @@ static PyGetSetDef mpy_Frame_GetSetMethods[] = {
 
 PyMethodDef mpy_Frame_methods[] = {
   // Set
-  {"setOrientationAxes", (PyCFunction)mpy_Frame_setOrientationAxes, METH_VARARGS,
-   ""
+  {const_cast<char *>("setOrientationAxes"), (PyCFunction)mpy_Frame_setOrientationAxes, METH_VARARGS,
+   const_cast<char *>("")
   },
-  {"setOrientation", (PyCFunction)mpy_Frame_setOrientation, METH_VARARGS,
-   ""
+  {const_cast<char *>("setOrientation"), (PyCFunction)mpy_Frame_setOrientation, METH_VARARGS,
+   const_cast<char *>("")
   },
-  {"setParentFrame", (PyCFunction)mpy_Frame_setParentFrame, METH_VARARGS,
-   ""
+  {const_cast<char *>("setParentFrame"), (PyCFunction)mpy_Frame_setParentFrame, METH_VARARGS,
+   const_cast<char *>("")
   },
-  {"rotate", (PyCFunction)mpy_Frame_rotate, METH_VARARGS,
-   ""
+  {const_cast<char *>("rotate"), (PyCFunction)mpy_Frame_rotate, METH_VARARGS,
+   const_cast<char *>("")
   },
-  {"translate", (PyCFunction)mpy_Frame_translate, METH_VARARGS,
-   ""
-  },
-
-  {"rotationToParent", (PyCFunction)mpy_Frame_rotationToParent, METH_NOARGS,
-   ""
-  },
-  {"rotationFromParent", (PyCFunction)mpy_Frame_rotationFromParent, METH_NOARGS,
-   ""
-  },
-  {"transformToParent", (PyCFunction)mpy_Frame_transformToParent, METH_VARARGS,
-   ""
-  },
-  {"transformToAncestor", (PyCFunction)mpy_Frame_transformToAncestor, METH_VARARGS,
-   ""
-  },
-  {"transformFromParent", (PyCFunction)mpy_Frame_transformFromParent, METH_VARARGS,
-   ""
-  },
-  {"transformFromAncestor", (PyCFunction)mpy_Frame_transformFromAncestor, METH_VARARGS,
-   ""
+  {const_cast<char *>("translate"), (PyCFunction)mpy_Frame_translate, METH_VARARGS,
+   const_cast<char *>("")
   },
 
-  {"transform", (PyCFunction)mpy_Frame_transform, METH_VARARGS,
-   ""
+  {const_cast<char *>("rotationToParent"), (PyCFunction)mpy_Frame_rotationToParent, METH_NOARGS,
+   const_cast<char *>("")
   },
-  {"reverseTransform", (PyCFunction)mpy_Frame_reverseTransform, METH_VARARGS,
-   ""
+  {const_cast<char *>("rotationFromParent"), (PyCFunction)mpy_Frame_rotationFromParent, METH_NOARGS,
+   const_cast<char *>("")
   },
-  {"orientationFor", (PyCFunction)mpy_Frame_orientationFor, METH_VARARGS,
-   ""
+  {const_cast<char *>("transformToParent"), (PyCFunction)mpy_Frame_transformToParent, METH_VARARGS,
+   const_cast<char *>("")
   },
-  {"pointTo", (PyCFunction)mpy_Frame_pointTo, METH_VARARGS,
-   ""
+  {const_cast<char *>("transformToAncestor"), (PyCFunction)mpy_Frame_transformToAncestor, METH_VARARGS,
+   const_cast<char *>("")
+  },
+  {const_cast<char *>("transformFromParent"), (PyCFunction)mpy_Frame_transformFromParent, METH_VARARGS,
+   const_cast<char *>("")
+  },
+  {const_cast<char *>("transformFromAncestor"), (PyCFunction)mpy_Frame_transformFromAncestor, METH_VARARGS,
+   const_cast<char *>("")
+  },
+
+  {const_cast<char *>("transform"), (PyCFunction)mpy_Frame_transform, METH_VARARGS,
+   const_cast<char *>("")
+  },
+  {const_cast<char *>("reverseTransform"), (PyCFunction)mpy_Frame_reverseTransform, METH_VARARGS,
+   const_cast<char *>("")
+  },
+  {const_cast<char *>("orientationFor"), (PyCFunction)mpy_Frame_orientationFor, METH_VARARGS,
+   const_cast<char *>("")
+  },
+  {const_cast<char *>("pointTo"), (PyCFunction)mpy_Frame_pointTo, METH_VARARGS,
+   const_cast<char *>("")
   },
   
   // Get
-  {"orientation", (PyCFunction)mpy_Frame_orientation, METH_NOARGS,
-   ""
+  {const_cast<char *>("orientation"), (PyCFunction)mpy_Frame_orientation, METH_NOARGS,
+   const_cast<char *>("")
   },
-  {"orientationAxes", (PyCFunction)mpy_Frame_orientationAxes, METH_NOARGS,
-   ""
+  {const_cast<char *>("orientationAxes"), (PyCFunction)mpy_Frame_orientationAxes, METH_NOARGS,
+   const_cast<char *>("")
   },
-  {"parentFrame", (PyCFunction)mpy_Frame_parentFrame, METH_NOARGS,
-   ""
+  {const_cast<char *>("parentFrame"), (PyCFunction)mpy_Frame_parentFrame, METH_NOARGS,
+   const_cast<char *>("")
   },
-  {"hasFrameAsAncestor", (PyCFunction)mpy_Frame_hasFrameAsAncestor, METH_VARARGS,
-   ""
+  {const_cast<char *>("hasFrameAsAncestor"), (PyCFunction)mpy_Frame_hasFrameAsAncestor, METH_VARARGS,
+   const_cast<char *>("")
   },
   
   {NULL}  /* Sentinel */

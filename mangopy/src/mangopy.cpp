@@ -32,7 +32,7 @@ namespace MangoPy{
     
   std::stringstream pythonScriptStderr(std::stringstream::in | std::stringstream::out);  
 
-  static void mpy_trivialDelMethod(void *ptr)
+  static void mpy_trivialDelMethod(PyObject *ptr)
   {
     return;
   }
@@ -105,7 +105,8 @@ namespace MangoPy{
       return NULL;
     }
 
-    PyDict_SetItemString(types, identifier, PyCObject_FromVoidPtr((void *)object_type, mpy_trivialDelMethod));
+    //PyDict_SetItemString(types, identifier, PyCObject_FromVoidPtr((void *)object_type, mpy_trivialDelMethod));
+    PyDict_SetItemString(types, identifier, PyCapsule_New((void *)object_type, identifier, mpy_trivialDelMethod));
     return 0;
   }
 
@@ -128,7 +129,8 @@ namespace MangoPy{
       PyErr_SetString(PyExc_RuntimeError, err_msg);
       return NULL;
     }
-    PyTypeObject *dynamic_mpy_type = (PyTypeObject *)PyCObject_AsVoidPtr(py_object_type);
+    //PyTypeObject *dynamic_mpy_type = (PyTypeObject *)PyCObject_AsVoidPtr(py_object_type);
+    PyTypeObject *dynamic_mpy_type = (PyTypeObject *)PyCapsule_GetPointer(py_object_type, identifier);
     return dynamic_mpy_type;
   }
 
@@ -459,13 +461,13 @@ namespace MangoPy{
     }
 
     // Make environment available to extensions
-    PyModule_AddObject(module_mpygen, "GLOBAL_FRAME", PyCObject_FromVoidPtr((void *)Mango::GlobalFrame, mpy_trivialDelMethod));
-    PyModule_AddObject(module_mpygen, "PY_GLOBAL_FRAME", PyCObject_FromVoidPtr((void *)PyGlobalFrame, mpy_trivialDelMethod));
-    PyModule_AddObject(module_mpygen, "ENGINE", PyCObject_FromVoidPtr((void *)Mango::Engine, mpy_trivialDelMethod));
-    PyModule_AddObject(module_mpygen, "CAMERA", PyCObject_FromVoidPtr((void *)Mango::Camera, mpy_trivialDelMethod));
-    PyModule_AddObject(module_mpygen, "VIEW", PyCObject_FromVoidPtr((void *)Mango::View, mpy_trivialDelMethod));
-    PyModule_AddObject(module_mpygen, "KEYBOARD", PyCObject_FromVoidPtr((void *)Mango::Keyboard, mpy_trivialDelMethod));
-    PyModule_AddObject(module_mpygen, "MOUSE", PyCObject_FromVoidPtr((void *)Mango::Mouse, mpy_trivialDelMethod));    
+    PyModule_AddObject(module_mpygen, "GLOBAL_FRAME", PyCapsule_New((void *)Mango::GlobalFrame, NULL, mpy_trivialDelMethod));
+    PyModule_AddObject(module_mpygen, "PY_GLOBAL_FRAME", PyCapsule_New((void *)PyGlobalFrame, NULL, mpy_trivialDelMethod));
+    PyModule_AddObject(module_mpygen, "ENGINE", PyCapsule_New((void *)Mango::Engine, NULL, mpy_trivialDelMethod));
+    PyModule_AddObject(module_mpygen, "CAMERA", PyCapsule_New((void *)Mango::Camera, NULL, mpy_trivialDelMethod));
+    PyModule_AddObject(module_mpygen, "VIEW", PyCapsule_New((void *)Mango::View, NULL, mpy_trivialDelMethod));
+    PyModule_AddObject(module_mpygen, "KEYBOARD", PyCapsule_New((void *)Mango::Keyboard, NULL, mpy_trivialDelMethod));
+    PyModule_AddObject(module_mpygen, "MOUSE", PyCapsule_New((void *)Mango::Mouse, NULL, mpy_trivialDelMethod));    
 
     //PyModule_AddObject(module_mpygen, "TYPE_OBJECT", PyCObject_FromVoidPtr((void *)&mpy_ObjectType, mpy_trivialDelMethod));
 
@@ -796,19 +798,19 @@ int initialize_module_environment(){
   }
  
   PyObject *py_global_frame = PyObject_GetAttrString(mpygen_module, "GLOBAL_FRAME");
-  Mango::GlobalFrame = (Mango::Core::Frame *)PyCObject_AsVoidPtr(py_global_frame);
+  Mango::GlobalFrame = (Mango::Core::Frame *)PyCapsule_GetPointer(py_global_frame, NULL);
   PyObject *py_engine = PyObject_GetAttrString(mpygen_module, "ENGINE");
-  Mango::Engine = (Mango::Core::CoreEngine *)PyCObject_AsVoidPtr(py_engine);  
+  Mango::Engine = (Mango::Core::CoreEngine *)PyCapsule_GetPointer(py_engine, NULL);  
   PyObject *py_camera = PyObject_GetAttrString(mpygen_module, "CAMERA");
-  Mango::Camera = (Mango::Core::CoreCamera *)PyCObject_AsVoidPtr(py_camera);  
+  Mango::Camera = (Mango::Core::CoreCamera *)PyCapsule_GetPointer(py_camera, NULL);  
   PyObject *py_view = PyObject_GetAttrString(mpygen_module, "VIEW");
-  Mango::View = (Mango::Core::CoreCamera *)PyCObject_AsVoidPtr(py_view);  
+  Mango::View = (Mango::Core::CoreCamera *)PyCapsule_GetPointer(py_view, NULL);  
   PyObject *py_keyboard = PyObject_GetAttrString(mpygen_module, "KEYBOARD");
-  Mango::Keyboard = (Mango::Core::CoreKeyboard *)PyCObject_AsVoidPtr(py_keyboard);
+  Mango::Keyboard = (Mango::Core::CoreKeyboard *)PyCapsule_GetPointer(py_keyboard, NULL);
   PyObject *py_mouse = PyObject_GetAttrString(mpygen_module, "MOUSE");
-  Mango::Mouse = (Mango::Core::CoreMouse *)PyCObject_AsVoidPtr(py_mouse);    
+  Mango::Mouse = (Mango::Core::CoreMouse *)PyCapsule_GetPointer(py_mouse, NULL);    
   PyObject *py_pyglobalframe = PyObject_GetAttrString(mpygen_module, "PY_GLOBAL_FRAME");  
-  PyGlobalFrame = (mpy_Frame *)PyCObject_AsVoidPtr(py_pyglobalframe);    
+  PyGlobalFrame = (mpy_Frame *)PyCapsule_GetPointer(py_pyglobalframe, NULL);
  
   return 0;
 }

@@ -30,7 +30,7 @@
 #define MANGO 
 
 namespace Mango{  
-  char *full_version_string();
+  const char *full_version_string();
 	
   namespace Core{
   }

@@ -430,7 +430,7 @@ static PyObject *mpy_VertexArray_subscript(mpy_VertexArray* self, PyObject* item
     PyObject* it;
     PyObject **src, **dest;
     
-    if (PySlice_GetIndicesEx((PySliceObject*)item, self->internalObject->size(),
+    if (PySlice_GetIndicesEx(item, self->internalObject->size(),
 			     &start, &stop, &step, &slicelength) < 0) {
       return NULL;
     }

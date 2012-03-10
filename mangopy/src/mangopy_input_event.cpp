@@ -167,12 +167,12 @@ PyMethodDef mpy_InputEvent_methods[] = {
 
 
 static PyMemberDef mpy_InputEvent_members[] = {
-  {"source", T_INT, offsetof(mpy_InputEvent, source), 0,
-   "source of the event (KEYBOARD or MOUSE)"},
-  {"type", T_INT, offsetof(mpy_InputEvent, type), 0,
-   "type of the event (PRESS, CLICK or RELEASE)"},
-  {"code", T_INT, offsetof(mpy_InputEvent, code), 0,
-   "code of the event (e.g. BUTTON_LEFT for left mouse button or 97 for 'a')"},
+  {const_cast<char *>("source"), T_INT, offsetof(mpy_InputEvent, source), 0,
+   const_cast<char *>("source of the event (KEYBOARD or MOUSE)")},
+  {const_cast<char *>("type"), T_INT, offsetof(mpy_InputEvent, type), 0,
+   const_cast<char *>("type of the event (PRESS, CLICK or RELEASE)")},
+  {const_cast<char *>("code"), T_INT, offsetof(mpy_InputEvent, code), 0,
+   const_cast<char *>("code of the event (e.g. BUTTON_LEFT for left mouse button or 97 for 'a')")},
   {NULL}  /* Sentinel */
 };
 
