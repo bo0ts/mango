@@ -19,7 +19,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mango_on_glut.h"
+#include <mango/glut/mango_on_glut.h>
 #include <iostream>
 
 namespace Mango{  
