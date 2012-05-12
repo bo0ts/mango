@@ -1,5 +1,5 @@
-#include "mango_on_glut.h"
-#include "geometry.h"
+#include <mango/glut/mango_on_glut.h>
+#include <mango/geometry/geometry.h>
 #include <iostream>
 #include <exception>
 
