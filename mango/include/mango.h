@@ -20,14 +20,14 @@
  THE SOFTWARE.
 */
 
-#include "config.h"
+
+#ifndef MANGO
+#define MANGO 
+
 #include "core/core.h"
 #include "core/triangle.h"
 #include "draw/draw.h"
 #include <stdio.h>
-
-#ifndef MANGO
-#define MANGO 
 
 namespace Mango{  
   const char *full_version_string();
