@@ -19,8 +19,12 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mango.h"
-#include "mango_glut.h"
+
+#ifndef MANGO_ON_GLUT_H
+#define MANGO_ON_GLUT_H
+
+#include <mango/mango.h>
+#include <mango/glut/mango_glut.h>
 
 
 namespace Mango{
@@ -45,3 +49,6 @@ namespace Mango{
     void startWithoutCatchingErrors();
   }
 }
+
+#endif /* MANGO_ON_GLUT_H */
+
