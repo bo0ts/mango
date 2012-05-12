@@ -26,7 +26,7 @@
 namespace Mango{	       
 
   const char* full_version_string(){
-    return PACKAGE_VERSION;
+    return "1.0";
   }
 	
   void initialize(bool setup_default_environment){
