@@ -1,0 +1,3 @@
+* TODO merge core and draw
+* TODO cut down on path nesting by bringing mangopy one folder up
+* TODO fix the output library/binary dirs for cmake
