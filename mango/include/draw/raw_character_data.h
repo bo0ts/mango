@@ -19,7 +19,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "../core/mango_opengl.h"
+
+#include <core/mango_opengl.h>
 
 #ifndef MANGO_RAW_CHARACTER_DATA
 #define MANGO_RAW_CHARACTER_DATA
