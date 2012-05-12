@@ -19,12 +19,13 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "../core/core.h"
-#include <vector>
-#include "raw_character_data.h"
 
 #ifndef MANGO_DRAW
 #define MANGO_DRAW
+
+#include "../core/core.h"
+#include <vector>
+#include "raw_character_data.h"
 
 namespace Mango{
   namespace Draw{
