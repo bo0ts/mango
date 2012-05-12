@@ -19,22 +19,23 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_python.h"
-#include "mangopy.h"
-#include "pygeometry_colorful_object.h"
-#include "pygeometry_box.h"
-#include "pygeometry_sphere.h"
-#include "pygeometry_cylinder.h"
-#include "pygeometry_shell.h"
-#include "pygeometry_arrow.h"
-#include "pygeometry_coordinate_system.h"
-#include "pygeometry_vertex_array.h"
-#include "pygeometry_circle.h"
-#include "pygeometry_ngon.h"
-#include "pygeometry_rectangle.h"
 
 #ifndef MANGOPY_GEOMETRY
 #define MANGOPY_GEOMETRY
+
+#include <mango/mangopy/mangopy_python.h>
+#include <mango/mangopy/mangopy.h>
+#include <mango/pygeometry/pygeometry_colorful_object.h>
+#include <mango/pygeometry/pygeometry_box.h>
+#include <mango/pygeometry/pygeometry_sphere.h>
+#include <mango/pygeometry/pygeometry_cylinder.h>
+#include <mango/pygeometry/pygeometry_shell.h>
+#include <mango/pygeometry/pygeometry_arrow.h>
+#include <mango/pygeometry/pygeometry_coordinate_system.h>
+#include <mango/pygeometry/pygeometry_vertex_array.h>
+#include <mango/pygeometry/pygeometry_circle.h>
+#include <mango/pygeometry/pygeometry_ngon.h>
+#include <mango/pygeometry/pygeometry_rectangle.h>
 
 static PyModuleDef geometry_module_def = {
     PyModuleDef_HEAD_INIT,

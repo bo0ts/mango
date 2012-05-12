@@ -19,8 +19,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "pygeometry_vertex_array.h" 
-
+#include <mango/pygeometry/pygeometry_vertex_array.h>
 
 /*
     dealloc and new

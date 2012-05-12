@@ -19,9 +19,9 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_python.h"
-#include "geometry.h"
-#include "mangopy.h"
+#include <mango/mangopy/mangopy_python.h>
+#include <mango/geometry/geometry.h>
+#include <mango/mangopy/mangopy.h>
 
 #ifndef PYGEOMETRY_RECTANGLE
 #define PYGEOMETRY_RECTANGLE

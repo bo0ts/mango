@@ -19,8 +19,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "pygeometry_box.h" 
-
+#include <mango/pygeometry/pygeometry_box.h>
 
 /*
     dealloc and new

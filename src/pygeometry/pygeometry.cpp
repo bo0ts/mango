@@ -19,7 +19,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "pygeometry.h"
+#include <mango/pygeometry/pygeometry.h>
 
 PyMODINIT_FUNC PyInit_Geometry(void){
   PyObject* m;

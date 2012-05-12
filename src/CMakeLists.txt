@@ -40,9 +40,14 @@ find_package(PythonLibs 3.2)
 
 if(${PYTHONLIBS_FOUND})
   include_directories(${PYTHON_INCLUDE_PATH})
+
   file(GLOB Mango_py_src "${PROJECT_SOURCE_DIR}/mangopy/*.cpp")
   add_library(Mango_py ${Mango_py_src})
   target_link_libraries(Mango_py ${PYTHON_LIBRARIES} Mango_core)
+
+  file(GLOB Mango_pygeometry_src "${PROJECT_SOURCE_DIR}/pygeometry/*.cpp")
+  add_library(Mango_pygeometry ${Mango_pygeometry_src})
+  target_link_libraries(Mango_pygeometry ${PYTHON_LIBRARIES} Mango_core Mango_geometry)
 else()
   message("Not building the Python Bindings. No Python installation has been found.")
 endif()

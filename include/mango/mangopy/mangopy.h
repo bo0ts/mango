@@ -24,7 +24,6 @@
 #include <mango/mangopy/mangopy_vector.h>
 #include <mango/mangopy/mangopy_core.h>
 #include <mango/mangopy/mangopy_frame.h>
-#include <mango/mangopy/mangopy_object.h>
 #include <mango/mangopy/mangopy_triangle.h>
 #include <mango/mangopy/mangopy_camera.h>
 #include <mango/mangopy/mangopy_keyboard.h>

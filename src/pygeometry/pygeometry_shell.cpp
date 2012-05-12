@@ -19,7 +19,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "pygeometry_shell.h" 
+#include <mango/pygeometry/pygeometry_shell.h>
 
 
 /*
