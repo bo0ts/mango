@@ -19,7 +19,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_mouse.h"
+#include <mango/mangopy/mangopy_mouse.h>
 
 /*
     dealloc and new

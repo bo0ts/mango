@@ -19,10 +19,10 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_python.h"
+#include <mango/mangopy/mangopy_python.h>
 
-#include "core/input.h" 
-#include "core/constants.h" 
+#include <mango/core/input.h>
+#include <mango/core/constants.h>
 
 #ifndef MANGOPY_CORE_INPUTEVENT
 #define MANGOPY_CORE_INPUTEVENT

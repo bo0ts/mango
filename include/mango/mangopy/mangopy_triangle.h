@@ -19,12 +19,12 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_python.h"
-#include "mango.h"
-#include "mangopy_core.h"
-#include "mangopy_pyengine.h"
+#include <mango/mangopy/mangopy_python.h>
+#include <mango/mango.h>
+#include <mango/mangopy/mangopy_core.h>
+#include <mango/mangopy/mangopy_pyengine.h>
 
-#include "core/triangle.h"
+#include <mango/core/triangle.h>
 
 #ifndef MANGOPY_CORE_TRIANGLE
 #define MANGOPY_CORE_TRIANGLE

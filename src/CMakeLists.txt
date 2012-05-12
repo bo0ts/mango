@@ -13,17 +13,16 @@ file(GLOB Mango_draw_src "${PROJECT_SOURCE_DIR}/draw/*.cpp")
 file(GLOB Mango_geometry_src "${PROJECT_SOURCE_DIR}/geometry/*.cpp")
 file(GLOB Mango_glut_src "${PROJECT_SOURCE_DIR}/glut/*.cpp")
 
-add_library(Mango ${Mango_core_src})
-target_link_libraries(Mango ${OPENGL_LIBRARIES})
+add_library(Mango_core ${Mango_core_src})
+target_link_libraries(Mango_core ${OPENGL_LIBRARIES})
 
 add_library(Mango_geometry ${Mango_geometry_src})
 target_link_libraries(Mango_geometry ${OPENGL_LIBRARIES})
 
-add_library(Mango_core ${Mango_core_src})
-target_link_libraries(Mango_core ${OPENGL_LIBRARIES})
-
 add_library(Mango_draw ${Mango_draw_src})
 target_link_libraries(Mango_draw ${OPENGL_LIBRARIES})
+
+## Mango_on_GLUT is optional
 
 find_package(GLUT)
 if(${GLUT_FOUND})
@@ -32,4 +31,18 @@ if(${GLUT_FOUND})
   target_link_libraries(Mango_glut ${GLUT_LIBRARIES})
 else()
   message("GLUT not found, not building Mango_glut")
+endif()
+
+
+
+## Build the Python Bindings
+find_package(PythonLibs 3.2)
+
+if(${PYTHONLIBS_FOUND})
+  include_directories(${PYTHON_INCLUDE_PATH})
+  file(GLOB Mango_py_src "${PROJECT_SOURCE_DIR}/mangopy/*.cpp")
+  add_library(Mango_py ${Mango_py_src})
+  target_link_libraries(Mango_py ${PYTHON_LIBRARIES} Mango_core)
+else()
+  message("Not building the Python Bindings. No Python installation has been found.")
 endif()

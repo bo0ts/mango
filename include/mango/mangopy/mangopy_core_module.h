@@ -19,20 +19,14 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_python.h"
-#include <vector>
-#include "mango.h"
-#include "mangopy_vector.h"
-#include "mangopy_input_event.h"
-#include "mangopy_pyengine.h"
 
 #ifndef MANGOPY_CORE_MODULE
 #define MANGOPY_CORE_MODULE
 
+#include <mango/mangopy/mangopy_python.h>
+
 extern PyTypeObject mpy_ObjectType;
 int mpy_Object_init(mpy_Object *self, PyObject *args, PyObject *kw);
-
-
 
 static PyModuleDef core_module_def = {
     PyModuleDef_HEAD_INIT,

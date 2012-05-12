@@ -19,7 +19,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_keyboard.h"
+#include <mango/mangopy/mangopy_keyboard.h>
 
 /*
     dealloc and new

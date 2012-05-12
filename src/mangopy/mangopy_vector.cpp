@@ -19,10 +19,9 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_vector.h"
 
+#include <mango/mangopy/mangopy_vector.h>
 #include <iostream>
-
 
 /*
 	Conversion Methods

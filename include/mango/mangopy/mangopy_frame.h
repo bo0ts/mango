@@ -19,15 +19,16 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_python.h"
-#include "mangopy_core.h"
 
 #ifndef MPY_MANGOPY_FRAME
 #define MPY_MANGOPY_FRAME
 
+#include <mango/core/frame.h>
+#include <mango/mangopy/mangopy_python.h>
+
 #define VERIFY_FRAME_INITIALIZED(obj) if (!mpy_Frame_initialized((mpy_Frame *)obj)) return NULL
 
-typedef struct mpy_Frame{
+typedef struct mpy_Frame {
   PyObject_HEAD
   mpy_Frame *parentFrame;
   Mango::Core::Frame *internalObject;

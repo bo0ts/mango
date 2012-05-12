@@ -24,9 +24,9 @@
 #ifndef MANGO
 #define MANGO 
 
-#include "core/core.h"
-#include "core/triangle.h"
-#include "draw/draw.h"
+#include <mango/core/core.h>
+#include <mango/core/triangle.h>
+#include <mango/draw/draw.h>
 #include <stdio.h>
 
 namespace Mango{  
@@ -53,8 +53,6 @@ namespace Mango{
    * no memory is leaked as a result.
    */
   void finalize(bool teardown_default_environment = true);
-
-  typedef Core::Vector Vector;
 }
 
 #endif // MANGO

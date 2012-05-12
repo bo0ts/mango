@@ -22,8 +22,7 @@
 #ifndef MPY_PYENGINE_WRAPPER
 #define MPY_PYENGINE_WRAPPER
 
-#include "mangopy.h"
-
+#include <mango/mangopy/mangopy.h>
 
 typedef struct {
     PyObject_HEAD

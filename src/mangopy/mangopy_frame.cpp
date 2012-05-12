@@ -19,8 +19,13 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_frame.h"
 
+#include <mango/core/core.h>
+#include <mango/core/vector.h>
+#include <mango/mangopy/mangopy_core.h>
+#include <mango/mangopy/mangopy_frame.h>
+#include <mango/mangopy/mangopy_vector.h>
+#include <mango/mangopy/mangopy_matrix.h>
 
 /*
   dealloc and new
@@ -594,7 +599,8 @@ PyObject *mpy_Frame_get_position(mpy_Frame* self,  void *closure)
 
 int mpy_Frame_set_position(mpy_Frame* self, PyObject *value, void *closure)
 {
-  VERIFY_FRAME_INITIALIZED(self);
+  if (!mpy_Frame_initialized(self))
+    return -1;
 
   // Call Parameters
   Mango::Vector pos;
@@ -634,7 +640,9 @@ PyObject *mpy_Frame_get_alpha(mpy_Frame* self,  void *closure)
 
 int mpy_Frame_set_alpha(mpy_Frame* self, PyObject *value, void *closure)
 {
-  VERIFY_FRAME_INITIALIZED(self);
+  if (!mpy_Frame_initialized(self))
+    return -1;
+
 
   // C Attribute
   double alpha;   
@@ -668,7 +676,8 @@ PyObject *mpy_Frame_get_beta(mpy_Frame* self,  void *closure)
 
 int mpy_Frame_set_beta(mpy_Frame* self, PyObject *value, void *closure)
 {
-  VERIFY_FRAME_INITIALIZED(self);
+  if (!mpy_Frame_initialized(self))
+    return -1;
 
   // C Attribute
   double beta;   
@@ -702,7 +711,8 @@ PyObject *mpy_Frame_get_gamma(mpy_Frame* self,  void *closure)
 
 int mpy_Frame_set_gamma(mpy_Frame* self, PyObject *value, void *closure)
 {
-  VERIFY_FRAME_INITIALIZED(self);
+  if (!mpy_Frame_initialized(self))
+    return -1;
 
   // C Attribute
   double gamma;   

@@ -20,7 +20,7 @@
  THE SOFTWARE.
 */
 #include "mangopy_python.h"
-#include "mango.h"
+#include <mango/mango.h>
 #include "mangopy_core.h"
 #include "mangopy_pyengine.h"
 

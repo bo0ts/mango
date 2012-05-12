@@ -19,12 +19,12 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_python.h"
-#include "mango.h"
-#include "mangopy_core.h"
-#include "mangopy_pyengine.h"
+#include <mango/mangopy/mangopy_python.h>
+#include <mango/mango.h>
+#include <mango/mangopy/mangopy_core.h>
+#include <mango/mangopy/mangopy_pyengine.h>
 
-#include "core/input.h"
+#include <mango/core/input.h>
 
 #ifndef MANGOPY_CORE_KEYBOARD
 #define MANGOPY_CORE_KEYBOARD

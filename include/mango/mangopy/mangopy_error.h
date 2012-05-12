@@ -19,11 +19,12 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mango.h"
-#include "core/error.h"
 
 #ifndef MANGOPY_ERROR
 #define MANGOPY_ERROR
+
+#include <mango/mango.h>
+#include <mango/core/error.h>
 
 namespace MangoPy {
   class ScriptError  : public Mango::Core::Error{

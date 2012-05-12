@@ -19,15 +19,15 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_core.h"
-#include "mangopy_frame.h"
-#include "mangopy_triangle.h"
-#include "mangopy_camera.h"
-#include "mangopy_keyboard.h"
-#include "mangopy_mouse.h"
-#include "mangopy_input_event.h"
-#include "mangopy_pyengine_wrapper.h"
-#include "mangopy_matrix.h"
+#include <mango/mangopy/mangopy_core.h>
+#include <mango/mangopy/mangopy_frame.h>
+#include <mango/mangopy/mangopy_triangle.h>
+#include <mango/mangopy/mangopy_camera.h>
+#include <mango/mangopy/mangopy_keyboard.h>
+#include <mango/mangopy/mangopy_mouse.h>
+#include <mango/mangopy/mangopy_input_event.h>
+#include <mango/mangopy/mangopy_pyengine_wrapper.h>
+#include <mango/mangopy/mangopy_matrix.h>
 
 
 PyMODINIT_FUNC

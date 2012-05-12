@@ -19,9 +19,9 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_pyengine.h"
+#include <mango/mangopy/mangopy_pyengine.h>
 
-#include "mangopy.h"
+#include <mango/mangopy/mangopy.h>
 #include <string>
 
 namespace MangoPy{

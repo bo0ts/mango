@@ -19,9 +19,9 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_input_event.h"
-#include <iostream>
 
+#include <mango/mangopy/mangopy_input_event.h>
+#include <iostream>
 
 /*
     Dealloc and New

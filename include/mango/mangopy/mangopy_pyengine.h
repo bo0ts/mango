@@ -19,16 +19,17 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_python.h"
-#include <vector>
-#include "mango.h"
-#include "mangopy_vector.h"
 
 
 #ifndef MANGOPY_PYENGINE
 #define MANGOPY_PYENGINE
 
-#include "mangopy_core.h"
+#include <mango/mangopy/mangopy_core.h>
+#include <mango/mangopy/mangopy_python.h>
+#include <vector>
+#include <mango/mango.h>
+#include <mango/mangopy/mangopy_vector.h>
+#include <mango/mangopy/mangopy_core.h>
 
 namespace MangoPy{
 
@@ -73,7 +74,7 @@ namespace MangoPy{
 	  //// @endcond
 	  
           virtual bool setScriptedEvent(mpy_Object* object, int event_mask);
-      	virtual bool removeScriptedEvent(mpy_Object* object, int event_mask);
+      	  virtual bool removeScriptedEvent(mpy_Object* object, int event_mask);
           virtual bool toggleScriptedEvent(mpy_Object* object, int event_mask);
           virtual bool objectHasScriptedEvent(mpy_Object *object, int event_mask);        
   

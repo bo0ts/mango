@@ -181,6 +181,8 @@ namespace Mango{
       GLfloat v[3];
     };
   }
+
+  typedef Core::Vector Vector;
 }
 
 #endif // MANGO_CORE_VECTOR

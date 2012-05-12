@@ -19,7 +19,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy.h"
+#include <mango/mangopy/mangopy.h>
 #include <locale.h>
 #include <algorithm>
 #if defined(__APPLE__)

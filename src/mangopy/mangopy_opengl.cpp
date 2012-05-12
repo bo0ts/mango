@@ -19,8 +19,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "mangopy_opengl.h"
-#include "mangopy_core.h"
+#include <mango/mangopy/mangopy_opengl.h>
+#include <mango/mangopy/mangopy_core.h>
 
 // Begin/End
 
