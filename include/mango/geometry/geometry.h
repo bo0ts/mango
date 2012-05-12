@@ -23,9 +23,9 @@
 #ifndef MANGO_GEOMETRY
 #define MANGO_GEOMETRY
 
-#include "core/core.h"
+#include <mango/mango.h>
+#include <mango/core/core.h>
 #include <vector>
-#include "mango.h"
 
 namespace Mango{
   namespace Geometry{

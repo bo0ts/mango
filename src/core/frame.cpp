@@ -19,8 +19,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "core/frame.h"
-#include "core/core.h"
+#include <mango/core/frame.h>
+#include <mango/core/core.h>
 
 namespace Mango{
   namespace Core{

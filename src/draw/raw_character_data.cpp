@@ -19,7 +19,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "draw/raw_character_data.h"
+#include <mango/draw/raw_character_data.h>
 
 namespace Mango{
   namespace Draw{

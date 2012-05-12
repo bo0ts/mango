@@ -19,7 +19,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "core/triangle.h"
+#include <mango/core/triangle.h>
 
 namespace Mango{
   namespace Core{

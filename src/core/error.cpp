@@ -19,7 +19,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "core/error.h"
+#include <mango/core/error.h>
 #include <string.h>
 #include <stdio.h>
 

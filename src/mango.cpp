@@ -20,7 +20,7 @@
  THE SOFTWARE.
 */
 #include <iostream>
-#include "mango.h"
+#include <mango/mango.h>
 
 
 namespace Mango{	       

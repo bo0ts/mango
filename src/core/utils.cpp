@@ -19,7 +19,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "core/utils.h"
+#include <mango/core/utils.h>
 
 namespace Mango{
   namespace Core{
