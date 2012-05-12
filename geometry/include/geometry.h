@@ -19,12 +19,13 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 */
-#include "core/core.h"
-#include <vector>
-#include "mango.h"
 
 #ifndef MANGO_GEOMETRY
 #define MANGO_GEOMETRY
+
+#include "core/core.h"
+#include <vector>
+#include "mango.h"
 
 namespace Mango{
   namespace Geometry{
