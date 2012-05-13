@@ -185,15 +185,15 @@ namespace MangoPy{
       exec_path[2047] = NULL;
     }
     wide_exec_path = char2wchar(exec_path);
-    Py_SetProgramName(wide_exec_path);
+    // Py_SetProgramName(wide_exec_path);
        
-#ifndef WIN32
+#if !defined(WIN32)
     // Set Home Path
     // Windows seems to set exec_prefix just fine without this, so
     // it is skipped on windows until needed
     python_home_path(exec_path, home_path, 2048);
     wide_home_path = char2wchar(home_path);
-    Py_SetPythonHome(wide_home_path);       
+    // Py_SetPythonHome(wide_home_path);       
 #endif
 
     Py_Initialize();
